@@ -15,8 +15,7 @@ public class ProfileMenuController {
     private static String finalUsername;
     private static String finalPassword;
     private static String finalEmail;
-    public static void changeUserName(Matcher matcher) {
-        String newUsername = matcher.group("username");
+    public static void changeUserName(String newUsername) {
         if (!checkUsername(newUsername)) return;
         Controller.currentUser.setUsername(finalUsername);
         output("New username set!");
@@ -61,15 +60,13 @@ public class ProfileMenuController {
     }
 
 
-    public static void changeNickname(Matcher matcher) {
-        String newNickname = matcher.group("nickname");
+    public static void changeNickname(String newNickname) {
         Controller.currentUser.setNickname(newNickname);
         output("New nickname set!");
     }
 
 
-    public static void changePassword(Matcher matcher) {
-        String oldPassword = matcher.group("oldPassword"), newPassword = matcher.group("newPassword");
+    public static void changePassword(String oldPassword , String newPassword) {
         String passwordConfirmation;
         output("Please enter your new password again");
         passwordConfirmation = input();
@@ -117,8 +114,7 @@ public class ProfileMenuController {
     }
 
 
-    public static void changeEmail(Matcher matcher) {
-        String newEmail = matcher.group("email");
+    public static void changeEmail(String newEmail) {
         if (checkEmail(newEmail)) {
             Controller.currentUser.setEmail(finalEmail);
             output("New email set!");
@@ -141,8 +137,7 @@ public class ProfileMenuController {
         return matcher.matches();
     }
 
-    public static void changeSlogan(Matcher matcher) {
-        String newSlogan = matcher.group("slogan");
+    public static void changeSlogan(String newSlogan) {
         Controller.currentUser.setSlogan(newSlogan);
         output("New Slogan set");
     }

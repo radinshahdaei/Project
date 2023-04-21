@@ -24,19 +24,25 @@ public class ProfileMenu {
                 System.exit(0);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.CHANGE_USERNAME)) != null) {
-                ProfileMenuController.changeUserName(matcher);
+                String newUsername = matcher.group("username");
+                ProfileMenuController.changeUserName(newUsername);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.CHANGE_NICKNAME)) != null) {
-                ProfileMenuController.changeNickname(matcher);
+                String newNickname = matcher.group("nickname");
+                ProfileMenuController.changeNickname(newNickname);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.CHANGE_PASSWORD)) != null) {
-                ProfileMenuController.changePassword(matcher);
+                String oldPassword = matcher.group("oldPassword");
+                String newPassword = matcher.group("newPassword");
+                ProfileMenuController.changePassword(oldPassword , newPassword);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.CHANGE_EMAIL)) != null) {
-                ProfileMenuController.changeEmail(matcher);
+                String newEmail = matcher.group("email");
+                ProfileMenuController.changeEmail(newEmail);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.CHANGE_SLOGAN)) != null) {
-                ProfileMenuController.changeSlogan(matcher);
+                String newSlogan = matcher.group("slogan");
+                ProfileMenuController.changeSlogan(newSlogan);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.REMOVE_SLOGAN)) != null) {
                 ProfileMenuController.removeSlogan();

@@ -32,18 +32,10 @@ public class RegisterMenuController {
 
     // register methods
 
-    public static boolean register(Matcher matcher) {
+    public static boolean register(String username , String nickname , String password , 
+                                   String passwordConfirmation , String passwordRandom , 
+                                   String email , String slogan , String containsSlogan , String sloganRandom) {
         clearFinals();
-        String username = matcher.group("username");
-        String nickname = matcher.group("nickname");
-        String password = matcher.group("password");
-        String passwordConfirmation = matcher.group("passwordConfirmation");
-        String passwordRandom = matcher.group("passwordRandom");
-        String email = matcher.group("email");
-        String slogan = matcher.group("slogan");
-        String containsSlogan = matcher.group("containsSlogan");
-        String sloganRandom = matcher.group("sloganRandom");
-
         if (!checkEmptyField(nickname, username, email,
                 password, passwordConfirmation, passwordRandom,
                 containsSlogan, sloganRandom, slogan)) return false;
@@ -58,10 +50,7 @@ public class RegisterMenuController {
         return true; //move to security question
     }
 
-    public static boolean securityQuestion(Matcher matcher) {
-        int questionNumber = Integer.parseInt(matcher.group("questionNumber"));
-        String answer = matcher.group("answer");
-        String answerConfirmation = matcher.group("answerConfirmation");
+    public static boolean securityQuestion(int questionNumber , String answer , String answerConfirmation) {
         if (!checkNumber(questionNumber)) return false;
         if (!checkAnswer(answer, answerConfirmation)) return false;
         captcha();

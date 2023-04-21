@@ -63,6 +63,7 @@ public class Government {
 
     public Government (User user) {
         this.population = 0;
+        this.popularity = 0;
         this.foodRate = -2;
         this.foodStorage = 0;
         this.taxRate = 0;

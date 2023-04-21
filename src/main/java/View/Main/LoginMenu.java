@@ -19,7 +19,10 @@ public class LoginMenu {
                 output("Entered Main Menu!");
                 return false;
             } else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.LOGIN)) != null) {
-                if (LoginMenuController.login(matcher)) return true;
+                String username = matcher.group("username");
+                String password = matcher.group("password");
+                String stayLoggedIn = matcher.group("stayLoggedIn");
+                if (LoginMenuController.login(username , password , stayLoggedIn)) return true;
             } else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.FORGOT_PASSWORD)) != null) {
                 LoginMenuController.forgotPassword();
             } else {

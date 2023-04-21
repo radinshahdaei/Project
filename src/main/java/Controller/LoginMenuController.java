@@ -12,10 +12,7 @@ import static View.InputOutput.output;
 public class LoginMenuController {
     static int timer = 1;
 
-    public static boolean login(Matcher matcher) throws InterruptedException {
-        String username = matcher.group("username");
-        String password = matcher.group("password");
-        String stayLoggedIn = matcher.group("stayLoggedIn");
+    public static boolean login(String username , String password , String stayLoggedIn) throws InterruptedException {
         if (!checkEmptyField(username, password)) return false;
         if (!checkUserPass(username, password, stayLoggedIn)) return false;
         return true;

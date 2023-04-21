@@ -20,19 +20,26 @@ public class MapMenu {
                 return;
             }
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SET_TEXTURE)) != null) {
-                MapMenuController.setTexture(matcher);
+                String type = matcher.group("type");
+                int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                MapMenuController.setTexture(type, x, y);
             }
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SET_TEXTURE_REC)) != null) {
-                MapMenuController.setTextureRectangle(matcher);
+                String type = matcher.group("type");
+                int x1 = Integer.parseInt(matcher.group("X1")), x2 = Integer.parseInt(matcher.group("X2")) ,
+                    y1 = Integer.parseInt(matcher.group("Y1")), y2 = Integer.parseInt(matcher.group("Y2"));
+                MapMenuController.setTextureRectangle(type , x1 , x2 , y1 , y2);
             }
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.CLEAR)) != null) {
-                MapMenuController.clear(matcher);
+                int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                MapMenuController.clear(x , y);
             }
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.DRAW)) != null) {
                 movingMap();
             }
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SHOW_DETAILS)) != null) {
-                MapMenuController.showDetails(matcher);
+                int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                MapMenuController.showDetails(x , y);
             }
             else {
                 output("Invalid command!");
@@ -46,7 +53,7 @@ public class MapMenu {
         int topX = 0, topY = 0;
         int lastTopX = 0, lastTopY = 0;
         boolean checkInMap = true;
-        do {
+        while (true) {
             if (checkInMap) {
                 MapMenuController.DrawMap(topX, topY);
                 lastTopY = topY;
@@ -66,13 +73,17 @@ public class MapMenu {
                 int amountDown = (down != null) ? Integer.parseInt(down) : 1;
                 int amountLeft = (left != null) ? Integer.parseInt(left) : 1;
                 int amountRight = (right != null) ? Integer.parseInt(right) : 1;
-                if (matcher.group("up") != null) topY+=amountUp;
-                if (matcher.group("down") != null) topY-=amountDown;
-                if (matcher.group("left") != null) topX+=amountLeft;
-                if (matcher.group("right") != null) topX-=amountRight;
+                if (matcher.group("up") != null) topY -= amountUp;
+                if (matcher.group("down") != null) topY += amountDown;
+                if (matcher.group("left") != null) topX -= amountLeft;
+                if (matcher.group("right") != null) topX += amountRight;
                 checkInMap = (topX >= 0 && topX <= GameMenuController.game.getMap().getMapSize() - MapMenuController.SIZEX) &&
                         (topY >= 0 && topY <= GameMenuController.game.getMap().getMapSize() - MapMenuController.SIZEY);
+            } else if (MapMenuCommands.getMatcher(command, MapMenuCommands.END_SHOW_MAP) != null) {
+                break;
+            } else {
+                output("Invalid command!");
             }
-        } while (MapMenuCommands.getMatcher(command, MapMenuCommands.END_SHOW_MAP) == null);
+        }
     }
 }

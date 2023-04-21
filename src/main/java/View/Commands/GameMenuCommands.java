@@ -4,7 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum GameMenuCommands {
-    END("\\s*end\\s*");
+    END("\\s*end\\s*"),
+    DONE("\\s*Done\\s*"),
+    ADD_USER("\\s*add\\s+(?<username>\\S+)\\s*");
     String regex;
     private GameMenuCommands(String regex) {this.regex = regex;}
     public static Matcher getMatcher(String input, GameMenuCommands loginMenuCommand) {

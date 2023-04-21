@@ -23,23 +23,17 @@ public class MapMenuController {
         GameMenuController.game.getMap().setTiles(tiles);
         GameMenuController.game.getMap().setMapSize(mapSize);
     }
-    public static void setTexture(Matcher matcher) {
-        String type = matcher.group("type");
-        int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+    public static void setTexture(String type, int x ,int y) {
         GameMenuController.game.getMap().getTiles()[x][y].setTexture(type);
     }
-    public static void setTextureRectangle(Matcher matcher) {
-        String type = matcher.group("type");
-        int x1 = Integer.parseInt(matcher.group("X1")), x2 = Integer.parseInt(matcher.group("X2")) ,
-                y1 = Integer.parseInt(matcher.group("Y1")), y2 = Integer.parseInt(matcher.group("Y2"));
+    public static void setTextureRectangle(String type , int x1 , int x2 , int y1 , int y2) {
         for (int i = x1 ; i <= x2 ; i++ ){
             for (int j = y1 ; j <= y2 ; j++) {
                 GameMenuController.game.getMap().getTiles()[i][j].setTexture(type);
             }
         }
     }
-    public static void clear(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+    public static void clear(int x , int y) {
         GameMenuController.game.getMap().getTiles()[x][y].setTexture("Earth");
         GameMenuController.game.getMap().getTiles()[x][y].getPeople().clear();
         GameMenuController.game.getMap().getTiles()[x][y].setBuilding(null);
@@ -106,8 +100,7 @@ public class MapMenuController {
         for (int i = 0 ; i < times ; i++) System.out.print("-");
         System.out.println();
     }
-    public static void showDetails(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+    public static void showDetails(int x , int y) {
         Tile tile = GameMenuController.game.getMap().getTiles()[x][y];
         output("x: " + tile.getX() + " , y: " + tile.getY());
         output("texture: " + tile.getTexture());
