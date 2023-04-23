@@ -101,7 +101,7 @@ public class RegisterMenuController {
         }
     }
 
-    private static boolean checkNumber(int questionNumber) {
+    public static boolean checkNumber(int questionNumber) {
         if (questionNumber > 3 || questionNumber < 1) {
             output("Invalid question number!");
             return false;
@@ -110,7 +110,7 @@ public class RegisterMenuController {
         return true;
     }
 
-    private static boolean checkAnswer(String answer, String answerConfirmation) {
+    public static boolean checkAnswer(String answer, String answerConfirmation) {
         if (!answer.equals(answerConfirmation)) {
             output("Answer and it's confirmation do not match!");
             return false;
@@ -119,7 +119,7 @@ public class RegisterMenuController {
         return true;
     }
 
-    private static boolean checkEmptyField(String nickname, String username, String email,
+    public static boolean checkEmptyField(String nickname, String username, String email,
                                            String password, String passwordConfirmation, String passwordRandom,
                                            String containsSlogan, String sloganRandom, String slogan) {
         if (nickname == null || username == null || email == null) {
@@ -135,7 +135,7 @@ public class RegisterMenuController {
         return true;
     }
 
-    private static boolean checkUsername(String username) {
+    public static boolean checkUsername(String username) {
         if (!checkUsernameFormat(username)) {
             output("Invalid username format");
             return false;
@@ -178,7 +178,7 @@ public class RegisterMenuController {
         return true;
     }
 
-    private static boolean checkEmail(String email) {
+    public static boolean checkEmail(String email) {
         if (Controller.findUserByEmail(email) != null) {
             output("A user with this email already exists!");
             return false;
@@ -191,7 +191,7 @@ public class RegisterMenuController {
         return true;
     }
 
-    private static boolean checkSlogan(String slogan, String sloganRandom, String containsSlogan) {
+    public static boolean checkSlogan(String slogan, String sloganRandom, String containsSlogan) {
         if (sloganRandom != null) {
             slogan = randomSlogan();
             output("Your slogan is \"" + slogan + "\"");
@@ -206,17 +206,17 @@ public class RegisterMenuController {
 
     // secondary methods
 
-    private static boolean checkUsernameFormat(String username) {
+    public static boolean checkUsernameFormat(String username) {
         Matcher matcher = Pattern.compile("[a-zA-Z0-9_]+").matcher(username);
         return matcher.matches();
     }
 
-    private static boolean checkEmailFormat(String email) {
+    public static boolean checkEmailFormat(String email) {
         Matcher matcher = Pattern.compile("[\\w._]+@[\\w._]+\\.[\\w._]{2,}").matcher(email);
         return matcher.matches();
     }
 
-    private static String newUsername(String username) {
+    public static String newUsername(String username) {
         double buffer;
         int number;
         String newUsername = username;
@@ -245,7 +245,7 @@ public class RegisterMenuController {
         return output;
     }
 
-    private static String randomPassword() {
+    public static String randomPassword() {
         SecureRandom random = new SecureRandom();
         String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?!@#$%^&*";
         StringBuilder sb = new StringBuilder();
@@ -259,7 +259,7 @@ public class RegisterMenuController {
         return sb.toString();
     }
 
-    private static String randomSlogan() {
+    public static String randomSlogan() {
         Random random = new Random();
         int index = random.nextInt(5);
         ArrayList<String> slogans = new ArrayList<>();
