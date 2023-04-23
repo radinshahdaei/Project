@@ -40,17 +40,17 @@ public class MapMenuController {
     }
     public static void DrawMap(int topX, int topY) {
         HashMap<String, String> COLORS = changeColor();
-        System.out.println(new String(new char[50]).replace("\0", "\r\n"));
+        output(new String(new char[50]).replace("\0", "\r\n"));
         drawSeparators(SIZEX * 6);
         for (int y = 0 ; y < SIZEY ; y++) {
-            System.out.print("|");
+            output("|", 1);
             for (int x = 0 ; x < SIZEX ; x++) {
                 int mapX = topX + x;
                 int mapY = topY + y;
                 drawAnEmptyLine(COLORS.get(GameMenuController.game.getMap().getTiles()[mapX][mapY].getTexture()),
                         COLORS.get("Reset"));
             }
-            System.out.print("\n|");
+            output("\n|", 1);
             for (int x = 0 ; x < SIZEX ; x++) {
                 int mapX = topX + x;
                 int mapY = topY + y;
@@ -61,16 +61,16 @@ public class MapMenuController {
                 else c = "#####";
                 c = COLORS.get(GameMenuController.game.getMap().getTiles()[mapX][mapY].getTexture()) + c +
                         COLORS.get("Reset") + "|";
-                System.out.print(c);
+                output(c, 1);
             }
-            System.out.print("\n|");
+            output("\n|", 1);
             for (int x = 0 ; x < SIZEX ; x++) {
                 int mapX = topX + x;
                 int mapY = topY + y;
                 drawAnEmptyLine(COLORS.get(GameMenuController.game.getMap().getTiles()[mapX][mapY].getTexture()),
                         COLORS.get("Reset"));
             }
-            System.out.println();
+            output("");
             drawSeparators(SIZEX * 6);
         }
 
@@ -94,11 +94,11 @@ public class MapMenuController {
         return map;
     }
     private static void drawAnEmptyLine(String color, String reset) {
-        System.out.print(color + "#####" + reset + "|");
+        output(color + "#####" + reset + "|", 1);
     }
     private static void drawSeparators(int times) {
-        for (int i = 0 ; i < times ; i++) System.out.print("-");
-        System.out.println();
+        for (int i = 0 ; i < times ; i++) output("-", 1);
+        output("");
     }
     public static void showDetails(int x , int y) {
         Tile tile = GameMenuController.game.getMap().getTiles()[x][y];

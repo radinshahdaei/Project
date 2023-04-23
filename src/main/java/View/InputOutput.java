@@ -12,4 +12,8 @@ public class InputOutput {
     public static void output(String output) {
         System.out.println(output);
     }
+
+    public static void output(String output, int checkNextLine) {
+        System.out.print(output);
+    }
 }
