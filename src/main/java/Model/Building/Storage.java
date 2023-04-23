@@ -1,6 +1,7 @@
 package Model.Building;
 
-import Model.Resource;
+import Model.Resources.Resource;
+import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,32 @@ public class Storage extends Building {
         ArrayList<Resource> storage = building.storage;
         int maxCapacity = building.maxCapacity;
         return new Storage(name, hp, x, y, workers, price, storage, maxCapacity);
+    }
+
+    public Resource getStoredResourceByType(ResourceType resourceType) {
+        for (Resource resource : storage) {
+            if (resourceType.equals(resource.getResourceType())) {
+                return resource;
+            }
+        }
+        return null;
+    }
+
+    public void addToStorage(Resource resource) {
+        Resource storedResource = getStoredResourceByType(resource.getResourceType());
+        storedResource.addCount(resource.getCount());
+        if (storedResource.getCount() > maxCapacity) {
+            storedResource.setCount(maxCapacity);
+        }
+
+    }
+
+    public void removeFromStorage(Resource resource) {
+        Resource storedResource = getStoredResourceByType(resource.getResourceType());
+        storedResource.addCount(-resource.getCount());
+        if (storedResource.getCount() <= 0) {
+            storage.remove(storedResource);
+        }
     }
 
 }

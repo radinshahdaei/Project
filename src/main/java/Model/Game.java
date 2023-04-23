@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 public class Game {
     private Map map;
-    private User currentPlayer;
     private ArrayList<Government> governments = new ArrayList<Government>();
     private int turn;
     public static int currentX;
     public static int currentY;
+    public static Government currentGovernment;
+
     public Map getMap() {
         return map;
     }

@@ -1,10 +1,10 @@
 package Model.Building;
 
-import Model.Resource;
+import Model.Resources.Resource;
 
 import java.util.ArrayList;
 
-import static Model.Resource.getResources;
+import static Model.Resources.Resource.getResources;
 
 public enum DefensiveBuildingType {
 

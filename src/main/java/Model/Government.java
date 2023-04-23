@@ -2,6 +2,7 @@ package Model;
 
 
 import Model.Building.Building;
+import Model.Resources.Resource;
 
 import java.util.ArrayList;
 
@@ -17,18 +18,20 @@ public class Government {
     private ArrayList<Resource> resources = new ArrayList<>();
     //private ArrayList<PatrollingUnit> patrollingUnits = new ArrayList<>();
 
+    public Building findBuildingByName(String name) {
+        for (Building building : buildings) {
+            if (building.getName().equals(name)) {
+                return building;
+            }
+        }
+        return null;
+    }
+
 
     public void calculatePopularity() {
 
     }
 
-    //    public ArrayList<PatrollingUnit> getPatrollingUnits() {
-//        return patrollingUnits;
-//    }
-//
-//    public void setPatrollingUnits(ArrayList<PatrollingUnit> patrollingUnits) {
-//        this.patrollingUnits = patrollingUnits;
-//    }
     public void runPatrols() {
     }
 

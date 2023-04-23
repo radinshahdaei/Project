@@ -1,4 +1,4 @@
-package Model;
+package Model.Resources;
 
 public enum ResourceType {
     WOOD("wood", ResourceModel.OTHER),

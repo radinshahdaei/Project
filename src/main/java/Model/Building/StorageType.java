@@ -1,12 +1,12 @@
 package Model.Building;
 
-import Model.Resource;
-import Model.ResourceModel;
+import Model.Resources.Resource;
+import Model.Resources.ResourceModel;
 
 import java.util.ArrayList;
 
-import static Model.Resource.getResources;
-import static Model.Resource.getResourcesByType;
+import static Model.Resources.Resource.getResources;
+import static Model.Resources.Resource.getResourcesByType;
 
 public enum StorageType {
 

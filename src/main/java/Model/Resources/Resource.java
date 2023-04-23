@@ -1,4 +1,4 @@
-package Model;
+package Model.Resources;
 
 import java.util.ArrayList;
 
@@ -22,6 +22,10 @@ public class Resource {
         return resources;
     }
 
+    public static Resource createResource(ResourceType resourceType, int count) {
+        return new Resource(resourceType, count);
+    }
+
     public static ArrayList<Resource> getResourcesByType(ResourceModel resourceModel, int count) {
         ArrayList<Resource> resources = new ArrayList<>();
         for (ResourceType resourceType : ResourceType.values()) {
@@ -33,5 +37,19 @@ public class Resource {
         return resources;
     }
 
+    public ResourceType getResourceType() {
+        return resourceType;
+    }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public void addCount(int amount) {
+        count += amount;
+    }
 }
