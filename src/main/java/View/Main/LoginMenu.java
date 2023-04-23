@@ -1,6 +1,6 @@
 package View.Main;
 
-import Controller.Controller;
+
 import Controller.LoginMenuController;
 import View.Commands.LoginMenuCommands;
 
@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 
 import static View.InputOutput.input;
 import static View.InputOutput.output;
+import static Controller.Controller.removeDoubleQuote;
 
 public class LoginMenu {
     public boolean run() throws InterruptedException {
@@ -19,9 +20,9 @@ public class LoginMenu {
                 output("Entered Main Menu!");
                 return false;
             } else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.LOGIN)) != null) {
-                String username = matcher.group("username");
-                String password = matcher.group("password");
-                String stayLoggedIn = matcher.group("stayLoggedIn");
+                String username = removeDoubleQuote(matcher.group("username"));
+                String password = removeDoubleQuote(matcher.group("password"));
+                String stayLoggedIn = removeDoubleQuote(matcher.group("stayLoggedIn"));
                 if (LoginMenuController.login(username , password , stayLoggedIn)) return true;
             } else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.FORGOT_PASSWORD)) != null) {
                 LoginMenuController.forgotPassword();

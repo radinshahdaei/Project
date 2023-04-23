@@ -48,4 +48,12 @@ public class Controller {
     public static void stayLoggedIn() {
         stayLoggedIn = true;
     }
+
+    public static String removeDoubleQuote(String str) {
+        if (str == null) return null;
+        if (str.charAt(0) == '\"' && str.charAt(str.length() - 1) == '\"') {
+            return str.substring(1, str.length() - 1);
+        }
+        return str;
+    }
 }

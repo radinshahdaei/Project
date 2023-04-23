@@ -5,6 +5,7 @@ import View.Commands.ProfileMenuCommands;
 
 import static View.InputOutput.input;
 import static View.InputOutput.output;
+import static Controller.Controller.removeDoubleQuote;
 
 import java.util.regex.Matcher;
 
@@ -24,24 +25,24 @@ public class ProfileMenu {
                 System.exit(0);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.CHANGE_USERNAME)) != null) {
-                String newUsername = matcher.group("username");
+                String newUsername = removeDoubleQuote(matcher.group("username"));
                 ProfileMenuController.changeUserName(newUsername);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.CHANGE_NICKNAME)) != null) {
-                String newNickname = matcher.group("nickname");
+                String newNickname = removeDoubleQuote(matcher.group("nickname"));
                 ProfileMenuController.changeNickname(newNickname);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.CHANGE_PASSWORD)) != null) {
-                String oldPassword = matcher.group("oldPassword");
-                String newPassword = matcher.group("newPassword");
+                String oldPassword = removeDoubleQuote(matcher.group("oldPassword"));
+                String newPassword = removeDoubleQuote(matcher.group("newPassword"));
                 ProfileMenuController.changePassword(oldPassword , newPassword);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.CHANGE_EMAIL)) != null) {
-                String newEmail = matcher.group("email");
+                String newEmail = removeDoubleQuote(matcher.group("email"));
                 ProfileMenuController.changeEmail(newEmail);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.CHANGE_SLOGAN)) != null) {
-                String newSlogan = matcher.group("slogan");
+                String newSlogan = removeDoubleQuote(matcher.group("slogan"));
                 ProfileMenuController.changeSlogan(newSlogan);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.REMOVE_SLOGAN)) != null) {

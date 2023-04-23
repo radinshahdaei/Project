@@ -66,7 +66,7 @@ public class LoginMenuController {
     public static boolean checkUserPass(String username, String password, String stayLoggedIn) throws InterruptedException {
         User user = Controller.findUserByUsername(username);
         if (user == null) {
-            output("Username and password didn't match!");
+            output("Username does not exists");
             return false;
         } else if (!ManageData.decrypt(user.getPassword(), password)) {
             output("Username and password didn't match!");

@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public enum RegisterMenuCommands {
     BACK("\\s*back\\s*"),
-    REGISTER("\\s*user\\s+create(?=.*-u \"?(?<username>[^\"]+|\\S*)\"?)(?=.*-n \"?(?<nickname>[^\"]+|\\S*)\"?)(?=.*-p ((?<passwordRandom>random)|\"?(?<password>[^\"]+|\\S*)\"? \"?(?<passwordConfirmation>[^\"]+|\\S*)\"?))(?=.*-email \"?(?<email>[^\"]+|\\S*)\"?)(?=.*(?<containsSlogan>-s ((?<sloganRandom>random)|\"?(?<slogan>[^\"]+|\\S*)\"?)))?.*"),
-    SECURITY_QUESTION("\\s*question\\s+pick(?=.*-q \"?(?<questionNumber>[^\"]+|\\S*)\"?)(?=.*-a \"?(?<answer>[^\"]+|\\S*)\"? \"?(?<answerConfirmation>[^\"]+|\\S*)\"?).*");
+    REGISTER("\\s*user\\s+create(?=.*-u (?<username>\"[^\"]+\"|\\S*))(?=.*-n (?<nickname>\"[^\"]+\"|\\S*))(?=.*-p ((?<passwordRandom>random)|(?<password>\"[^\"]+\"|\\S*) (?<passwordConfirmation>\"[^\"]+\"|\\S*)))(?=.*-email (?<email>\"[^\"]+\"|\\S*))(?=.*(?<containsSlogan>-s ((?<sloganRandom>random)|(?<slogan>\"[^\"]+\"|\\S*))))?.*"),
+    SECURITY_QUESTION("\\s*question\\s+pick(?=.*-q (?<questionNumber>\"[^\"]+\"|\\S*))(?=.*-a (?<answer>\"[^\"]+\"|\\S*) (?<answerConfirmation>\"[^\"]+\"|\\S*)).*");
     String regex;
 
     private RegisterMenuCommands(String regex) {
