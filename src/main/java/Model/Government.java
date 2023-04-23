@@ -1,78 +1,43 @@
 package Model;
 
 
+import Model.Building.Building;
+
 import java.util.ArrayList;
 
 public class Government {
     private int population;
     private int popularity;
     private int foodRate;
-    private int foodStorage;
     private int taxRate;
     private int fearRate;
-    private int woodInventory;
-    private int stoneInventory;
-    private int ironInventory;
-    private int gold;
-    private int pitch;
     private User user;
-    private ArrayList<String> TypesOfFood = new ArrayList<>();
     private ArrayList<Building> buildings = new ArrayList<>();
     private ArrayList<Person> people = new ArrayList<>();
+    private ArrayList<Resource> resources = new ArrayList<>();
     //private ArrayList<PatrollingUnit> patrollingUnits = new ArrayList<>();
 
-    public int getWoodInventory() {
-        return woodInventory;
+
+    public void calculatePopularity() {
+
     }
 
-    public void setWoodInventory(int woodInventory) {
-        this.woodInventory = woodInventory;
+    //    public ArrayList<PatrollingUnit> getPatrollingUnits() {
+//        return patrollingUnits;
+//    }
+//
+//    public void setPatrollingUnits(ArrayList<PatrollingUnit> patrollingUnits) {
+//        this.patrollingUnits = patrollingUnits;
+//    }
+    public void runPatrols() {
     }
 
-    public int getStoneInventory() {
-        return stoneInventory;
-    }
-
-    public void setStoneInventory(int stoneInventory) {
-        this.stoneInventory = stoneInventory;
-    }
-
-    public int getGold() {
-        return gold;
-    }
-
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
-
-    public int getIronInventory() {
-        return ironInventory;
-    }
-
-    public void setIronInventory(int ironInventory) {
-        this.ironInventory = ironInventory;
-    }
-
-    public int getPitch() {
-        return pitch;
-    }
-
-    public void setPitch(int pitch) {
-        this.pitch = pitch;
-    }
-
-    public Government (User user) {
-        this.population = 0;
-        this.popularity = 0;
-        this.foodRate = -2;
-        this.foodStorage = 0;
-        this.taxRate = 0;
-        this.fearRate = 0;
-        this.woodInventory = 0;
-        this.stoneInventory = 0;
-        this.ironInventory = 0;
-        this.gold = 0;
-        this.pitch = 0;
+    public Government(User user) {
+        this.population = population = 0;
+        this.popularity = popularity = 0;
+        this.foodRate = foodRate = -2;
+        this.taxRate = taxRate = 0;
+        this.fearRate = fearRate = 0;
         this.user = user;
     }
 
@@ -80,51 +45,72 @@ public class Government {
         return population;
     }
 
+    public void setPopulation(int population) {
+        this.population = population;
+    }
+
     public int getPopularity() {
         return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
     }
 
     public int getFoodRate() {
         return foodRate;
     }
 
-    public int getFoodStorage() {
-        return foodStorage;
-    }
-
-    public ArrayList<String> getTypesOfFood() {
-        return TypesOfFood;
+    public void setFoodRate(int foodRate) {
+        this.foodRate = foodRate;
     }
 
     public int getTaxRate() {
         return taxRate;
     }
 
+    public void setTaxRate(int taxRate) {
+        this.taxRate = taxRate;
+    }
+
     public int getFearRate() {
         return fearRate;
+    }
+
+    public void setFearRate(int fearRate) {
+        this.fearRate = fearRate;
     }
 
     public User getUser() {
         return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
     public ArrayList<Building> getBuildings() {
         return buildings;
+    }
+
+    public void setBuildings(ArrayList<Building> buildings) {
+        this.buildings = buildings;
     }
 
     public ArrayList<Person> getPeople() {
         return people;
     }
-    public void calculatePopularity() {
 
+    public void setPeople(ArrayList<Person> people) {
+        this.people = people;
     }
 
-//    public ArrayList<PatrollingUnit> getPatrollingUnits() {
-//        return patrollingUnits;
-//    }
-//
-//    public void setPatrollingUnits(ArrayList<PatrollingUnit> patrollingUnits) {
-//        this.patrollingUnits = patrollingUnits;
-//    }
-    public void runPatrols() {}
+    public ArrayList<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(ArrayList<Resource> resources) {
+        this.resources = resources;
+    }
 }
