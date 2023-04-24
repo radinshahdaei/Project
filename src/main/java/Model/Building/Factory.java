@@ -3,6 +3,7 @@ package Model.Building;
 import Model.Game;
 import Model.Resources.Resource;
 import Model.Resources.ResourceModel;
+import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,8 @@ public class Factory extends Building {
         Storage storage = (Storage) Game.currentGovernment.findBuildingByName(storageName);
         if (storage == null) return;
         storage.addToStorage(produced);
+        if (super.getName().equals("diary farmer")) //diary farmer also produces cows!
+            storage.addToStorage(Resource.createResource(ResourceType.COW, 1));
     }
 
     public String getStorageName(ResourceModel resourceModel) {

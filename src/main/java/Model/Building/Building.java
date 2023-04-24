@@ -19,6 +19,18 @@ public class Building {
         ALL_BUILDINGS.put("granary", BuildingType.STORAGE);
         ALL_BUILDINGS.put("stockpile", BuildingType.STORAGE);
         ALL_BUILDINGS.put("stable", BuildingType.STORAGE);
+
+        ALL_BUILDINGS.put("iron mine", BuildingType.FACTORY);
+        ALL_BUILDINGS.put("quarry", BuildingType.FACTORY);
+        ALL_BUILDINGS.put("wood cutter", BuildingType.FACTORY);
+        ALL_BUILDINGS.put("pitch rig", BuildingType.FACTORY);
+        ALL_BUILDINGS.put("apple orchard", BuildingType.FACTORY);
+        ALL_BUILDINGS.put("hops farmer", BuildingType.FACTORY);
+        ALL_BUILDINGS.put("hunter post", BuildingType.FACTORY);
+        ALL_BUILDINGS.put("diary farmer", BuildingType.FACTORY);
+        ALL_BUILDINGS.put("wheat farmer", BuildingType.FACTORY);
+        ALL_BUILDINGS.put("bakery", BuildingType.FACTORY);
+        ALL_BUILDINGS.put("brewer", BuildingType.FACTORY);
     }
 
     private String name;

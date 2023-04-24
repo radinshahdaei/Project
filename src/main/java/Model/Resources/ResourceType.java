@@ -22,6 +22,7 @@ public enum ResourceType {
     SWORD("sword", ResourceModel.WEAPON),
     LEATHER_ARMOR("leather armor", ResourceModel.WEAPON),
     METAL_ARMOR("metal armor", ResourceModel.WEAPON),
+    COW("cow", ResourceModel.OTHER),
     HORSE("horse", ResourceModel.HORSE);
 
     public String name;

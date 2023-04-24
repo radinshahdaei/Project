@@ -1,6 +1,7 @@
 package Model.Resources;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Resource {
     ResourceType resourceType;
@@ -20,6 +21,20 @@ public class Resource {
             resources.add(resource);
         }
         return resources;
+    }
+
+    public static HashMap<Resource, Resource> getWeapons(String... args) {
+        HashMap<Resource, Resource> weapons = new HashMap<>();
+        for (int i = 0; i < args.length; i += 4) {
+            ResourceType weapon = ResourceType.getResourceByName(args[i]);
+            int weaponCount = Integer.parseInt(args[i + 1]);
+            ResourceType weaponPrice = ResourceType.getResourceByName(args[i + 2]);
+            int weaponPriceCount = Integer.parseInt(args[i + 3]);
+            Resource weaponResource = new Resource(weapon, weaponCount);
+            Resource priceResource = new Resource(weaponPrice, weaponPriceCount);
+            weapons.put(weaponResource, priceResource);
+        }
+        return weapons;
     }
 
     public static Resource createResource(ResourceType resourceType, int count) {

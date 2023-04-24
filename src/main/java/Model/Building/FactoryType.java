@@ -19,7 +19,8 @@ public enum FactoryType {
     HUNTER_POST("hunter post", 100, 1, getResources("wood", "5"), createResource(ResourceType.MEAT, 1), null),
     DIARY_FARMER("diary farmer", 100, 1, getResources("wood", "10"), createResource(ResourceType.CHEESE, 1), null),
     WHEAT_FARMER("wheat farmer", 100, 1, getResources("wood", "15"), createResource(ResourceType.WHEAT, 1), null),
-    BAKERY("bakery", 100, 1, getResources("wood", "10"), createResource(ResourceType.BREAD, 1), createResource(ResourceType.WHEAT, 1)),
+    MILL("mill", 100, 3, getResources("wood", "20"), createResource(ResourceType.FLOUR, 1), createResource(ResourceType.WHEAT, 1)),
+    BAKERY("bakery", 100, 1, getResources("wood", "10"), createResource(ResourceType.BREAD, 1), createResource(ResourceType.FLOUR, 1)),
     BREWER("brewer", 100, 1, getResources("wood", "10"), createResource(ResourceType.ALE, 1), createResource(ResourceType.HOPS, 1));
 
     FactoryType(String name, int hp, int workers, ArrayList<Resource> price, Resource produced, Resource consumed) {
