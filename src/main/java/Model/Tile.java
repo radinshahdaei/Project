@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Building.Building;
+
 import java.util.ArrayList;
 
 public class Tile {
