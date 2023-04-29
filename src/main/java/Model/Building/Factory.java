@@ -17,7 +17,7 @@ public class Factory extends Building {
         this.consumed = consumed;
     }
 
-    public Building createBuilding(String name, int x, int y) {
+    public static Building createBuilding(String name, int x, int y) {
         FactoryType building = FactoryType.getBuildingByName(name);
         if (building == null) return null;
         int hp = building.hp;

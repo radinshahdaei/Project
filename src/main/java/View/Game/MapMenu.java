@@ -1,5 +1,6 @@
 package View.Game;
 
+import Controller.Controller;
 import Controller.GameMenuController;
 import Controller.MapMenuController;
 import View.Commands.MapMenuCommands;
@@ -41,6 +42,11 @@ public class MapMenu {
                 int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                 MapMenuController.showDetails(x , y);
             }
+            else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.DROP_BUILDING)) != null) {
+                int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                String type = Controller.removeDoubleQuote(matcher.group("type"));
+                MapMenuController.dropBuilding(x, y, type);
+            }
             else {
                 output("Invalid command!");
             }
@@ -80,6 +86,7 @@ public class MapMenu {
                 checkInMap = (topX >= 0 && topX <= GameMenuController.game.getMap().getMapSize() - MapMenuController.SIZEX) &&
                         (topY >= 0 && topY <= GameMenuController.game.getMap().getMapSize() - MapMenuController.SIZEY);
             } else if (MapMenuCommands.getMatcher(command, MapMenuCommands.END_SHOW_MAP) != null) {
+                output("Stopped drawing map");
                 break;
             } else {
                 output("Invalid command!");

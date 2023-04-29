@@ -15,7 +15,7 @@ public class Storage extends Building {
         this.maxCapacity = maxCapacity;
     }
 
-    public Building createBuilding(String name, int x, int y) {
+    public static Building createBuilding(String name, int x, int y) {
         StorageType building = StorageType.getBuildingByName(name);
         if (building == null) return null;
         int hp = building.hp;
