@@ -3,6 +3,8 @@ package Model;
 import Controller.Controller;
 import Controller.ManageData;
 
+import java.util.ArrayList;
+
 public class User {
     String username;
     String password;
@@ -13,6 +15,10 @@ public class User {
     int questionNumber;
     int highScore;
 
+    public ArrayList<Trade> tradeList;
+
+    public int lastTradeIndex;
+
     public User(String username, String password, String nickname, String email, String slogan, String answer, int questionNumber) {
         this.username = username;
         this.password = password;
@@ -22,6 +28,8 @@ public class User {
         this.answer = answer;
         this.questionNumber = questionNumber;
         this.highScore = 0;
+        this.tradeList = new ArrayList<>();
+        this.lastTradeIndex = -1;
     }
 
     public static void createUser(String username, String password, String nickname, String email, String slogan, String answer, int questionNumber) {
@@ -83,5 +91,9 @@ public class User {
 
     public void setHighScore(int highScore) {
         this.highScore = highScore;
+    }
+
+    public void addTrade(Trade trade) {
+        this.tradeList.add(trade);
     }
 }
