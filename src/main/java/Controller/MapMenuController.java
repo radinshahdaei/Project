@@ -3,6 +3,7 @@ package Controller;
 import Model.Building.*;
 import Model.Game;
 import Model.Government;
+import Model.Person;
 import Model.Resources.Resource;
 import Model.Tile;
 
@@ -109,67 +110,11 @@ public class MapMenuController {
         output("x: " + tile.getX() + " , y: " + tile.getY());
         output("texture: " + tile.getTexture());
         if (tile.getBuilding() != null) output("Building: " + tile.getBuilding().getName());
-        else if (tile.getPeople().size() > 0) output("People: " + tile.getPeople().get(0).getName());
-    }
-
-    public static void dropBuilding(int x, int y, String type) {
-        if (checkSimpleErrors(x, y)) return;
-        BuildingType buildingType = Building.ALL_BUILDINGS.get(type);
-        if (buildingType == null) {
-            output("This building does not exists!");
-            return;
-        }
-        Building building = Building.createBuildings(type, x, y, buildingType);
-        if (checkIfEnoughResourcesExist(building)) return;
-        reduceRecommendedResources(building);
-        Game.currentGovernment.getBuildings().add(building);
-        GameMenuController.game.getMap().getTiles()[x][y].setBuilding(building);
-        output("building successfully made");
-    }
-
-    private static void reduceRecommendedResources(Building building) {
-        for (Resource resource: building.getPrice()) {
-            for (Resource governmentResource:Game.currentGovernment.getResources()) {
-                if (resource.getResourceType().name.equals(governmentResource.getResourceType().name)) {
-                    governmentResource.setCount(governmentResource.getCount() - resource.getCount());
-                }
+        else if (tile.getPeople().size() > 0) {
+            int counter = 1;
+            for (Person person:tile.getPeople()) {
+                output("Person " + counter + ": " + person.getName());
             }
-        }
-    }
-
-    private static boolean checkIfEnoughResourcesExist(Building building) {
-        for (Resource resource: building.getPrice()) {
-            boolean flag = false;
-            for (Resource governmentResource:Game.currentGovernment.getResources()) {
-                if (resource.getResourceType().name.equals(governmentResource.getResourceType().name)) {
-                    flag = true;
-                    if (resource.getCount() > governmentResource.getCount()) {
-                        output("Not enough resources to buy this building");
-                        return true;
-                    }
-                }
-            }
-            if (!flag) {
-                output("Not enough resources to buy this building");
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean checkSimpleErrors(int x, int y) {
-        if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
-            output("Invalid coordinates");
-            return true;
-        }
-        if (GameMenuController.game.getMap().getTiles()[x][y].getBuilding() != null) {
-            output("A building already exists on this tile");
-            return true;
-        }
-        if (GameMenuController.game.getMap().getTiles()[x][y].getPeople().size() > 0) {
-            output("You cannot build on top of people!");
-            return true;
-        }
-        return false;
+        };
     }
 }

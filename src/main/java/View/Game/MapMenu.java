@@ -36,16 +36,11 @@ public class MapMenu {
                 MapMenuController.clear(x , y);
             }
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.DRAW)) != null) {
-                movingMap();
+                movingMap(0, 0);
             }
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SHOW_DETAILS)) != null) {
                 int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                 MapMenuController.showDetails(x , y);
-            }
-            else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.DROP_BUILDING)) != null) {
-                int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
-                String type = Controller.removeDoubleQuote(matcher.group("type"));
-                MapMenuController.dropBuilding(x, y, type);
             }
             else {
                 output("Invalid command!");
@@ -53,11 +48,11 @@ public class MapMenu {
         }
     }
 
-    public static void movingMap() {
+    public static void movingMap(int x, int y) {
         Matcher matcher;
         String command;
-        int topX = 0, topY = 0;
-        int lastTopX = 0, lastTopY = 0;
+        int topX = x, topY = y;
+        int lastTopX = x, lastTopY = y;
         boolean checkInMap = true;
         while (true) {
             if (checkInMap) {
@@ -83,8 +78,8 @@ public class MapMenu {
                 if (matcher.group("down") != null) topY += amountDown;
                 if (matcher.group("left") != null) topX -= amountLeft;
                 if (matcher.group("right") != null) topX += amountRight;
-                checkInMap = (topX >= 0 && topX <= GameMenuController.game.getMap().getMapSize() - MapMenuController.SIZEX) &&
-                        (topY >= 0 && topY <= GameMenuController.game.getMap().getMapSize() - MapMenuController.SIZEY);
+                checkInMap = (topX >= 0 && topX <= GameMenuController.game.getMap().getMapSize() - MapMenuController.SIZEX + 1) &&
+                        (topY >= 0 && topY <= GameMenuController.game.getMap().getMapSize() - MapMenuController.SIZEY + 1);
             } else if (MapMenuCommands.getMatcher(command, MapMenuCommands.END_SHOW_MAP) != null) {
                 output("Stopped drawing map");
                 break;
