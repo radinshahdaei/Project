@@ -10,11 +10,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Project" />
-        <module name="Project-AP" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Project-AP" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>
