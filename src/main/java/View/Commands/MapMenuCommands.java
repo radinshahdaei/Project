@@ -13,7 +13,8 @@ public enum MapMenuCommands{
     END_SHOW_MAP("\\s*end\\s+show\\s+map\\s*"),
     MAP_MOVE("\\s*map\\s+move\\s+(?=.*(?<up>up\\s*(?<amountUp>\\d+)?))?(?=.*(?<down>down\\s*(?<amountDown>" +
             "\\d+)?))?(?=.*(?<left>left\\s*(?<amountLeft>\\d+)?))?(?=.*(?<right>right\\s*(?<amountRight>\\d+)?))?.*"),
-    SHOW_DETAILS("\\s*show\\s+details\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*");
+    SHOW_DETAILS("\\s*show\\s+details\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*"),
+    DROP_BUILDING("\\s*dropbuilding\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+))(?=.*-t (?<type>\"[^\"]+\"|\\S*)).*");
     String regex;
     private MapMenuCommands(String regex) {this.regex = regex;}
     public static Matcher getMatcher(String input, MapMenuCommands loginMenuCommand) {

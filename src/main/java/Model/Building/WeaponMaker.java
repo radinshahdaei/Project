@@ -17,7 +17,7 @@ public class WeaponMaker extends Building {
         this.weapons = weapons;
     }
 
-    public Building createBuilding(String name, int x, int y) {
+    public static Building createBuilding(String name, int x, int y) {
         WeaponMakerType building = WeaponMakerType.getBuildingByName(name);
         if (building == null) return null;
         int hp = building.hp;

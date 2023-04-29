@@ -8,7 +8,7 @@ import static Model.Resources.Resource.getResources;
 
 public enum DefensiveBuildingType {
 
-    LOOKOUT_TOWER("lookout tower", 100, 0, getResources("stone", "15"), 10, 6),
+    LOOKOUT_TOWER("lookout tower", 100, 0, getResources("stone", "15") , 10, 6),
     PERIMETER_TOWER("perimeter tower", 150, 0, getResources("stone", "15"), 8, 5),
     DEFENCE_TURRET("defence turret", 200, 0, getResources("stone", "15"), 8, 5),
     SQUARE_TOWER("square tower", 300, 0, getResources("stone", "35"), 20, 8),

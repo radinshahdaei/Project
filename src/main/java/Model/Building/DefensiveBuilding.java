@@ -14,7 +14,7 @@ public class DefensiveBuilding extends Building {
         this.damage = damage;
     }
 
-    public Building createBuilding(String name, int x, int y) {
+    public static Building createBuilding(String name, int x, int y) {
         DefensiveBuildingType building = DefensiveBuildingType.getBuildingByName(name);
         if (building == null) return null;
         int hp = building.hp;

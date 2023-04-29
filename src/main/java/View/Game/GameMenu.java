@@ -41,6 +41,7 @@ public class GameMenu {
             output("Please enter 1 or 2!");
             size = input();
         }
+        output("You have created a " + (Integer.parseInt(size) * 200) + " in " + (Integer.parseInt(size) * 200) + " map");
         int mapSize = Integer.parseInt(size) * 200;
         GameMenuController.mapSize = mapSize;
         Map map = new Map();
@@ -56,6 +57,7 @@ public class GameMenu {
         Matcher matcher;
         Government government = new Government(Controller.currentUser);
         GameMenuController.game.getGovernments().add(government);
+        Game.currentGovernment = government;
         while (true) {
             input = input();
             if (GameMenuCommands.getMatcher(input, GameMenuCommands.DONE) != null) {
