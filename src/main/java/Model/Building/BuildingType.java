@@ -5,7 +5,6 @@ public enum BuildingType {
     STORAGE,
     FACTORY,
     WEAPON_MAKER,
-    BUILDER,
     BARRACKS,
     WALL,
     SPECIAL,

@@ -92,7 +92,7 @@ public class GameMenu {
         mapMenu.run();
     }
 
-    private static void selectUsers() {
+    private void selectUsers() {
         output("Enter the usernames who you want to play with like \"add <username>\" and when you're done type \"Done\"");
         int counter = 0;
         String input;
@@ -154,27 +154,26 @@ public class GameMenu {
         defaultYPositions[3] = k - 1;
         defaultYPositions[4] = k / 2;
     }
-    private static void giveDefaultBuildings(Government government, int counter) {
+    private void giveDefaultBuildings(Government government, int counter) {
         BuildingType buildingType = Building.ALL_BUILDINGS.get("stockpile");
         Building building = Building.createBuildings("stockpile", defaultXPositions[counter],
-                defaultYPositions[counter], buildingType);
+                defaultYPositions[counter], buildingType, government.getUser());
         government.getBuildings().add(building);
         GameMenuController.game.getMap().getTiles()[defaultXPositions[counter]][defaultYPositions[counter]].
                 setBuilding(building);
     }
-    private static void giveDefaultResources(Government government, Storage storage) {
-        Resource resource;
-        resource = Resource.createResource(ResourceType.getResourceByName("wood"), 100);
-        storage.addToStorage(resource);
-        government.getResources().add(resource);
-        resource = Resource.createResource(ResourceType.getResourceByName("stone"), 100);
-        storage.addToStorage(resource);
-        government.getResources().add(resource);
-        resource = Resource.createResource(ResourceType.getResourceByName("iron"), 50);
-        storage.addToStorage(resource);
-        government.getResources().add(resource);
-        resource = Resource.createResource(ResourceType.getResourceByName("wheat"), 200);
-        storage.addToStorage(resource);
-        government.getResources().add(resource);
+    private void giveDefaultResources(Government government, Storage storage) {
+//        Resource resource;
+//        resource = Resource.createResource(ResourceType.getResourceByName("wood"), 100);
+//        storage.addToStorage(resource);
+//        resource = Resource.createResource(ResourceType.getResourceByName("stone"), 10);
+//        storage.addToStorage(resource);
+//        resource = Resource.createResource(ResourceType.getResourceByName("iron"), 50);
+//        storage.addToStorage(resource);
+//        resource = Resource.createResource(ResourceType.getResourceByName("wheat"), 200);
+//        storage.addToStorage(resource);
+        ArrayList<Resource> resourceArrayList = Resource.getResources("wood", "20", "stone", "20", "iron", "10",
+                "pitch", "0", "wheat", "0", "flour", "0", "hops", "0", "gold", "10", "cow", "0");
+        storage.setStorage(resourceArrayList);
     }
 }

@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Building.Building;
 import Model.Building.BuildingType;
+import Model.Building.Storage;
 import Model.Game;
 import Model.Resources.Resource;
 
@@ -15,7 +16,7 @@ public class BuildingMenuController {
             output("This building does not exists!");
             return;
         }
-        Building building = Building.createBuildings(type, x, y, buildingType);
+        Building building = Building.createBuildings(type, x, y, buildingType, Game.currentGovernment.getUser());
         if (checkIfEnoughResourcesExist(building)) return;
         reduceRecommendedResources(building);
         Game.currentGovernment.getBuildings().add(building);
@@ -25,27 +26,38 @@ public class BuildingMenuController {
 
     private static void reduceRecommendedResources(Building building) {
         for (Resource resource: building.getPrice()) {
-            for (Resource governmentResource:Game.currentGovernment.getResources()) {
-                if (resource.getResourceType().name.equals(governmentResource.getResourceType().name)) {
-                    governmentResource.setCount(governmentResource.getCount() - resource.getCount());
+            int reduced = 0;
+            for (Building checkBuilding: Game.currentGovernment.getBuildings()) {
+                if (checkBuilding.getName().equals("stockpile")) {
+                    Storage storage = (Storage) checkBuilding;
+                    for (Resource stockResource: storage.getStorage()) {
+                        if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
+                            int temp = reduced;
+                            reduced += Math.min(resource.getCount() - reduced, stockResource.getCount());
+                            stockResource.setCount(stockResource.getCount() -
+                                    Math.min(resource.getCount() - temp, stockResource.getCount()));
+                        }
+                    }
                 }
+                if (reduced == resource.getCount()) break;
             }
         }
     }
 
     private static boolean checkIfEnoughResourcesExist(Building building) {
         for (Resource resource: building.getPrice()) {
-            boolean flag = false;
-            for (Resource governmentResource:Game.currentGovernment.getResources()) {
-                if (resource.getResourceType().name.equals(governmentResource.getResourceType().name)) {
-                    flag = true;
-                    if (resource.getCount() > governmentResource.getCount()) {
-                        output("Not enough resources to buy this building");
-                        return true;
+            int amount = 0;
+            for (Building checkBuilding: Game.currentGovernment.getBuildings()) {
+                if (checkBuilding.getName().equals("stockpile")) {
+                    Storage storage = (Storage) checkBuilding;
+                    for (Resource stockResource: storage.getStorage()) {
+                        if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
+                            amount += stockResource.getCount();
+                        }
                     }
                 }
             }
-            if (!flag) {
+            if (amount < resource.getCount()) {
                 output("Not enough resources to buy this building");
                 return true;
             }

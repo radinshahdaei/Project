@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.Building.Building;
+import Model.Building.Storage;
 import Model.Game;
 import Model.Resources.Resource;
 
@@ -11,8 +13,16 @@ public class GameMenuController {
 
     }
     public static void showResources() {
-        for (Resource resource:Game.currentGovernment.getResources()) {
-            output(resource.getResourceType().name + ": " + resource.getCount());
+        int counter = 1;
+        for (Building building:Game.currentGovernment.getBuildings()) {
+            if (building.getName().equals("stockpile")){
+                Storage storage = (Storage) building;
+                output("stockpile " + counter + ":");
+                for (Resource resource:storage.getStorage()) {
+                    output(resource.getResourceType().name + ": " + resource.getCount());
+                }
+                counter++;
+            }
         }
     }
 }

@@ -78,8 +78,8 @@ public class MapMenu {
                 if (matcher.group("down") != null) topY += amountDown;
                 if (matcher.group("left") != null) topX -= amountLeft;
                 if (matcher.group("right") != null) topX += amountRight;
-                checkInMap = (topX >= 0 && topX <= GameMenuController.game.getMap().getMapSize() - MapMenuController.SIZEX + 1) &&
-                        (topY >= 0 && topY <= GameMenuController.game.getMap().getMapSize() - MapMenuController.SIZEY + 1);
+                checkInMap = (topX >= 0 && topX <= GameMenuController.game.getMap().getMapSize() - MapMenuController.SIZEX) &&
+                        (topY >= 0 && topY <= GameMenuController.game.getMap().getMapSize() - MapMenuController.SIZEY);
             } else if (MapMenuCommands.getMatcher(command, MapMenuCommands.END_SHOW_MAP) != null) {
                 output("Stopped drawing map");
                 break;
