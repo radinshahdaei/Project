@@ -163,17 +163,14 @@ public class GameMenu {
                 setBuilding(building);
     }
     private void giveDefaultResources(Government government, Storage storage) {
-//        Resource resource;
-//        resource = Resource.createResource(ResourceType.getResourceByName("wood"), 100);
-//        storage.addToStorage(resource);
-//        resource = Resource.createResource(ResourceType.getResourceByName("stone"), 10);
-//        storage.addToStorage(resource);
-//        resource = Resource.createResource(ResourceType.getResourceByName("iron"), 50);
-//        storage.addToStorage(resource);
-//        resource = Resource.createResource(ResourceType.getResourceByName("wheat"), 200);
-//        storage.addToStorage(resource);
-        ArrayList<Resource> resourceArrayList = Resource.getResources("wood", "20", "stone", "20", "iron", "10",
-                "pitch", "0", "wheat", "0", "flour", "0", "hops", "0", "gold", "10", "cow", "0");
-        storage.setStorage(resourceArrayList);
+        Resource resource;
+        resource = Resource.createResource(ResourceType.getResourceByName("wood"), 20);
+        storage.addToStorage(resource);
+        resource = Resource.createResource(ResourceType.getResourceByName("stone"), 20);
+        storage.addToStorage(resource);
+        resource = Resource.createResource(ResourceType.getResourceByName("iron"), 10);
+        storage.addToStorage(resource);
+        resource = Resource.createResource(ResourceType.getResourceByName("gold"), 10);
+        storage.addToStorage(resource);
     }
 }

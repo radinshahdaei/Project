@@ -1,10 +1,13 @@
 package Model.Building;
 
 import Model.Resources.Resource;
+import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;
 import Model.User;
 
 import java.util.ArrayList;
+
+import static Model.Resources.Resource.getResourcesByType;
 
 public class Storage extends Building {
     private ArrayList<Resource> storage = new ArrayList<>();
@@ -30,7 +33,12 @@ public class Storage extends Building {
         int hp = building.hp;
         int workers = building.workers;
         ArrayList<Resource> price = building.price;
-        ArrayList<Resource> storage = building.storage;
+        ArrayList<Resource> storageBuffer = building.storage;
+        ArrayList<Resource> storage = new ArrayList<>();
+        for (Resource tempResource : storageBuffer) {
+            Resource resource = new Resource(tempResource.getResourceType(), tempResource.getCount());
+            storage.add(resource);
+        }
         int maxCapacity = building.maxCapacity;
         return new Storage(name, hp, x, y, workers, price, storage, maxCapacity, owner);
     }
@@ -50,7 +58,6 @@ public class Storage extends Building {
         if (storedResource.getCount() > maxCapacity) {
             storedResource.setCount(maxCapacity);
         }
-
     }
 
     public void removeFromStorage(Resource resource) {
