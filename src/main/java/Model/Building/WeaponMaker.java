@@ -17,12 +17,7 @@ public class WeaponMaker extends Building {
         super(name, hp, x, y, workers, price, owner);
         this.weapons = weapons;
     }
-
-<<<<<<< HEAD
-    public static Building createBuilding(String name, int x, int y) {
-=======
     public static Building createBuilding(String name, int x, int y, User owner) {
->>>>>>> alireza
         WeaponMakerType building = WeaponMakerType.getBuildingByName(name);
         if (building == null) return null;
         int hp = building.hp;

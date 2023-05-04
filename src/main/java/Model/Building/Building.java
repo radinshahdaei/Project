@@ -69,24 +69,7 @@ public class Building {
         return price;
     }
 
-<<<<<<< HEAD
-    public static Building createBuildings(String name, int x, int y, BuildingType buildingType) {
-        Building building = null;
-        if (buildingType.equals(BuildingType.DEFENSIVE_BUILDING)) {
-            building = DefensiveBuilding.createBuilding(name, x, y);
-        }
-        else if (buildingType.equals(BuildingType.FACTORY)) {
-            building = Factory.createBuilding(name, x, y);
-        }
-        else if (buildingType.equals(BuildingType.STORAGE)) {
-            building = Storage.createBuilding(name, x, y);
-        }
-        else if (buildingType.equals(BuildingType.WEAPON_MAKER)) {
-            building = WeaponMaker.createBuilding(name, x, y);
-        }
-        return building;
-    }
-=======
+
     public static Building createBuildings(String name, int x, int y, BuildingType buildingType, User owner) {
         Building building = null;
         if (buildingType.equals(BuildingType.DEFENSIVE_BUILDING)) {
@@ -107,5 +90,4 @@ public class Building {
     public User getOwner() {
         return owner;
     }
->>>>>>> alireza
 }

@@ -1,3 +1,4 @@
+
 package View.Game;
 
 import Controller.Controller;
@@ -28,7 +29,7 @@ public class MapMenu {
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SET_TEXTURE_REC)) != null) {
                 String type = matcher.group("type");
                 int x1 = Integer.parseInt(matcher.group("X1")), x2 = Integer.parseInt(matcher.group("X2")) ,
-                    y1 = Integer.parseInt(matcher.group("Y1")), y2 = Integer.parseInt(matcher.group("Y2"));
+                        y1 = Integer.parseInt(matcher.group("Y1")), y2 = Integer.parseInt(matcher.group("Y2"));
                 MapMenuController.setTextureRectangle(type , x1 , x2 , y1 , y2);
             }
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.CLEAR)) != null) {
@@ -41,11 +42,6 @@ public class MapMenu {
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SHOW_DETAILS)) != null) {
                 int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                 MapMenuController.showDetails(x , y);
-            }
-            else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.DROP_BUILDING)) != null) {
-                int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
-                String type = Controller.removeDoubleQuote(matcher.group("type"));
-                MapMenuController.dropBuilding(x, y, type);
             }
             else {
                 output("Invalid command!");

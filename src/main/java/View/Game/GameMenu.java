@@ -100,12 +100,9 @@ public class GameMenu {
         Government government = new Government(Controller.currentUser);
         GameMenuController.game.getGovernments().add(government);
         Game.currentGovernment = government;
-<<<<<<< HEAD
-=======
         giveDefaultBuildings(government, counter);
         giveDefaultResources(government, (Storage) government.getBuildings().get(0));
         counter++;
->>>>>>> alireza
         while (true) {
             input = input();
             if (GameMenuCommands.getMatcher(input, GameMenuCommands.DONE) != null) {
