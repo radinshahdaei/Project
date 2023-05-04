@@ -5,7 +5,10 @@ public enum BuildingType {
     STORAGE,
     FACTORY,
     WEAPON_MAKER,
+<<<<<<< HEAD
     BUILDER,
+=======
+>>>>>>> alireza
     BARRACKS,
     WALL,
     SPECIAL,

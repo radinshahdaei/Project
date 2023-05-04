@@ -2,6 +2,7 @@ package Model.Building;
 
 import Model.Game;
 import Model.Resources.Resource;
+import Model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,19 +13,23 @@ import static View.InputOutput.output;
 public class WeaponMaker extends Building {
     HashMap<Resource, Resource> weapons = new HashMap<>();
 
-    public WeaponMaker(String name, int hp, int x, int y, int workers, ArrayList<Resource> price, HashMap<Resource, Resource> weapons) {
-        super(name, hp, x, y, workers, price);
+    public WeaponMaker(String name, int hp, int x, int y, int workers, ArrayList<Resource> price, HashMap<Resource, Resource> weapons, User owner) {
+        super(name, hp, x, y, workers, price, owner);
         this.weapons = weapons;
     }
 
+<<<<<<< HEAD
     public static Building createBuilding(String name, int x, int y) {
+=======
+    public static Building createBuilding(String name, int x, int y, User owner) {
+>>>>>>> alireza
         WeaponMakerType building = WeaponMakerType.getBuildingByName(name);
         if (building == null) return null;
         int hp = building.hp;
         int workers = building.workers;
         ArrayList<Resource> price = building.price;
         HashMap<Resource, Resource> weapons = building.weapons;
-        return new WeaponMaker(name, hp, x, y, workers, price, weapons);
+        return new WeaponMaker(name, hp, x, y, workers, price, weapons, owner);
     }
 
     public void buyWeapon() {

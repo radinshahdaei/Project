@@ -15,7 +15,7 @@ public class Government {
     private User user;
     private ArrayList<Building> buildings = new ArrayList<>();
     private ArrayList<Person> people = new ArrayList<>();
-    private ArrayList<Resource> resources = new ArrayList<>();
+    //private ArrayList<Resource> resources = new ArrayList<>();
     //private ArrayList<PatrollingUnit> patrollingUnits = new ArrayList<>();
 
     public Building findBuildingByName(String name) {
@@ -109,11 +109,11 @@ public class Government {
         this.people = people;
     }
 
-    public ArrayList<Resource> getResources() {
-        return resources;
-    }
+//    public ArrayList<Resource> getResources() {
+//        return resources;
+//    }
 
-    public void setResources(ArrayList<Resource> resources) {
-        this.resources = resources;
-    }
+//    public void setResources(ArrayList<Resource> resources) {
+//        this.resources = resources;
+//    }
 }

@@ -1,6 +1,7 @@
 package Model.Building;
 
 import Model.Resources.Resource;
+import Model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,13 +41,16 @@ public class Building {
     private int workers;
     private ArrayList<Resource> price = new ArrayList<>();
 
-    public Building(String name, int hp, int x, int y, int workers, ArrayList<Resource> price) {
+    private User owner;
+
+    public Building(String name, int hp, int x, int y, int workers, ArrayList<Resource> price, User owner) {
         this.name = name;
         this.hp = hp;
         this.x = x;
         this.y = y;
         this.workers = workers;
         this.price = price;
+        this.owner = owner;
     }
 
     public int getWorkers() {
@@ -65,6 +69,7 @@ public class Building {
         return price;
     }
 
+<<<<<<< HEAD
     public static Building createBuildings(String name, int x, int y, BuildingType buildingType) {
         Building building = null;
         if (buildingType.equals(BuildingType.DEFENSIVE_BUILDING)) {
@@ -81,4 +86,26 @@ public class Building {
         }
         return building;
     }
+=======
+    public static Building createBuildings(String name, int x, int y, BuildingType buildingType, User owner) {
+        Building building = null;
+        if (buildingType.equals(BuildingType.DEFENSIVE_BUILDING)) {
+            building = DefensiveBuilding.createBuilding(name, x, y, owner);
+        }
+        else if (buildingType.equals(BuildingType.FACTORY)) {
+            building = Factory.createBuilding(name, x, y, owner);
+        }
+        else if (buildingType.equals(BuildingType.STORAGE)) {
+            building = Storage.createBuilding(name, x, y, owner);
+        }
+        else if (buildingType.equals(BuildingType.WEAPON_MAKER)) {
+            building = WeaponMaker.createBuilding(name, x, y, owner);
+        }
+        return building;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+>>>>>>> alireza
 }

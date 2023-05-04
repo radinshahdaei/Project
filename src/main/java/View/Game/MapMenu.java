@@ -36,7 +36,7 @@ public class MapMenu {
                 MapMenuController.clear(x , y);
             }
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.DRAW)) != null) {
-                movingMap();
+                movingMap(0, 0);
             }
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SHOW_DETAILS)) != null) {
                 int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
@@ -53,11 +53,11 @@ public class MapMenu {
         }
     }
 
-    public static void movingMap() {
+    public static void movingMap(int x, int y) {
         Matcher matcher;
         String command;
-        int topX = 0, topY = 0;
-        int lastTopX = 0, lastTopY = 0;
+        int topX = x, topY = y;
+        int lastTopX = x, lastTopY = y;
         boolean checkInMap = true;
         while (true) {
             if (checkInMap) {

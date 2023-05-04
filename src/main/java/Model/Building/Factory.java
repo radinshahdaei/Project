@@ -4,6 +4,7 @@ import Model.Game;
 import Model.Resources.Resource;
 import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;
+import Model.User;
 
 import java.util.ArrayList;
 
@@ -11,13 +12,17 @@ public class Factory extends Building {
     Resource produced;
     Resource consumed;
 
-    public Factory(String name, int hp, int x, int y, int workers, ArrayList<Resource> price, Resource produced, Resource consumed) {
-        super(name, hp, x, y, workers, price);
+    public Factory(String name, int hp, int x, int y, int workers, ArrayList<Resource> price, Resource produced, Resource consumed, User owner) {
+        super(name, hp, x, y, workers, price, owner);
         this.produced = produced;
         this.consumed = consumed;
     }
 
+<<<<<<< HEAD
     public static Building createBuilding(String name, int x, int y) {
+=======
+    public static Building createBuilding(String name, int x, int y, User owner) {
+>>>>>>> alireza
         FactoryType building = FactoryType.getBuildingByName(name);
         if (building == null) return null;
         int hp = building.hp;
@@ -25,7 +30,7 @@ public class Factory extends Building {
         ArrayList<Resource> price = building.price;
         Resource produced = building.produced;
         Resource consumed = building.consumed;
-        return new Factory(name, hp, x, y, workers, price, produced, consumed);
+        return new Factory(name, hp, x, y, workers, price, produced, consumed, owner);
     }
 
     public void doWork() {

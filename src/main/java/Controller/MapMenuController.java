@@ -3,6 +3,10 @@ package Controller;
 import Model.Building.*;
 import Model.Game;
 import Model.Government;
+<<<<<<< HEAD
+=======
+import Model.Person;
+>>>>>>> alireza
 import Model.Resources.Resource;
 import Model.Tile;
 
@@ -109,7 +113,12 @@ public class MapMenuController {
         output("x: " + tile.getX() + " , y: " + tile.getY());
         output("texture: " + tile.getTexture());
         if (tile.getBuilding() != null) output("Building: " + tile.getBuilding().getName());
-        else if (tile.getPeople().size() > 0) output("People: " + tile.getPeople().get(0).getName());
+        else if (tile.getPeople().size() > 0) {
+            int counter = 1;
+            for (Person person:tile.getPeople()) {
+                output("Person " + counter + ": " + person.getName());
+            }
+        };
     }
 
     public static void dropBuilding(int x, int y, String type) {
