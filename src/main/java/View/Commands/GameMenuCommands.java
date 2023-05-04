@@ -12,7 +12,8 @@ public enum GameMenuCommands {
     NEXT_TURN("\\s*next\\s+turn\\s*"),
     SELECT_BUILDING("\\s*select\\s+building\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*"),
     DRAW_MAP("\\s*draw\\s+map\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*"),
-    SHOW_RESOURCES("\\s*show\\s+resources\\s*");
+    SHOW_RESOURCES("\\s*show\\s+resources\\s*"),
+    DROP_UNIT("\\s*dropunit\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+))(?=.*-t (?<type>\"[^\"]+\"|\\S*))(?=.*-c (?<count>\\d+)).*");
     String regex;
     private GameMenuCommands(String regex) {this.regex = regex;}
     public static Matcher getMatcher(String input, GameMenuCommands loginMenuCommand) {

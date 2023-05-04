@@ -1,5 +1,6 @@
 package Model.Person.Military.Soldier;
 
+import Model.Person.Military.Siege.SiegeType;
 import Model.Resources.Resource;
 
 import java.util.ArrayList;
@@ -24,14 +25,14 @@ public enum SoldierType {
     FIRE_THROWER("fire thrower", 15, 25, 30, 5, false, getResources("gold", "100"), SoldierGuild.ARABIAN),
     ASSASSIN("assassin", 15, 15, 30, 0, false, getResources("gold", "60"), SoldierGuild.ARABIAN);
 
-    private String name;
-    private int speed;
-    private int attack;
-    private int defence;
-    private int range;
-    private boolean canUseLadder;
-    private ArrayList<Resource> price;
-    private SoldierGuild type;
+    String name;
+    int speed;
+    int attack;
+    int defence;
+    int range;
+    boolean canUseLadder;
+    ArrayList<Resource> price;
+    SoldierGuild type;
 
     SoldierType(String name, int speed, int attack, int defence, int range, boolean canUseLadder, ArrayList<Resource> price, SoldierGuild type) {
         this.name = name;
@@ -42,5 +43,14 @@ public enum SoldierType {
         this.canUseLadder = canUseLadder;
         this.price = price;
         this.type = type;
+    }
+
+    public static SoldierType getUnitByName(String name){
+        for (SoldierType unit: SoldierType.values()){
+            if (name.equalsIgnoreCase(unit.name)) {
+                return unit;
+            }
+        }
+        return null;
     }
 }

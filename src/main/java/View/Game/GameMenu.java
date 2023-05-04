@@ -5,6 +5,7 @@ import Controller.Controller;
 import Controller.GameMenuController;
 import Controller.MapMenuController;
 import Controller.BuildingMenuController;
+import Controller.UnitMenuController;
 import Model.Building.Building;
 import Model.Building.BuildingType;
 import Model.Building.Storage;
@@ -65,6 +66,12 @@ public class GameMenu {
                     }
                     else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_RESOURCES)) != null) {
                         GameMenuController.showResources();
+                    }
+                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.DROP_UNIT)) != null) {
+                        int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                        int count = Integer.parseInt(matcher.group("count"));
+                        String type = Controller.removeDoubleQuote(matcher.group("type"));
+                        UnitMenuController.dropUnit(x, y, count, type);
                     }
                     else {
                         output("Invalid command!");

@@ -15,13 +15,13 @@ public enum SiegeType {
     BATTERING_RAMS("battering ram", 8, 100, 150, 0, 4, getResources("gold", "200"));
 
 
-    private String name;
-    private int speed;
-    private int attack;
-    private int defence;
-    private int range;
-    private int engineersNeeded;
-    private ArrayList<Resource> price;
+    String name;
+    int speed;
+    int attack;
+    int defence;
+    int range;
+    int engineersNeeded;
+    ArrayList<Resource> price;
 
     SiegeType(String name, int speed, int attack, int defence, int range, int engineersNeeded, ArrayList<Resource> price) {
         this.name = name;
@@ -31,5 +31,14 @@ public enum SiegeType {
         this.range = range;
         this.engineersNeeded = engineersNeeded;
         this.price = price;
+    }
+
+    public static SiegeType getUnitByName(String name){
+        for (SiegeType unit: SiegeType.values()){
+            if (name.equalsIgnoreCase(unit.name)) {
+                return unit;
+            }
+        }
+        return null;
     }
 }
