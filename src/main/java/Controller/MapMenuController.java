@@ -3,7 +3,7 @@ package Controller;
 import Model.Building.*;
 import Model.Game;
 import Model.Government;
-import Model.Person;
+import Model.Person.Person;
 import Model.Resources.Resource;
 import Model.Tile;
 

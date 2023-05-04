@@ -51,7 +51,7 @@ public class WeaponMaker extends Building {
         output("What weapon do you want to buy? type it's name!");
         int counter = 1;
         for (Resource weapon : weapons.keySet()) {
-            output(counter + ": " + weapon.getResourceType().name);
+            output(counter + ") " + weapon.getResourceType().name);
             counter++;
         }
         String input = input();

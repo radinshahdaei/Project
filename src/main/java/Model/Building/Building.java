@@ -32,6 +32,12 @@ public class Building {
         ALL_BUILDINGS.put("wheat farmer", BuildingType.FACTORY);
         ALL_BUILDINGS.put("bakery", BuildingType.FACTORY);
         ALL_BUILDINGS.put("brewer", BuildingType.FACTORY);
+
+        ALL_BUILDINGS.put("armourer", BuildingType.WEAPON_MAKER);
+        ALL_BUILDINGS.put("tanner", BuildingType.WEAPON_MAKER);
+        ALL_BUILDINGS.put("fletcher", BuildingType.WEAPON_MAKER);
+        ALL_BUILDINGS.put("poleturner", BuildingType.WEAPON_MAKER);
+        ALL_BUILDINGS.put("blacksmith", BuildingType.WEAPON_MAKER);
     }
 
     private String name;

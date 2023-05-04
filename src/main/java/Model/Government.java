@@ -3,6 +3,7 @@ package Model;
 
 import Model.Building.Building;
 import Model.Resources.Resource;
+import Model.Person.Person;
 
 import java.util.ArrayList;
 
