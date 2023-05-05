@@ -63,10 +63,18 @@ public class Barracks extends Building {
                 break;
             }
         }
-        if (removeStorage(troop)) moveToCampfire(troop);
+        String countString;
+        int count;
+        output("How many of this troop do you want to buy?");
+        while (true) {
+            countString = input();
+            count = Integer.parseInt(countString);
+            if (count > 0) break;
+        }
+        if (removeStorage(troop, count)) moveToCampfire(troop, count);
     }
 
-    public boolean removeStorage(String troop) {
+    public boolean removeStorage(String troop, int count) {
         ArrayList<Resource> price = getPrice(troop, this.getName());
         Storage stockpile = (Storage) Game.currentGovernment.findBuildingByName("stockpile");
         Storage armoury = (Storage) Game.currentGovernment.findBuildingByName("armoury");
@@ -79,6 +87,7 @@ public class Barracks extends Building {
             return false;
         }
         for (Resource resource : price) {
+            resource.setCount(resource.getCount() * count);
             if (resource.getResourceType().getResourceModel().equals(ResourceModel.OTHER)) {
                 if (!stockpile.removeFromStorage(resource)) {
                     output("You don't have enough gold!");
@@ -124,18 +133,20 @@ public class Barracks extends Building {
         return null;
     }
 
-    public void moveToCampfire(String troop) {
+    public void moveToCampfire(String troop, int count) {
         Campfire campfire = (Campfire) Game.currentGovernment.findBuildingByName("campfire");
+        if (campfire == null) return;
         int x = campfire.getX();
         int y = campfire.getY();
         if (this.getName().equals("barracks") || this.getName().equals("mercenary post")) {
-            Soldier.createUnit(troop, x, y, Game.currentGovernment.getUser());
+            for (int i = 0; i < count; i++) Soldier.createUnit(troop, x, y, Game.currentGovernment.getUser());
         } else if (troop.equals("engineer")) {
-            Engineer.createUnit(x, y, Game.currentGovernment.getUser());
+            for (int i = 0; i < count; i++) Engineer.createUnit(x, y, Game.currentGovernment.getUser());
         } else if (troop.equals("tunneler")) {
-            Tunneler.createUnit(x, y, Game.currentGovernment.getUser());
+            for (int i = 0; i < count; i++) Tunneler.createUnit(x, y, Game.currentGovernment.getUser());
         } else if (troop.equals("ladderman")) {
-            Ladderman.createUnit(x, y, Game.currentGovernment.getUser());
+            for (int i = 0; i < count; i++) Ladderman.createUnit(x, y, Game.currentGovernment.getUser());
         }
+        output("Troops successfully bought!");
     }
 }
