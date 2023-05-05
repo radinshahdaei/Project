@@ -211,17 +211,20 @@ public class UnitMenuController {
             return;
         }
         ArrayList<Person> peopleInTile = GameMenuController.game.getMap().getTiles()[x][y].getPeople();
+        Building building = GameMenuController.game.getMap().getTiles()[x][y].getBuilding();
         for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
             if (militaryUnit.getRange() > 0 && checkInRange(militaryUnit, x, y)) {
                 for (Person person:peopleInTile) {
-                    if (person instanceof MilitaryUnit) {
+                    if (person instanceof MilitaryUnit && !person.getOwner().equals(militaryUnit.getOwner())) {
                         ((MilitaryUnit) person).reduceDefence(militaryUnit.getAttack());
                     }
                 }
-                //TODO reduce building HP too.
+                if (building != null && !building.getOwner().equals(militaryUnit.getOwner())) {
+                    building.reduceHP(militaryUnit.getAttack());
+                }
             }
         }
-        output("Archers who have the possible range attacked the enemies");
+        output("Archers who have the possible range attacked the enemies and buildings");
     }
 
     private static boolean checkInRange(MilitaryUnit militaryUnit, int x, int y) {
