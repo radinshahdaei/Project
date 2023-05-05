@@ -2,6 +2,7 @@ package Controller;
 
 
 import Model.Building.Building;
+import Model.Building.Campfire;
 import Model.Building.Storage.Storage;
 import Model.Game;
 import Model.Map;
@@ -10,6 +11,7 @@ import Model.Person.Military.MilitaryUnit;
 import Model.Person.Person;
 import Model.Resources.Resource;
 import Model.Tile;
+import View.Game.GameMenu;
 import View.Game.UnitMenu;
 
 
@@ -92,6 +94,10 @@ public class UnitMenuController {
     public static void selectUnit(int x, int y, String type) {
         if (checkSimpleErrorsOfSelectUnit(x, y, type)) return;
         UnitMenu.userUnitInTile = getUserUnitInTile(GameMenuController.game.getMap().getTiles()[x][y].getPeople(), type);
+        if (UnitMenu.userUnitInTile.size() == 0) {
+            output("There are no units that you can select(They may be on Patrol)");
+            return;
+        }
         UnitMenu unitMenu = new UnitMenu();
         unitMenu.run();
     }
@@ -99,7 +105,8 @@ public class UnitMenuController {
     private static ArrayList<MilitaryUnit> getUserUnitInTile(ArrayList<Person> game, String type) {
         ArrayList<MilitaryUnit> userUnits = new ArrayList<>();
         for (Person person : game) {
-            if (person.getOwner().equals(Game.currentGovernment.getUser()) && person.getName().equals(type)) {
+            if (person.getOwner().equals(Game.currentGovernment.getUser()) && person.getName().equals(type) &&
+                    !((MilitaryUnit) person).isOnPatrol()) {
                 userUnits.add((MilitaryUnit) person);
             }
         }
@@ -149,10 +156,127 @@ public class UnitMenuController {
         GameMenuController.game.getMap().setTiles(newTiles);
     }
 
+    public static void checkPatrols() {
+        Tile[][] tiles = GameMenuController.game.getMap().getTiles();
+        for (int i = 0 ; i < GameMenuController.mapSize ; i++) {
+            for (int j = 0 ; j < GameMenuController.mapSize ; j++) {
+                for (Person person:tiles[i][j].getPeople()) {
+                    if (person instanceof MilitaryUnit && ((MilitaryUnit) person).isOnPatrol()) {
+                        MilitaryUnit militaryUnit = (MilitaryUnit) person;
+                        if (militaryUnit.getEndPatrol().first == militaryUnit.getX() &&
+                                militaryUnit.getEndPatrol().second == militaryUnit.getY()) {
+                            militaryUnit.setDestinationY(militaryUnit.getStartPatrol().second);
+                            militaryUnit.setDestinationX(militaryUnit.getStartPatrol().first);
+                        }
+                        else if (militaryUnit.getStartPatrol().first == militaryUnit.getX() &&
+                                militaryUnit.getStartPatrol().second == militaryUnit.getY()) {
+                            militaryUnit.setDestinationY(militaryUnit.getEndPatrol().second);
+                            militaryUnit.setDestinationX(militaryUnit.getEndPatrol().first);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public static void moveUnit(int x, int y) {
+        if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
+            output("Invalid coordinates");
+            return;
+        }
         for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
             militaryUnit.setDestinationX(x);
             militaryUnit.setDestinationY(y);
         }
+    }
+
+    public static void setStatus(String status) {
+        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+            militaryUnit.setStatus(status);
+        }
+    }
+
+    public static void attackEnemy(int x, int y) {
+        if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
+            output("Invalid coordinates");
+            return;
+        }
+        moveUnit(x, y);
+        output("Your troop are moving towards the enemy");
+    }
+
+    public static void attackArcher(int x, int y) {
+        if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
+            output("Invalid coordinates");
+            return;
+        }
+        ArrayList<Person> peopleInTile = GameMenuController.game.getMap().getTiles()[x][y].getPeople();
+        Building building = GameMenuController.game.getMap().getTiles()[x][y].getBuilding();
+        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+            if (militaryUnit.getRange() > 0 && checkInRange(militaryUnit, x, y)) {
+                for (Person person:peopleInTile) {
+                    if (person instanceof MilitaryUnit && !person.getOwner().equals(militaryUnit.getOwner())) {
+                        ((MilitaryUnit) person).reduceDefence(militaryUnit.getAttack());
+                    }
+                }
+                if (building != null && !building.getOwner().equals(militaryUnit.getOwner())) {
+                    building.reduceHP(militaryUnit.getAttack());
+                }
+            }
+        }
+        output("Archers who have the possible range attacked the enemies and buildings");
+    }
+
+    private static boolean checkInRange(MilitaryUnit militaryUnit, int x, int y) {
+        int distance = (militaryUnit.getX() - x) * (militaryUnit.getX() - x) + (militaryUnit.getY() - y) * (militaryUnit.getY() - y);
+        return distance <= militaryUnit.getRange() * militaryUnit.getRange();
+    }
+
+    public static void disbandUnit() {
+        Campfire campfire = (Campfire) Game.currentGovernment.findBuildingByName("campfire");
+        int x = campfire.getX();
+        int y = campfire.getY();
+        moveUnit(x, y);
+        setStatus("standing");
+        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+            militaryUnit.setOnPatrol(false);
+        }
+    }
+
+    public static boolean patrolUnit(int x1, int x2, int y1, int y2) {
+        if (x1 >= GameMenuController.mapSize || y1 >= GameMenuController.mapSize) {
+            output("Invalid coordinates");
+            return false;
+        }
+        if (x2 >= GameMenuController.mapSize || y2 >= GameMenuController.mapSize) {
+            output("Invalid coordinates");
+            return false;
+        }
+        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+            militaryUnit.setOnPatrol(true);
+            militaryUnit.setStartPatrol(new Pair(x1, y1));
+            militaryUnit.setEndPatrol(new Pair(x2, y2));
+        }
+        moveUnit(x2, y2);
+        output("units in this unit started Patrolling");
+        return true;
+    }
+
+    public static void cancelPatrol(int x, int y) {
+        if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
+            output("Invalid coordinates");
+            return;
+        }
+        for (Person person: GameMenuController.game.getMap().getTiles()[x][y].getPeople()) {
+            if (person instanceof MilitaryUnit) {
+                MilitaryUnit militaryUnit = (MilitaryUnit) person;
+                if (militaryUnit.isOnPatrol()) {
+                    militaryUnit.setOnPatrol(false);
+                    militaryUnit.setDestinationX(militaryUnit.getX());
+                    militaryUnit.setDestinationY(militaryUnit.getY());
+                }
+            }
+        }
+        output("Canceled Patrol for all units in this tile");
     }
 }

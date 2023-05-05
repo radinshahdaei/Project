@@ -112,6 +112,10 @@ public class Building {
         return hp;
     }
 
+    public void reduceHP(int amount) {
+        this.hp -= amount;
+    }
+
     public String getName() {
         return name;
     }

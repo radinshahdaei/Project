@@ -10,6 +10,7 @@ public class GameMenuController {
     public static Game game;
     public static int mapSize;
     public static void nextTurn() {
+        UnitMenuController.checkPatrols();
         UnitMenuController.moveAllMilitaryUnits();
     }
     public static void showResources() {
