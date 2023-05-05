@@ -161,7 +161,7 @@ public class MilitaryUnit extends Person {
     }
 
     private boolean checkPassTile(Tile tile) {
-        if (tile.getBuilding() != null) {
+        if (tile.getBuilding() != null && tile.getBuilding().getName().equals("campfire")) {
             return false;
         }
         if (tile.getTexture().equals("Stone") || tile.getTexture().equals("Lake")) {

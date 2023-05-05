@@ -1,9 +1,11 @@
 package Model.Building.Barracks;
 
+import Controller.GameMenuController;
 import Model.Building.Building;
 import Model.Building.Campfire;
 import Model.Building.Storage.Storage;
 import Model.Game;
+import Model.Person.Military.MilitaryUnit;
 import Model.Person.Military.Soldier.Soldier;
 import Model.Person.Military.Soldier.SoldierType;
 import Model.Person.Military.Special.Engineer;
@@ -21,7 +23,7 @@ import static View.InputOutput.input;
 import static View.InputOutput.output;
 
 public class Barracks extends Building {
-    ArrayList<String> troops = new ArrayList<>();
+    ArrayList<String> troops;
 
     public Barracks(String name, int hp, int x, int y, ArrayList<Resource> price, User owner) {
         super(name, hp, x, y, 0, price, owner);
@@ -40,16 +42,16 @@ public class Barracks extends Building {
 
         if (barracks.equals("barracks")) {
             String[] array = {"archer", "crossbowman", "spearman", "pikeman", "maceman", "swordsman", "knight"};
-            this.troops = (ArrayList<String>) Arrays.asList(array);
+            this.troops = new ArrayList<>(Arrays.asList(array));
         } else if (barracks.equals("mercenary post")) {
             String[] array = {"arabian archer", "slave", "slinger", "horse archer", "arabian swordsman", "assassin", "fire thrower"};
-            this.troops = (ArrayList<String>) Arrays.asList(array);
+            this.troops = new ArrayList<>(Arrays.asList(array));
         } else if (barracks.equals("engineer guild")) {
             String[] array = {"engineer", "ladderman"};
-            this.troops = (ArrayList<String>) Arrays.asList(array);
+            this.troops = new ArrayList<>(Arrays.asList(array));
         } else if (barracks.equals("tunneler guild")) {
             String[] array = {"tunneler"};
-            this.troops = (ArrayList<String>) Arrays.asList(array);
+            this.troops = new ArrayList<>(Arrays.asList(array));
         }
     }
 
@@ -138,14 +140,11 @@ public class Barracks extends Building {
         if (campfire == null) return;
         int x = campfire.getX();
         int y = campfire.getY();
-        if (this.getName().equals("barracks") || this.getName().equals("mercenary post")) {
-            for (int i = 0; i < count; i++) Soldier.createUnit(troop, x, y, Game.currentGovernment.getUser());
-        } else if (troop.equals("engineer")) {
-            for (int i = 0; i < count; i++) Engineer.createUnit(x, y, Game.currentGovernment.getUser());
-        } else if (troop.equals("tunneler")) {
-            for (int i = 0; i < count; i++) Tunneler.createUnit(x, y, Game.currentGovernment.getUser());
-        } else if (troop.equals("ladderman")) {
-            for (int i = 0; i < count; i++) Ladderman.createUnit(x, y, Game.currentGovernment.getUser());
+        String type = MilitaryUnit.AllMilitaryUnits.get(troop);
+        for (int i = 0 ; i < count ; i++){
+            MilitaryUnit militaryUnit = MilitaryUnit.createUnits(troop, type, x, y, Game.currentGovernment.getUser());
+            Game.currentGovernment.getPeople().add(militaryUnit);
+            GameMenuController.game.getMap().getTiles()[x][y].getPeople().add(militaryUnit);
         }
         output("Troops successfully bought!");
     }

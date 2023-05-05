@@ -111,7 +111,7 @@ public class MapMenuController {
         output("x: " + tile.getX() + " , y: " + tile.getY());
         output("texture: " + tile.getTexture());
         if (tile.getBuilding() != null) output("Building: " + tile.getBuilding().getName());
-        else if (tile.getPeople().size() > 0) {
+        if (tile.getPeople().size() > 0) {
             int counter = 1;
             for (Person person:tile.getPeople()) {
                 output("Person " + counter + ": " + person.getName());

@@ -8,10 +8,12 @@ import Controller.BuildingMenuController;
 import Controller.UnitMenuController;
 import Model.Building.Building;
 import Model.Building.BuildingType;
-import Model.Building.Storage;
+import Model.Building.Storage.Storage;
 import Model.Game;
 import Model.Government;
 import Model.Map;
+import Model.Person.Person;
+import Model.Person.PersonType;
 import Model.Resources.Resource;
 import Model.Resources.ResourceType;
 import Model.User;
@@ -24,8 +26,8 @@ import java.util.regex.Matcher;
 import static View.InputOutput.input;
 import static View.InputOutput.output;
 public class GameMenu {
-    private static final int[] defaultXPositions = new int[5];
-    private static final int[] defaultYPositions = new int[5];
+    private static final int[] defaultXPositions = new int[20];
+    private static final int[] defaultYPositions = new int[20];
 
 
     public void run() {
@@ -160,24 +162,42 @@ public class GameMenu {
     }
     private static void valueDefaults() {
         int k = GameMenuController.mapSize;
-        defaultXPositions[0] = 0;
-        defaultXPositions[1] = k - 1;
-        defaultXPositions[2] = 0;
-        defaultXPositions[3] = k - 1;
-        defaultXPositions[4] = k / 2;
-        defaultYPositions[0] = 0;
-        defaultYPositions[1] = 0;
-        defaultYPositions[2] = k - 1;
-        defaultYPositions[3] = k - 1;
-        defaultYPositions[4] = k / 2;
+        defaultXPositions[0] = 0; defaultYPositions[0] = 0;
+        defaultXPositions[1] = 2; defaultYPositions[1] = 0;
+        defaultXPositions[2] = 0; defaultYPositions[2] = 2;
+        defaultXPositions[3] = k - 1; defaultYPositions[3] = 0;
+        defaultXPositions[4] = k - 3; defaultYPositions[4] = 0;
+        defaultXPositions[5] = k - 1; defaultYPositions[5] = 2;
+        defaultXPositions[6] = 0; defaultYPositions[6] = k - 1;
+        defaultXPositions[7] = 0; defaultYPositions[7] = k - 3;
+        defaultXPositions[8] = 2; defaultYPositions[8] = k - 1;
+        defaultXPositions[9] = k - 1; defaultYPositions[9] = k - 1;
+        defaultXPositions[10] = k - 3; defaultYPositions[10] = k - 1;
+        defaultXPositions[11] = k - 1; defaultYPositions[11] = k - 3;
+        defaultXPositions[12] = k / 2; defaultYPositions[12] = k / 2;
+        defaultXPositions[13] = k / 2; defaultYPositions[13] = k / 2 - 2;
+        defaultXPositions[14] = k / 2 - 2; defaultYPositions[14] = k / 2;
     }
     private void giveDefaultBuildings(Government government, int counter) {
         BuildingType buildingType = Building.ALL_BUILDINGS.get("stockpile");
-        Building building = Building.createBuildings("stockpile", defaultXPositions[counter],
-                defaultYPositions[counter], buildingType, government.getUser());
+        Building building = Building.createBuildings("stockpile", defaultXPositions[3 * counter],
+                defaultYPositions[3 * counter], buildingType, government.getUser());
         government.getBuildings().add(building);
-        GameMenuController.game.getMap().getTiles()[defaultXPositions[counter]][defaultYPositions[counter]].
+        GameMenuController.game.getMap().getTiles()[defaultXPositions[3 * counter]][defaultYPositions[3 * counter]].
                 setBuilding(building);
+        buildingType = Building.ALL_BUILDINGS.get("campfire");
+        building = Building.createBuildings("campfire", defaultXPositions[3 * counter + 1],
+                defaultYPositions[3 * counter + 1], buildingType, government.getUser());
+        government.getBuildings().add(building);
+        GameMenuController.game.getMap().getTiles()[defaultXPositions[3 * counter + 1]][defaultYPositions[3 * counter + 1]].
+                setBuilding(building);
+        buildingType = Building.ALL_BUILDINGS.get("keep");
+        building = Building.createBuildings("keep", defaultXPositions[3 * counter + 2],
+                defaultYPositions[3 * counter + 2], buildingType, government.getUser());
+        government.getBuildings().add(building);
+        GameMenuController.game.getMap().getTiles()[defaultXPositions[3 * counter + 2]][defaultYPositions[3 * counter + 2]].
+                setBuilding(building);
+        giveDefaultPeople(government);
     }
     private void giveDefaultResources(Government government, Storage storage) {
         Resource resource;
@@ -189,5 +209,14 @@ public class GameMenu {
         storage.addToStorage(resource);
         resource = Resource.createResource(ResourceType.getResourceByName("gold"), 10);
         storage.addToStorage(resource);
+    }
+
+    private void giveDefaultPeople(Government government) {
+        government.setPopulation(10);
+        Person person;
+        for (int i = 0 ; i < 10 ; i++) {
+            person = new Person(null, PersonType.PEASANT, government.getUser());
+            government.getPeople().add(person);
+        }
     }
 }

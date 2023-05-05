@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Building.Barracks.Barracks;
 import Model.Building.Building;
 import Model.Building.BuildingType;
 import Model.Building.Storage.Storage;
@@ -84,8 +85,12 @@ public class BuildingMenuController {
     public static void selectBuilding(int x, int y) {
         if (checkSimpleErrorsOfSelectBuilding(x, y)) return;
         Building building = GameMenuController.game.getMap().getTiles()[x][y].getBuilding();
+        output("remaining HP: " + building.getHp());
         if (building instanceof WeaponMaker) {
             ((WeaponMaker) building).buyWeapon();
+        }
+        if (building instanceof Barracks) {
+            ((Barracks) building).buyTroop();
         }
     }
 
