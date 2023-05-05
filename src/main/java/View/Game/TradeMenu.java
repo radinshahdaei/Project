@@ -1,5 +1,6 @@
 package View.Game;
 
+import Controller.GovernmentMenuController;
 import Controller.TradeMenuController;
 import Model.Trade;
 import View.Commands.TradeMenuCommands;
@@ -24,7 +25,8 @@ public class TradeMenu {
                 String message = removeDoubleQuote(matcher.group("message"));
                 String toUsername = removeDoubleQuote(matcher.group("username"));
 
-                Trade current = new Trade(resourceType , resourceAmount , price , message , findUserByUsername(toUsername) , currentUser);
+                Trade current = new Trade(resourceType , resourceAmount , price , message ,
+                        GovernmentMenuController.getGovernmentByUser(findUserByUsername(toUsername)) , GovernmentMenuController.getCurrentGovernment());
                 TradeMenuController.addTrade(current);
             }
             else if((matcher = TradeMenuCommands.getMatcher(command , TradeMenuCommands.LIST)) != null) {

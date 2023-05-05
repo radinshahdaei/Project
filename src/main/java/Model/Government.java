@@ -4,6 +4,7 @@ package Model;
 import Model.Building.Building;
 import Model.Resources.Resource;
 import Model.Person.Person;
+import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
 
@@ -12,12 +13,59 @@ public class Government {
     private int popularity;
     private int foodRate;
     private int taxRate;
+    int religion;
     private int fearRate;
     private User user;
     private ArrayList<Building> buildings = new ArrayList<>();
     private ArrayList<Person> people = new ArrayList<>();
-    //private ArrayList<Resource> resources = new ArrayList<>();
+    public static int[] taxRateEffect = {7 , 5 , 3 , 1 , -2 , -4 , -6 , -8 , -12 , -16 , -20 , -24};
+
+    public ArrayList<Resource> resources = new ArrayList<>();
+    public int coins;
+    public ArrayList<Trade> tradeList = new ArrayList<>();
+    public int lastTradeIndex;
+
     //private ArrayList<PatrollingUnit> patrollingUnits = new ArrayList<>();
+    public Government(User user) {
+        this.population = population = 0;
+        this.popularity = popularity = 0;
+        this.foodRate = foodRate = -2;
+        this.taxRate = taxRate = 0;
+        this.religion = religion = 0;
+        this.fearRate = fearRate = 0;
+        this.user = user;
+        this.coins = 0;
+        this.lastTradeIndex = -1;
+    }
+    public void initializeResources() {
+        for (ResourceType resourceType : ResourceType.values()) {
+            Resource resource = new Resource(resourceType , 0);
+            this.resources.add(resource);
+        }
+    }
+    public Resource getResource(ResourceType resourceType) {
+        for (Resource resource : this.resources) {
+            if(resource.getResourceType().equals(resourceType))
+                return resource;
+        }
+        return null;
+    }
+    public void addResource(ResourceType resourceType , int amount) {
+        for (Resource resource : this.resources) {
+            if(resource.getResourceType().equals(resourceType)) {
+                resource.addCount(amount);
+                return ;
+            }
+        }
+    }
+    public void removeResource(ResourceType resourceType , int amount) {
+        for (Resource resource : this.resources) {
+            if(resource.getResourceType().equals(resourceType)) {
+                resource.addCount(amount);
+                return ;
+            }
+        }
+    }
 
     public Building findBuildingByName(String name) {
         for (Building building : buildings) {
@@ -27,62 +75,63 @@ public class Government {
         }
         return null;
     }
-
-
-    public void calculatePopularity() {
-
-    }
-
     public void runPatrols() {
     }
 
-    public Government(User user) {
-        this.population = population = 0;
-        this.popularity = popularity = 0;
-        this.foodRate = foodRate = -2;
-        this.taxRate = taxRate = 0;
-        this.fearRate = fearRate = 0;
-        this.user = user;
-    }
-
     public int getPopulation() {
-        return population;
-    }
-
-    public void setPopulation(int population) {
-        this.population = population;
+        return this.population;
     }
 
     public int getPopularity() {
-        return popularity;
+        this.updatePopularity();
+        return this.popularity;
     }
-
-    public void setPopularity(int popularity) {
-        this.popularity = popularity;
-    }
-
     public int getFoodRate() {
-        return foodRate;
+        return this.foodRate;
+    }
+    public int getTaxRate() {
+        return this.taxRate;
+    }
+    public int getFearRate() {
+        return this.fearRate;
+    }
+
+    public int getFoodEffect() {
+        return (this.foodRate == -2 ? -8 : this.foodRate == -1 ? -4 : this.foodRate == 1 ? 4 : this.foodRate == 2 ? 8 : 0);
+    }
+    public int getTaxEffect() {
+        return taxRateEffect[this.taxRate + 3];
+    }
+    public int getReligionEffect() {
+        return this.religion  * 2;
+    }
+    public int getFearEffect() {
+        return this.fearRate * -1;
+    }
+    public void updatePopularity() {
+        this.popularity = this.getFoodEffect() + this.getTaxEffect() + this.getReligionEffect() + this.getFearEffect();
+    }
+    public void setPopulation(int population) {
+        this.population = population;
+        this.updatePopularity();
     }
 
     public void setFoodRate(int foodRate) {
         this.foodRate = foodRate;
-    }
-
-    public int getTaxRate() {
-        return taxRate;
+        this.updatePopularity();
     }
 
     public void setTaxRate(int taxRate) {
         this.taxRate = taxRate;
-    }
-
-    public int getFearRate() {
-        return fearRate;
+        this.updatePopularity();
     }
 
     public void setFearRate(int fearRate) {
         this.fearRate = fearRate;
+        this.updatePopularity();
+    }
+    public void addTrade(Trade trade) {
+        this.tradeList.add(trade);
     }
 
     public User getUser() {
@@ -92,7 +141,6 @@ public class Government {
     public void setUser(User user) {
         this.user = user;
     }
-
 
     public ArrayList<Building> getBuildings() {
         return buildings;
@@ -109,12 +157,4 @@ public class Government {
     public void setPeople(ArrayList<Person> people) {
         this.people = people;
     }
-
-//    public ArrayList<Resource> getResources() {
-//        return resources;
-//    }
-
-//    public void setResources(ArrayList<Resource> resources) {
-//        this.resources = resources;
-//    }
 }
