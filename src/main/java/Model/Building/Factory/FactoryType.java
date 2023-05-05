@@ -21,7 +21,8 @@ public enum FactoryType {
     WHEAT_FARMER("wheat farmer", 100, 1, getResources("wood", "15"), createResource(ResourceType.WHEAT, 1), null),
     MILL("mill", 100, 3, getResources("wood", "20"), createResource(ResourceType.FLOUR, 1), createResource(ResourceType.WHEAT, 1)),
     BAKERY("bakery", 100, 1, getResources("wood", "10"), createResource(ResourceType.BREAD, 1), createResource(ResourceType.FLOUR, 1)),
-    BREWER("brewer", 100, 1, getResources("wood", "10"), createResource(ResourceType.ALE, 1), createResource(ResourceType.HOPS, 1));
+    BREWER("brewer", 100, 1, getResources("wood", "10"), createResource(ResourceType.ALE, 1), createResource(ResourceType.HOPS, 1)),
+    INN("inn", 100, 1, getResources("wood", "20", "gold", "100"), null, createResource(ResourceType.ALE, 1));
 
     String name;
     int hp;
@@ -29,6 +30,7 @@ public enum FactoryType {
     ArrayList<Resource> price = new ArrayList<>();
     Resource produced;
     Resource consumed;
+
     FactoryType(String name, int hp, int workers, ArrayList<Resource> price, Resource produced, Resource consumed) {
         this.name = name;
         this.hp = hp;

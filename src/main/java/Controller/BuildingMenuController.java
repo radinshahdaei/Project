@@ -3,10 +3,12 @@ package Controller;
 import Model.Building.Barracks.Barracks;
 import Model.Building.Building;
 import Model.Building.BuildingType;
+import Model.Building.Church;
 import Model.Building.Storage.Storage;
 import Model.Building.WeaponMaker.WeaponMaker;
 import Model.Game;
 import Model.Resources.Resource;
+import View.Game.GameMenu;
 
 import static View.InputOutput.output;
 
@@ -23,16 +25,20 @@ public class BuildingMenuController {
         reduceRecommendedResources(building);
         Game.currentGovernment.getBuildings().add(building);
         GameMenuController.game.getMap().getTiles()[x][y].setBuilding(building);
+        if (type.equals("inn")) Game.currentGovernment.addInnRate(5);
+        if (type.equals("church")) Game.currentGovernment.addChurch(10);
+        if (type.equals("cathedral")) Game.currentGovernment.addChurch(20);
+        if (type.equals("hovel")) GameMenu.addPopulation(Game.currentGovernment, 8);
         output("building successfully made");
     }
 
     private static void reduceRecommendedResources(Building building) {
-        for (Resource resource: building.getPrice()) {
+        for (Resource resource : building.getPrice()) {
             int reduced = 0;
-            for (Building checkBuilding: Game.currentGovernment.getBuildings()) {
+            for (Building checkBuilding : Game.currentGovernment.getBuildings()) {
                 if (checkBuilding.getName().equals("stockpile")) {
                     Storage storage = (Storage) checkBuilding;
-                    for (Resource stockResource: storage.getStorage()) {
+                    for (Resource stockResource : storage.getStorage()) {
                         if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
                             int temp = reduced;
                             reduced += Math.min(resource.getCount() - reduced, stockResource.getCount());
@@ -47,12 +53,12 @@ public class BuildingMenuController {
     }
 
     private static boolean checkIfEnoughResourcesExist(Building building) {
-        for (Resource resource: building.getPrice()) {
+        for (Resource resource : building.getPrice()) {
             int amount = 0;
-            for (Building checkBuilding: Game.currentGovernment.getBuildings()) {
+            for (Building checkBuilding : Game.currentGovernment.getBuildings()) {
                 if (checkBuilding.getName().equals("stockpile")) {
                     Storage storage = (Storage) checkBuilding;
-                    for (Resource stockResource: storage.getStorage()) {
+                    for (Resource stockResource : storage.getStorage()) {
                         if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
                             amount += stockResource.getCount();
                         }
@@ -82,6 +88,7 @@ public class BuildingMenuController {
         }
         return false;
     }
+
     public static void selectBuilding(int x, int y) {
         if (checkSimpleErrorsOfSelectBuilding(x, y)) return;
         Building building = GameMenuController.game.getMap().getTiles()[x][y].getBuilding();
@@ -91,6 +98,9 @@ public class BuildingMenuController {
         }
         if (building instanceof Barracks) {
             ((Barracks) building).buyTroop();
+        }
+        if (building instanceof Church && building.getName().equals("cathedral")) {
+            ((Church) building).buyMonk();
         }
     }
 
@@ -105,7 +115,7 @@ public class BuildingMenuController {
             return true;
         }
         boolean flag = false;
-        for (Building checkBuilding:Game.currentGovernment.getBuildings()) {
+        for (Building checkBuilding : Game.currentGovernment.getBuildings()) {
             if (checkBuilding.equals(building)) {
                 flag = true;
                 break;

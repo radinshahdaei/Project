@@ -39,7 +39,7 @@ public class Factory extends Building {
             if (storage == null) return;
             storage.removeFromStorage(consumed);
         }
-
+        if (produced == null) return;
         ResourceModel resourceModel = produced.getResourceType().resourceModel;
         String storageName = getStorageName(resourceModel);
         Storage storage = (Storage) Game.currentGovernment.findBuildingByName(storageName);

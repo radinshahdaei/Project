@@ -37,6 +37,7 @@ public class Building {
         ALL_BUILDINGS.put("wheat farmer", BuildingType.FACTORY);
         ALL_BUILDINGS.put("bakery", BuildingType.FACTORY);
         ALL_BUILDINGS.put("brewer", BuildingType.FACTORY);
+        ALL_BUILDINGS.put("inn", BuildingType.FACTORY);
 
         ALL_BUILDINGS.put("armourer", BuildingType.WEAPON_MAKER);
         ALL_BUILDINGS.put("tanner", BuildingType.WEAPON_MAKER);
@@ -52,8 +53,12 @@ public class Building {
         ALL_BUILDINGS.put("engineer guild", BuildingType.BARRACKS);
         ALL_BUILDINGS.put("tunneler guild", BuildingType.BARRACKS);
 
-        ALL_BUILDINGS.put("keep",BuildingType.SPECIAL);
-        ALL_BUILDINGS.put("campfire",BuildingType.SPECIAL);
+        ALL_BUILDINGS.put("keep", BuildingType.SPECIAL);
+        ALL_BUILDINGS.put("hovel", BuildingType.SPECIAL);
+        ALL_BUILDINGS.put("campfire", BuildingType.SPECIAL);
+        ALL_BUILDINGS.put("church", BuildingType.SPECIAL);
+        ALL_BUILDINGS.put("cathedral", BuildingType.SPECIAL);
+
     }
 
     private String name;
@@ -88,9 +93,13 @@ public class Building {
         } else if (buildingType.equals(BuildingType.BARRACKS)) {
             building = Barracks.createBuilding(name, x, y, owner);
         } else if (name.equals("keep")) {
-            building = Keep.createBuilding(x,y,owner);
+            building = Keep.createBuilding(x, y, owner);
+        } else if (name.equals("hovel")) {
+            building = Hovel.createBuilding(x, y, owner);
         } else if (name.equals("campfire")) {
-            building = Campfire.createBuilding(x,y,owner);
+            building = Campfire.createBuilding(x, y, owner);
+        } else if (name.equals("church") || name.equals("cathedral")) {
+            building = Church.createBuilding(name, x, y, owner);
         }
         return building;
     }
