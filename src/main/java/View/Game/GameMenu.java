@@ -85,6 +85,10 @@ public class GameMenu {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                         MapMenuController.showDetails(x , y);
                     }
+                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CANCEL_PATROL)) != null) {
+                        int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                        UnitMenuController.cancelPatrol(x, y);
+                    }
                     else {
                         output("Invalid command!");
                     }

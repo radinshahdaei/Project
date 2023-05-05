@@ -54,7 +54,10 @@ public class MilitaryUnit extends Person {
     private int defence;
     private int range;
     private ArrayList<Resource> price;
-
+    private String status;
+    private boolean onPatrol;
+    private Pair startPatrol;
+    private Pair endPatrol;
     boolean[][] ableToPass = new boolean[GameMenuController.mapSize][GameMenuController.mapSize];
 
     public MilitaryUnit(String name, int x, int y, int speed, int attack, int defence, int range, ArrayList<Resource> price, User owner) {
@@ -68,6 +71,8 @@ public class MilitaryUnit extends Person {
         this.defence = defence;
         this.range = range;
         this.price = price;
+        this.status = "standing";
+        this.onPatrol = false;
     }
 
     public static MilitaryUnit createUnits(String name, String type, int x, int y, User owner) {
@@ -138,8 +143,52 @@ public class MilitaryUnit extends Person {
         return range;
     }
 
+    public boolean isOnPatrol() {
+        return onPatrol;
+    }
+
+    public void setOnPatrol(boolean onPatrol) {
+        this.onPatrol = onPatrol;
+    }
+
+    public Pair getStartPatrol() {
+        return startPatrol;
+    }
+
+    public void setStartPatrol(Pair startPatrol) {
+        this.startPatrol = startPatrol;
+    }
+
+    public Pair getEndPatrol() {
+        return endPatrol;
+    }
+
+    public void setEndPatrol(Pair endPatrol) {
+        this.endPatrol = endPatrol;
+    }
+
     public ArrayList<Resource> getPrice() {
         return price;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public void setDefence(int defence) {
+        this.defence = defence;
+    }
+
+    public void reduceDefence(int amount) {
+        this.defence -= amount;
     }
 
     public Pair move() {
