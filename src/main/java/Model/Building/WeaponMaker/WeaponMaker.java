@@ -52,6 +52,7 @@ public class WeaponMaker extends Building {
             return;
         }
         armoury.addToStorage(weapon);
+        output("Weapon bought successfully!");
     }
 
     public Resource printWeapons() {
