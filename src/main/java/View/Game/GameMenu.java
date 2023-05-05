@@ -73,6 +73,11 @@ public class GameMenu {
                         String type = Controller.removeDoubleQuote(matcher.group("type"));
                         UnitMenuController.dropUnit(x, y, count, type);
                     }
+                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SELECT_UNIT)) != null) {
+                        int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                        String type = Controller.removeDoubleQuote(matcher.group("type"));
+                        UnitMenuController.selectUnit(x, y, type);
+                    }
                     else {
                         output("Invalid command!");
                     }

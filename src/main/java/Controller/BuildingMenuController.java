@@ -3,6 +3,7 @@ package Controller;
 import Model.Building.Building;
 import Model.Building.BuildingType;
 import Model.Building.Storage;
+import Model.Building.WeaponMaker;
 import Model.Game;
 import Model.Resources.Resource;
 
@@ -82,7 +83,10 @@ public class BuildingMenuController {
     }
     public static void selectBuilding(int x, int y) {
         if (checkSimpleErrorsOfSelectBuilding(x, y)) return;
-        output("Selection successful");
+        Building building = GameMenuController.game.getMap().getTiles()[x][y].getBuilding();
+        if (building instanceof WeaponMaker) {
+            ((WeaponMaker) building).buyWeapon();
+        }
     }
 
     private static boolean checkSimpleErrorsOfSelectBuilding(int x, int y) {

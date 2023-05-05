@@ -29,14 +29,12 @@ public class WeaponMaker extends Building {
 
     public void buyWeapon() {
         Resource weapon;
-        while (true) {
-            weapon = printWeapons();
-            if (weapon == null) {
-                output("You can't buy this weapon!");
-            } else {
-                break;
-            }
+        weapon = printWeapons();
+        if (weapon == null) {
+            output("Cancelled");
+            return;
         }
+        if (isSure()) return;
         Resource price = weapons.get(weapon);
         Storage stockpile = (Storage) Game.currentGovernment.findBuildingByName("stockpile");
         Storage armoury = (Storage) Game.currentGovernment.findBuildingByName("armoury");
@@ -49,22 +47,43 @@ public class WeaponMaker extends Building {
             return;
         }
         armoury.addToStorage(weapon);
+        output("Weapon added to your armoury");
+    }
+
+    private static boolean isSure() {
+        output("Are you Sure?(Y/N)");
+        String input = input();
+        while (true) {
+            if (input.equals("N")) {
+                output("Exited Weapon Maker!!!");
+                return true;
+            }
+            if (input.equals("Y")) {
+                break;
+            }
+            output("Please enter Y or N!");
+            input = input();
+        }
+        return false;
     }
 
     public Resource printWeapons() {
         output("What weapon do you want to buy? type it's name!");
         int counter = 1;
         for (Resource weapon : weapons.keySet()) {
-            output(counter + ") " + weapon.getResourceType().name);
+            output(counter + ") "+ weapon.getResourceType().name);
             counter++;
         }
-        String input = input();
-        for (Resource weapon : weapons.keySet()) {
-            if (weapon.getResourceType().name.equals(input)) {
-                return weapon;
+        while (true){
+            String input = input();
+            if (input.equals("cancel")) return null;
+            for (Resource weapon : weapons.keySet()) {
+                if (weapon.getResourceType().name.equals(input)) {
+                    return weapon;
+                }
             }
+            output("Invalid weapon name");
         }
-        return null;
     }
 
 }

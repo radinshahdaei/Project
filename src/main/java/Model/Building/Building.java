@@ -16,7 +16,7 @@ public class Building {
         ALL_BUILDINGS.put("square tower", BuildingType.DEFENSIVE_BUILDING);
         ALL_BUILDINGS.put("round tower", BuildingType.DEFENSIVE_BUILDING);
 
-        ALL_BUILDINGS.put("armory", BuildingType.STORAGE);
+        ALL_BUILDINGS.put("armoury", BuildingType.STORAGE);
         ALL_BUILDINGS.put("granary", BuildingType.STORAGE);
         ALL_BUILDINGS.put("stockpile", BuildingType.STORAGE);
         ALL_BUILDINGS.put("stable", BuildingType.STORAGE);

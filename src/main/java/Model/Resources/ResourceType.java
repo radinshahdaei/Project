@@ -20,8 +20,8 @@ public enum ResourceType {
     PIKE("pike", ResourceModel.WEAPON),
     MACE("mace", ResourceModel.WEAPON),
     SWORD("sword", ResourceModel.WEAPON),
-    LEATHER_ARMOR("leather armor", ResourceModel.WEAPON),
-    METAL_ARMOR("metal armor", ResourceModel.WEAPON),
+    LEATHER_ARMOR("leather armour", ResourceModel.WEAPON),
+    METAL_ARMOR("metal armour", ResourceModel.WEAPON),
     COW("cow", ResourceModel.OTHER),
     HORSE("horse", ResourceModel.HORSE);
 

@@ -5,8 +5,11 @@ import Model.Building.Building;
 import Model.Building.Storage;
 import Model.Game;
 import Model.Person.Military.MilitaryUnit;
+import Model.Person.Person;
 import Model.Resources.Resource;
 
+
+import java.util.ArrayList;
 
 import static View.InputOutput.output;
 
@@ -80,5 +83,34 @@ public class UnitMenuController {
                 if (reduced == resource.getCount() * count) break;
             }
         }
+    }
+
+    public static void selectUnit(int x, int y, String type) {
+        if (checkSimpleErrorsOfSelectUnit(x, y, type)) return;
+        ArrayList<Person> userUnitInTile = getUserUnitInTile(GameMenuController.game.getMap().getTiles()[x][y].getPeople(), type);
+        output("Selection successful");
+    }
+
+    private static ArrayList<Person> getUserUnitInTile(ArrayList<Person> game, String type) {
+        ArrayList<Person> userUnits = new ArrayList<>();
+        for (Person person : game) {
+            if (person.getOwner().equals(Game.currentGovernment.getUser()) && person.getName().equals(type)) {
+                userUnits.add(person);
+            }
+        }
+        return userUnits;
+    }
+
+    private static boolean checkSimpleErrorsOfSelectUnit(int x, int y, String type) {
+        if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
+            output("Invalid coordinates");
+            return true;
+        }
+        ArrayList<Person> units = getUserUnitInTile(GameMenuController.game.getMap().getTiles()[x][y].getPeople(), type);
+        if (units.size() == 0) {
+            output("You do not have any units of this type in this tile");
+            return true;
+        }
+        return false;
     }
 }
