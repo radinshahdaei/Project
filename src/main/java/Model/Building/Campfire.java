@@ -7,7 +7,7 @@ public class Campfire extends Building {
         super("campfire", 500, x, y, 0, null, owner);
     }
 
-    public Building createCampfire(int x, int y, User owner) {
+    public static Building createBuilding(int x, int y, User owner) {
         return new Campfire(x, y, owner);
     }
 }

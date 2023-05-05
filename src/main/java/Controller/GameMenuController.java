@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.Building.Building;
-import Model.Building.Storage;
+import Model.Building.Storage.Storage;
 import Model.Game;
 import Model.Resources.Resource;
 

@@ -2,8 +2,8 @@ package Controller;
 
 import Model.Building.Building;
 import Model.Building.BuildingType;
-import Model.Building.Storage;
-import Model.Building.WeaponMaker;
+import Model.Building.Storage.Storage;
+import Model.Building.WeaponMaker.WeaponMaker;
 import Model.Game;
 import Model.Resources.Resource;
 

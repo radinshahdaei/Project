@@ -1,5 +1,6 @@
 package Model.Building;
 
+import Model.Building.Barracks.Barracks;
 import Model.Building.DeffensiveBuilding.DefensiveBuilding;
 import Model.Building.Factory.Factory;
 import Model.Building.Storage.Storage;
@@ -50,6 +51,9 @@ public class Building {
         ALL_BUILDINGS.put("mercenary post", BuildingType.BARRACKS);
         ALL_BUILDINGS.put("engineer guild", BuildingType.BARRACKS);
         ALL_BUILDINGS.put("tunneler guild", BuildingType.BARRACKS);
+
+        ALL_BUILDINGS.put("keep",BuildingType.SPECIAL);
+        ALL_BUILDINGS.put("campfire",BuildingType.SPECIAL);
     }
 
     private String name;
@@ -81,6 +85,12 @@ public class Building {
             building = Storage.createBuilding(name, x, y, owner);
         } else if (buildingType.equals(BuildingType.WEAPON_MAKER)) {
             building = WeaponMaker.createBuilding(name, x, y, owner);
+        } else if (buildingType.equals(BuildingType.BARRACKS)) {
+            building = Barracks.createBuilding(name, x, y, owner);
+        } else if (name.equals("keep")) {
+            building = Keep.createBuilding(x,y,owner);
+        } else if (name.equals("campfire")) {
+            building = Campfire.createBuilding(x,y,owner);
         }
         return building;
     }
