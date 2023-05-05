@@ -16,7 +16,7 @@ public class Building {
         ALL_BUILDINGS.put("square tower", BuildingType.DEFENSIVE_BUILDING);
         ALL_BUILDINGS.put("round tower", BuildingType.DEFENSIVE_BUILDING);
 
-        ALL_BUILDINGS.put("armory", BuildingType.STORAGE);
+        ALL_BUILDINGS.put("armoury", BuildingType.STORAGE);
         ALL_BUILDINGS.put("granary", BuildingType.STORAGE);
         ALL_BUILDINGS.put("stockpile", BuildingType.STORAGE);
         ALL_BUILDINGS.put("stable", BuildingType.STORAGE);
@@ -38,6 +38,9 @@ public class Building {
         ALL_BUILDINGS.put("fletcher", BuildingType.WEAPON_MAKER);
         ALL_BUILDINGS.put("poleturner", BuildingType.WEAPON_MAKER);
         ALL_BUILDINGS.put("blacksmith", BuildingType.WEAPON_MAKER);
+
+        ALL_BUILDINGS.put("high wall", BuildingType.WALL);
+        ALL_BUILDINGS.put("low wall", BuildingType.WALL);
     }
 
     private String name;
@@ -59,6 +62,20 @@ public class Building {
         this.owner = owner;
     }
 
+    public static Building createBuildings(String name, int x, int y, BuildingType buildingType, User owner) {
+        Building building = null;
+        if (buildingType.equals(BuildingType.DEFENSIVE_BUILDING)) {
+            building = DefensiveBuilding.createBuilding(name, x, y, owner);
+        } else if (buildingType.equals(BuildingType.FACTORY)) {
+            building = Factory.createBuilding(name, x, y, owner);
+        } else if (buildingType.equals(BuildingType.STORAGE)) {
+            building = Storage.createBuilding(name, x, y, owner);
+        } else if (buildingType.equals(BuildingType.WEAPON_MAKER)) {
+            building = WeaponMaker.createBuilding(name, x, y, owner);
+        }
+        return building;
+    }
+
     public int getWorkers() {
         return workers;
     }
@@ -73,24 +90,6 @@ public class Building {
 
     public ArrayList<Resource> getPrice() {
         return price;
-    }
-
-
-    public static Building createBuildings(String name, int x, int y, BuildingType buildingType, User owner) {
-        Building building = null;
-        if (buildingType.equals(BuildingType.DEFENSIVE_BUILDING)) {
-            building = DefensiveBuilding.createBuilding(name, x, y, owner);
-        }
-        else if (buildingType.equals(BuildingType.FACTORY)) {
-            building = Factory.createBuilding(name, x, y, owner);
-        }
-        else if (buildingType.equals(BuildingType.STORAGE)) {
-            building = Storage.createBuilding(name, x, y, owner);
-        }
-        else if (buildingType.equals(BuildingType.WEAPON_MAKER)) {
-            building = WeaponMaker.createBuilding(name, x, y, owner);
-        }
-        return building;
     }
 
     public User getOwner() {
