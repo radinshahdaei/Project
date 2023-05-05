@@ -3,6 +3,7 @@ package Controller;
 import Model.Building.*;
 import Model.Game;
 import Model.Government;
+import Model.Person.Military.MilitaryUnit;
 import Model.Person.Person;
 import Model.Resources.Resource;
 import Model.Tile;
@@ -114,7 +115,8 @@ public class MapMenuController {
             int counter = 1;
             for (Person person:tile.getPeople()) {
                 output("Person " + counter + ": " + person.getName());
+                counter++;
             }
-        };
+        }
     }
 }

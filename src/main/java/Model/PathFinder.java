@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.GameMenuController;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -22,8 +24,8 @@ public class PathFinder {
         this.distance = new int[mapSize][mapSize];
         this.parent = new Pair[mapSize][mapSize];
 
-        for (int i = 0; i < 10; ++i) {
-            for (int j = 0; j < 10; ++j) {
+        for (int i = 0; i < GameMenuController.mapSize; ++i) {
+            for (int j = 0; j < GameMenuController.mapSize; ++j) {
                 this.distance[i][j] = ((i == x1 && j == y1) ? 0 : 1000000);
                 this.parent[i][j] = new Pair(-1, -1);
             }
@@ -95,20 +97,3 @@ public class PathFinder {
     }
 }
 
-class Pair {
-    public int first , second;
-
-    public Pair(int first , int second) {
-        this.first = first;
-        this.second = second;
-    }
-
-    public void set(int x , int y) {
-        this.first = x;
-        this.second = y;
-    }
-
-    public boolean check() {
-        return (this.first == -1 || this.second == -1);
-    }
-}

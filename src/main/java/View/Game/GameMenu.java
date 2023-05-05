@@ -16,6 +16,7 @@ import Model.Resources.Resource;
 import Model.Resources.ResourceType;
 import Model.User;
 import View.Commands.GameMenuCommands;
+import View.Commands.MapMenuCommands;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -77,6 +78,10 @@ public class GameMenu {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                         String type = Controller.removeDoubleQuote(matcher.group("type"));
                         UnitMenuController.selectUnit(x, y, type);
+                    }
+                    else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SHOW_DETAILS)) != null) {
+                        int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                        MapMenuController.showDetails(x , y);
                     }
                     else {
                         output("Invalid command!");

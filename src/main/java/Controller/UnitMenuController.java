@@ -4,9 +4,13 @@ package Controller;
 import Model.Building.Building;
 import Model.Building.Storage;
 import Model.Game;
+import Model.Map;
+import Model.Pair;
 import Model.Person.Military.MilitaryUnit;
 import Model.Person.Person;
 import Model.Resources.Resource;
+import Model.Tile;
+import View.Game.UnitMenu;
 
 
 import java.util.ArrayList;
@@ -87,15 +91,16 @@ public class UnitMenuController {
 
     public static void selectUnit(int x, int y, String type) {
         if (checkSimpleErrorsOfSelectUnit(x, y, type)) return;
-        ArrayList<Person> userUnitInTile = getUserUnitInTile(GameMenuController.game.getMap().getTiles()[x][y].getPeople(), type);
-        output("Selection successful");
+        UnitMenu.userUnitInTile = getUserUnitInTile(GameMenuController.game.getMap().getTiles()[x][y].getPeople(), type);
+        UnitMenu unitMenu = new UnitMenu();
+        unitMenu.run();
     }
 
-    private static ArrayList<Person> getUserUnitInTile(ArrayList<Person> game, String type) {
-        ArrayList<Person> userUnits = new ArrayList<>();
+    private static ArrayList<MilitaryUnit> getUserUnitInTile(ArrayList<Person> game, String type) {
+        ArrayList<MilitaryUnit> userUnits = new ArrayList<>();
         for (Person person : game) {
             if (person.getOwner().equals(Game.currentGovernment.getUser()) && person.getName().equals(type)) {
-                userUnits.add(person);
+                userUnits.add((MilitaryUnit) person);
             }
         }
         return userUnits;
@@ -106,11 +111,48 @@ public class UnitMenuController {
             output("Invalid coordinates");
             return true;
         }
-        ArrayList<Person> units = getUserUnitInTile(GameMenuController.game.getMap().getTiles()[x][y].getPeople(), type);
+        ArrayList<MilitaryUnit> units = getUserUnitInTile(GameMenuController.game.getMap().getTiles()[x][y].getPeople(), type);
         if (units.size() == 0) {
             output("You do not have any units of this type in this tile");
             return true;
         }
         return false;
+    }
+
+    public static void moveAllMilitaryUnits() {
+        Tile[][] tiles = GameMenuController.game.getMap().getTiles();
+        Tile[][] newTiles = new Tile[GameMenuController.mapSize][GameMenuController.mapSize];
+        for (int i = 0 ; i < GameMenuController.mapSize ; i++) {
+            for (int j = 0 ; j < GameMenuController.mapSize ; j++) {
+                newTiles[i][j] = new Tile();
+                newTiles[i][j].setBuilding(tiles[i][j].getBuilding());
+                newTiles[i][j].setTexture(tiles[i][j].getTexture());
+                newTiles[i][j].setY(tiles[i][j].getY());
+                newTiles[i][j].setX(tiles[i][j].getX());
+                newTiles[i][j].setPeople(new ArrayList<>(tiles[i][j].getPeople()));
+            }
+        }
+        for (int i = 0 ; i < GameMenuController.mapSize ; i++) {
+            for (int j = 0 ; j < GameMenuController.mapSize ; j++) {
+                for (Person person:tiles[i][j].getPeople()) {
+                    if (person instanceof MilitaryUnit) {
+                        MilitaryUnit militaryUnit = (MilitaryUnit) person;
+                        Pair pair = militaryUnit.move();
+                        newTiles[i][j].getPeople().remove(person);
+                        newTiles[pair.first][pair.second].getPeople().add(person);
+                        militaryUnit.setY(pair.second);
+                        militaryUnit.setX(pair.first);
+                    }
+                }
+            }
+        }
+        GameMenuController.game.getMap().setTiles(newTiles);
+    }
+
+    public static void moveUnit(int x, int y) {
+        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+            militaryUnit.setDestinationX(x);
+            militaryUnit.setDestinationY(y);
+        }
     }
 }
