@@ -53,4 +53,8 @@ public enum SoldierType {
         }
         return null;
     }
+
+    public ArrayList<Resource> getPrice() {
+        return price;
+    }
 }

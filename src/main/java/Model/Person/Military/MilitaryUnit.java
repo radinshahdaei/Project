@@ -177,4 +177,5 @@ public class MilitaryUnit extends Person {
         }
         return newPath;
     }
+
 }

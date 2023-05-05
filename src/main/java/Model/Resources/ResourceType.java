@@ -40,4 +40,8 @@ public enum ResourceType {
         }
         return null;
     }
+
+    public ResourceModel getResourceModel() {
+        return resourceModel;
+    }
 }
