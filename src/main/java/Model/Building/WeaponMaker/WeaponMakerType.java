@@ -1,4 +1,4 @@
-package Model.Building;
+package Model.Building.WeaponMaker;
 
 import Model.Resources.Resource;
 

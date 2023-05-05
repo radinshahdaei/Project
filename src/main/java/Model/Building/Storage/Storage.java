@@ -1,13 +1,11 @@
-package Model.Building;
+package Model.Building.Storage;
 
+import Model.Building.Building;
 import Model.Resources.Resource;
-import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;
 import Model.User;
 
 import java.util.ArrayList;
-
-import static Model.Resources.Resource.getResourcesByType;
 
 public class Storage extends Building {
     private ArrayList<Resource> storage = new ArrayList<>();
@@ -17,14 +15,6 @@ public class Storage extends Building {
         super(name, hp, x, y, workers, price, owner);
         this.storage = storage;
         this.maxCapacity = maxCapacity;
-    }
-
-    public ArrayList<Resource> getStorage() {
-        return storage;
-    }
-
-    public int getMaxCapacity() {
-        return maxCapacity;
     }
 
     public static Building createBuilding(String name, int x, int y, User owner) {
@@ -41,6 +31,18 @@ public class Storage extends Building {
         }
         int maxCapacity = building.maxCapacity;
         return new Storage(name, hp, x, y, workers, price, storage, maxCapacity, owner);
+    }
+
+    public ArrayList<Resource> getStorage() {
+        return storage;
+    }
+
+    public void setStorage(ArrayList<Resource> storage) {
+        this.storage = storage;
+    }
+
+    public int getMaxCapacity() {
+        return maxCapacity;
     }
 
     public Resource getStoredResourceByType(ResourceType resourceType) {
@@ -68,9 +70,5 @@ public class Storage extends Building {
             storage.remove(storedResource);
         }
         return true;
-    }
-
-    public void setStorage(ArrayList<Resource> storage) {
-        this.storage = storage;
     }
 }

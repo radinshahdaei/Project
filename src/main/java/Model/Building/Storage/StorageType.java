@@ -1,4 +1,4 @@
-package Model.Building;
+package Model.Building.Storage;
 
 import Model.Resources.Resource;
 import Model.Resources.ResourceModel;

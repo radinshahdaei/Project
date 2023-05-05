@@ -1,5 +1,7 @@
-package Model.Building;
+package Model.Building.WeaponMaker;
 
+import Model.Building.Building;
+import Model.Building.Storage.Storage;
 import Model.Game;
 import Model.Resources.Resource;
 import Model.User;
@@ -17,6 +19,7 @@ public class WeaponMaker extends Building {
         super(name, hp, x, y, workers, price, owner);
         this.weapons = weapons;
     }
+
     public static Building createBuilding(String name, int x, int y, User owner) {
         WeaponMakerType building = WeaponMakerType.getBuildingByName(name);
         if (building == null) return null;

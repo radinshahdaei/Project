@@ -1,5 +1,6 @@
-package Model.Building;
+package Model.Building.DeffensiveBuilding;
 
+import Model.Building.Building;
 import Model.Resources.Resource;
 import Model.User;
 
@@ -14,6 +15,7 @@ public class DefensiveBuilding extends Building {
         this.range = range;
         this.damage = damage;
     }
+
     public static Building createBuilding(String name, int x, int y, User owner) {
         DefensiveBuildingType building = DefensiveBuildingType.getBuildingByName(name);
         if (building == null) return null;

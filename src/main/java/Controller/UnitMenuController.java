@@ -2,11 +2,10 @@ package Controller;
 
 
 import Model.Building.Building;
-import Model.Building.Storage;
+import Model.Building.Storage.Storage;
 import Model.Game;
 import Model.Person.Military.MilitaryUnit;
 import Model.Resources.Resource;
-
 
 import static View.InputOutput.output;
 
@@ -21,7 +20,7 @@ public class UnitMenuController {
         MilitaryUnit militaryUnit = MilitaryUnit.createUnits(type, militaryType, x, y, Game.currentGovernment.getUser());
         if (checkIfEnoughResourcesExist(militaryUnit, count)) return;
         reduceRecommendedResources(militaryUnit, count);
-        for (int i = 0 ; i < count ; i++) {
+        for (int i = 0; i < count; i++) {
             militaryUnit = MilitaryUnit.createUnits(type, militaryType, x, y, Game.currentGovernment.getUser());
             Game.currentGovernment.getPeople().add(militaryUnit);
             GameMenuController.game.getMap().getTiles()[x][y].getPeople().add(militaryUnit);
@@ -42,12 +41,12 @@ public class UnitMenuController {
     }
 
     private static boolean checkIfEnoughResourcesExist(MilitaryUnit militaryUnit, int count) {
-        for (Resource resource: militaryUnit.getPrice()) {
+        for (Resource resource : militaryUnit.getPrice()) {
             int amount = 0;
-            for (Building checkBuilding: Game.currentGovernment.getBuildings()) {
+            for (Building checkBuilding : Game.currentGovernment.getBuildings()) {
                 if (checkBuilding.getName().equals("stockpile")) {
                     Storage storage = (Storage) checkBuilding;
-                    for (Resource stockResource: storage.getStorage()) {
+                    for (Resource stockResource : storage.getStorage()) {
                         if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
                             amount += stockResource.getCount();
                         }
@@ -63,12 +62,12 @@ public class UnitMenuController {
     }
 
     private static void reduceRecommendedResources(MilitaryUnit militaryUnit, int count) {
-        for (Resource resource: militaryUnit.getPrice()) {
+        for (Resource resource : militaryUnit.getPrice()) {
             int reduced = 0;
-            for (Building checkBuilding: Game.currentGovernment.getBuildings()) {
+            for (Building checkBuilding : Game.currentGovernment.getBuildings()) {
                 if (checkBuilding.getName().equals("stockpile")) {
                     Storage storage = (Storage) checkBuilding;
-                    for (Resource stockResource: storage.getStorage()) {
+                    for (Resource stockResource : storage.getStorage()) {
                         if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
                             int temp = reduced;
                             reduced += Math.min(resource.getCount() * count - reduced, stockResource.getCount());

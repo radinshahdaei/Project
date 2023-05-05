@@ -1,6 +1,5 @@
 package Model.Person.Military.Soldier;
 
-import Model.Person.Military.Siege.SiegeType;
 import Model.Resources.Resource;
 
 import java.util.ArrayList;
@@ -45,12 +44,20 @@ public enum SoldierType {
         this.type = type;
     }
 
-    public static SoldierType getUnitByName(String name){
-        for (SoldierType unit: SoldierType.values()){
+    public static SoldierType getUnitByName(String name) {
+        for (SoldierType unit : SoldierType.values()) {
             if (name.equalsIgnoreCase(unit.name)) {
                 return unit;
             }
         }
         return null;
+    }
+
+    public ArrayList<Resource> getPrice() {
+        return price;
+    }
+
+    public SoldierGuild getType() {
+        return type;
     }
 }

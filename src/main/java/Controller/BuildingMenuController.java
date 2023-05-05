@@ -2,7 +2,7 @@ package Controller;
 
 import Model.Building.Building;
 import Model.Building.BuildingType;
-import Model.Building.Storage;
+import Model.Building.Storage.Storage;
 import Model.Game;
 import Model.Resources.Resource;
 
@@ -25,12 +25,12 @@ public class BuildingMenuController {
     }
 
     private static void reduceRecommendedResources(Building building) {
-        for (Resource resource: building.getPrice()) {
+        for (Resource resource : building.getPrice()) {
             int reduced = 0;
-            for (Building checkBuilding: Game.currentGovernment.getBuildings()) {
+            for (Building checkBuilding : Game.currentGovernment.getBuildings()) {
                 if (checkBuilding.getName().equals("stockpile")) {
                     Storage storage = (Storage) checkBuilding;
-                    for (Resource stockResource: storage.getStorage()) {
+                    for (Resource stockResource : storage.getStorage()) {
                         if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
                             int temp = reduced;
                             reduced += Math.min(resource.getCount() - reduced, stockResource.getCount());
@@ -45,12 +45,12 @@ public class BuildingMenuController {
     }
 
     private static boolean checkIfEnoughResourcesExist(Building building) {
-        for (Resource resource: building.getPrice()) {
+        for (Resource resource : building.getPrice()) {
             int amount = 0;
-            for (Building checkBuilding: Game.currentGovernment.getBuildings()) {
+            for (Building checkBuilding : Game.currentGovernment.getBuildings()) {
                 if (checkBuilding.getName().equals("stockpile")) {
                     Storage storage = (Storage) checkBuilding;
-                    for (Resource stockResource: storage.getStorage()) {
+                    for (Resource stockResource : storage.getStorage()) {
                         if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
                             amount += stockResource.getCount();
                         }
@@ -80,6 +80,7 @@ public class BuildingMenuController {
         }
         return false;
     }
+
     public static void selectBuilding(int x, int y) {
         if (checkSimpleErrorsOfSelectBuilding(x, y)) return;
         output("Selection successful");
@@ -96,7 +97,7 @@ public class BuildingMenuController {
             return true;
         }
         boolean flag = false;
-        for (Building checkBuilding:Game.currentGovernment.getBuildings()) {
+        for (Building checkBuilding : Game.currentGovernment.getBuildings()) {
             if (checkBuilding.equals(building)) {
                 flag = true;
                 break;

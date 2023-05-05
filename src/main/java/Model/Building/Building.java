@@ -1,5 +1,9 @@
 package Model.Building;
 
+import Model.Building.DeffensiveBuilding.DefensiveBuilding;
+import Model.Building.Factory.Factory;
+import Model.Building.Storage.Storage;
+import Model.Building.WeaponMaker.WeaponMaker;
 import Model.Resources.Resource;
 import Model.User;
 
@@ -41,6 +45,11 @@ public class Building {
 
         ALL_BUILDINGS.put("high wall", BuildingType.WALL);
         ALL_BUILDINGS.put("low wall", BuildingType.WALL);
+
+        ALL_BUILDINGS.put("barracks", BuildingType.BARRACKS);
+        ALL_BUILDINGS.put("mercenary post", BuildingType.BARRACKS);
+        ALL_BUILDINGS.put("engineer guild", BuildingType.BARRACKS);
+        ALL_BUILDINGS.put("tunneler guild", BuildingType.BARRACKS);
     }
 
     private String name;
@@ -94,5 +103,13 @@ public class Building {
 
     public User getOwner() {
         return owner;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

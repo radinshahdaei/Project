@@ -1,4 +1,4 @@
-package Model.Building;
+package Model.Building.Factory;
 
 import Model.Resources.Resource;
 import Model.Resources.ResourceType;
@@ -23,6 +23,12 @@ public enum FactoryType {
     BAKERY("bakery", 100, 1, getResources("wood", "10"), createResource(ResourceType.BREAD, 1), createResource(ResourceType.FLOUR, 1)),
     BREWER("brewer", 100, 1, getResources("wood", "10"), createResource(ResourceType.ALE, 1), createResource(ResourceType.HOPS, 1));
 
+    String name;
+    int hp;
+    int workers;
+    ArrayList<Resource> price = new ArrayList<>();
+    Resource produced;
+    Resource consumed;
     FactoryType(String name, int hp, int workers, ArrayList<Resource> price, Resource produced, Resource consumed) {
         this.name = name;
         this.hp = hp;
@@ -31,13 +37,6 @@ public enum FactoryType {
         this.produced = produced;
         this.consumed = consumed;
     }
-
-    String name;
-    int hp;
-    int workers;
-    ArrayList<Resource> price = new ArrayList<>();
-    Resource produced;
-    Resource consumed;
 
     public static FactoryType getBuildingByName(String name) {
         for (FactoryType building : FactoryType.values()) {

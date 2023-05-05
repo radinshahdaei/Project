@@ -1,5 +1,7 @@
-package Model.Building;
+package Model.Building.Factory;
 
+import Model.Building.Building;
+import Model.Building.Storage.Storage;
 import Model.Game;
 import Model.Resources.Resource;
 import Model.Resources.ResourceModel;
