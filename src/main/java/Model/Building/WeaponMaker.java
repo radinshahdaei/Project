@@ -40,11 +40,15 @@ public class WeaponMaker extends Building {
         Resource price = weapons.get(weapon);
         Storage stockpile = (Storage) Game.currentGovernment.findBuildingByName("stockpile");
         Storage armoury = (Storage) Game.currentGovernment.findBuildingByName("armoury");
-        if (stockpile == null || armoury == null) return;
-        stockpile.removeFromStorage(price);
+        if (armoury == null) {
+            output("You don't have an armoury!");
+            return;
+        }
+        if (!stockpile.removeFromStorage(price)) {
+            output("You don't have enough resources!");
+            return;
+        }
         armoury.addToStorage(weapon);
-
-
     }
 
     public Resource printWeapons() {

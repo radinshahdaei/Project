@@ -60,12 +60,14 @@ public class Storage extends Building {
         }
     }
 
-    public void removeFromStorage(Resource resource) {
+    public boolean removeFromStorage(Resource resource) {
         Resource storedResource = getStoredResourceByType(resource.getResourceType());
+        if (storedResource.getCount() == 0) return false;
         storedResource.addCount(-resource.getCount());
         if (storedResource.getCount() <= 0) {
             storage.remove(storedResource);
         }
+        return true;
     }
 
     public void setStorage(ArrayList<Resource> storage) {
