@@ -3,16 +3,19 @@ package Model.Person.Military.Special;
 import Controller.GameMenuController;
 import Model.Building.Storage.Storage;
 import Model.Game;
+import Model.Map;
 import Model.Person.Military.MilitaryUnit;
 import Model.Person.Military.Siege.Siege;
 import Model.Person.Military.Siege.SiegeType;
 import Model.Person.Person;
 import Model.Resources.Resource;
+import Model.Resources.ResourceType;
 import Model.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static Model.Resources.Resource.createResource;
 import static Model.Resources.Resource.getResources;
 import static View.InputOutput.input;
 import static View.InputOutput.output;
@@ -37,7 +40,34 @@ public class Engineer extends MilitaryUnit {
         return new Engineer(x, y, owner);
     }
 
-    public void createSiege() { //TODO if engineer selected, run this if asked
+    public void pourOil(char direction) { //TODO if engineer selected, run if "pour oil -d ~" typed
+        if (!getOilPot()) return;
+        int x = super.getX();
+        int y = super.getY();
+        int mapSize = GameMenuController.mapSize;
+        if (direction == 'n') {
+            y--;
+            if (!checkCoordinates(x, y, mapSize)) return;
+        } else if (direction == 'e') {
+            x++;
+            if (!checkCoordinates(x, y, mapSize)) return;
+        } else if (direction == 'w') {
+            x--;
+            if (!checkCoordinates(x, y, mapSize)) return;
+        } else if (direction == 's') {
+            y++;
+            if (!checkCoordinates(x, y, mapSize)) return;
+        }
+        Map map = GameMenuController.game.getMap();
+        map.getTiles()[x][y].setHasOil(true);
+    }
+
+    public boolean checkCoordinates(int x, int y, int mapSize) {
+        return x >= 0 && y >= 0 && x < mapSize && y < mapSize;
+    }
+
+
+    public void createSiege() { //TODO if engineer selected, run this if "build equipment" typed
         if (Game.currentGovernment.findBuildingByName("siege tent") == null) {
             output("You don't have a siege tent");
             return;
@@ -59,6 +89,7 @@ public class Engineer extends MilitaryUnit {
 
     public void build(String machine, int x, int y) {
         SiegeType siegeMachine = SiegeType.getUnitByName(machine);
+        if (siegeMachine == null) return;
         Resource goldNeeded = siegeMachine.getGoldNeeded();
         int engineersNeeded = siegeMachine.getEngineersNeeded();
         Storage stockpile = (Storage) Game.currentGovernment.findBuildingByName("stockpile");
@@ -110,8 +141,18 @@ public class Engineer extends MilitaryUnit {
         this.isInBuilding = true;
     }
 
-    public void getOilPot() {
+    public boolean getOilPot() {
+        if (Game.currentGovernment.findBuildingByName("oil smelter") == null) {
+            output("You don't have an oil smelter!");
+            return false;
+        }
+        Storage stockPile = (Storage) Game.currentGovernment.findBuildingByName("stockpile");
+        if (!stockPile.removeFromStorage(createResource(ResourceType.PITCH, 1))) {
+            output("You don't have enough oil!");
+            return false;
+        }
         this.hasOilPot = true;
+        return true;
     }
 
 

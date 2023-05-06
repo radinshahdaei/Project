@@ -9,6 +9,9 @@ public class Tile {
     private int x;
     private int y;
     private String texture;
+    private boolean onFire = false;
+    private boolean hasOil = false;
+    private boolean hasKillingPit = false;
     private ArrayList<Person> people = new ArrayList<>();
     private Building building = null;
 
@@ -50,5 +53,17 @@ public class Tile {
 
     public void setTexture(String texture) {
         this.texture = texture;
+    }
+
+    public void setOnFire(boolean onFire) {
+        this.onFire = onFire;
+    }
+
+    public void setHasOil(boolean hasOil) {
+        this.hasOil = hasOil;
+    }
+
+    public void setHasKillingPit(boolean hasKillingPit) {
+        this.hasKillingPit = hasKillingPit;
     }
 }
