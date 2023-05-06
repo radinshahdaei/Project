@@ -8,11 +8,11 @@ import static Model.Resources.Resource.getResources;
 
 public enum DefensiveBuildingType {
 
-    LOOKOUT_TOWER("lookout tower", 100, 0, getResources("stone", "15"), 10, 6),
-    PERIMETER_TOWER("perimeter tower", 150, 0, getResources("stone", "15"), 8, 5),
-    DEFENCE_TURRET("defence turret", 200, 0, getResources("stone", "15"), 8, 5),
-    SQUARE_TOWER("square tower", 300, 0, getResources("stone", "35"), 20, 8),
-    ROUND_TOWER("round tower", 400, 0, getResources("stone", "40"), 20, 8);
+    LOOKOUT_TOWER("lookout tower", 100, 0, getResources("stone", "15"), 5, 10),
+    PERIMETER_TOWER("perimeter tower", 150, 0, getResources("stone", "15"), 5, 10),
+    DEFENCE_TURRET("defence turret", 200, 0, getResources("stone", "15"), 3, 10),
+    SQUARE_TOWER("square tower", 300, 0, getResources("stone", "35"), 3, 10),
+    ROUND_TOWER("round tower", 400, 0, getResources("stone", "40"), 3, 10);
 
 
     String name;

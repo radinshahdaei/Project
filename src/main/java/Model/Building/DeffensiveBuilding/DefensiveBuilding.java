@@ -7,13 +7,13 @@ import Model.User;
 import java.util.ArrayList;
 
 public class DefensiveBuilding extends Building {
-    private int range;
-    private int damage;
+    private int fireRange;
+    private int damageAdded;
 
-    public DefensiveBuilding(String name, int hp, int x, int y, int workers, ArrayList<Resource> price, int range, int damage, User owner) {
+    public DefensiveBuilding(String name, int hp, int x, int y, int workers, ArrayList<Resource> price, int fireRange, int damageAdded, User owner) {
         super(name, hp, x, y, workers, price, owner);
-        this.range = range;
-        this.damage = damage;
+        this.fireRange = fireRange;
+        this.damageAdded = damageAdded;
     }
 
     public static Building createBuilding(String name, int x, int y, User owner) {
@@ -22,12 +22,8 @@ public class DefensiveBuilding extends Building {
         int hp = building.hp;
         int workers = building.workers;
         ArrayList<Resource> price = building.price;
-        int range = building.range;
-        int damage = building.damage;
-        return new DefensiveBuilding(name, hp, x, y, workers, price, range, damage, owner);
-    }
-
-    private void doWork() {
-        //TODO write a function in which the building scans the area and damages any troop in range (square range)
+        int fireRange = building.range;
+        int damageAdded = building.damage;
+        return new DefensiveBuilding(name, hp, x, y, workers, price, fireRange, damageAdded, owner);
     }
 }

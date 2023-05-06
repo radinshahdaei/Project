@@ -142,6 +142,7 @@ public class Engineer extends MilitaryUnit {
     }
 
     public boolean getOilPot() {
+        if (this.hasOilPot) return true;
         if (Game.currentGovernment.findBuildingByName("oil smelter") == null) {
             output("You don't have an oil smelter!");
             return false;
