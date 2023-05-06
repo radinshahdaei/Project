@@ -4,11 +4,13 @@ import Model.Building.Barracks.Barracks;
 import Model.Building.Building;
 import Model.Building.BuildingType;
 import Model.Building.Church;
+import Model.Building.Keep;
 import Model.Building.Storage.Storage;
 import Model.Building.WeaponMaker.WeaponMaker;
 import Model.Game;
 import Model.Resources.Resource;
 import View.Game.GameMenu;
+import View.Game.GovernmentMenu;
 
 import static View.InputOutput.output;
 
@@ -103,6 +105,12 @@ public class BuildingMenuController {
         }
         if (building instanceof Church && building.getName().equals("cathedral")) {
             ((Church) building).buyMonk();
+        }
+        if (building instanceof Keep) {
+            output("Entered Government menu");
+            GovernmentMenu governmentMenu = new GovernmentMenu();
+            governmentMenu.run();
+            output("Exited government menu");
         }
     }
 

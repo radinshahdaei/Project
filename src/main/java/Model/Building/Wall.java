@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import static Model.Resources.Resource.getResources;
 
 public class Wall extends Building {
-    boolean hasLadder = false;
-    boolean hasStairs = false;
-    boolean hasSiegeTower = false;
-    boolean isGateHouse = false;
-    boolean isCaptured = false;
-    User siegeTowerOwner = null;
+    private boolean hasLadder = false;
+    private boolean hasStairs = false;
+    private boolean hasSiegeTower = false;
+    private boolean isGateHouse = false;
+    private boolean isCaptured = false;
+    private User siegeTowerOwner = null;
 
     public Wall(String name, int hp, int x, int y, int workers, ArrayList<Resource> price, User owner) {
         super(name, hp, x, y, workers, price, owner);
@@ -58,5 +58,29 @@ public class Wall extends Building {
 
     public void setSiegeTowerOwner(User siegeTowerOwner) {
         this.siegeTowerOwner = siegeTowerOwner;
+    }
+
+    public boolean isHasLadder() {
+        return hasLadder;
+    }
+
+    public boolean isHasStairs() {
+        return hasStairs;
+    }
+
+    public boolean isHasSiegeTower() {
+        return hasSiegeTower;
+    }
+
+    public boolean isGateHouse() {
+        return isGateHouse;
+    }
+
+    public boolean isCaptured() {
+        return isCaptured;
+    }
+
+    public User getSiegeTowerOwner() {
+        return siegeTowerOwner;
     }
 }

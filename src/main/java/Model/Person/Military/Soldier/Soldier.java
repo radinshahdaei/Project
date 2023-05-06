@@ -32,4 +32,8 @@ public class Soldier extends MilitaryUnit {
     public SoldierGuild getSoldierGuild() {
         return soldierGuild;
     }
+
+    public Boolean getCanUseLadder() {
+        return canUseLadder;
+    }
 }

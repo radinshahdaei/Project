@@ -7,6 +7,7 @@ import View.Commands.GovernmentMenuCommands;
 import java.util.regex.Matcher;
 
 import static View.InputOutput.input;
+import static View.InputOutput.output;
 
 public class GovernmentMenu {
 
@@ -15,7 +16,10 @@ public class GovernmentMenu {
         Matcher matcher;
         while(true) {
             command = input();
-            if(command.matches("\\s*show\\s+popularity\\s+factors\\s*")) {
+            if (command.matches("\\s*back\\s*")) {
+                return;
+            }
+            else if(command.matches("\\s*show\\s+popularity\\s+factors\\s*")) {
                 GovernmentMenuController.showPopularityFactors();
             }
             else if(command.matches("\\s*show\\s+popularity\\s*")) {
@@ -41,6 +45,9 @@ public class GovernmentMenu {
             else if((matcher = GovernmentMenuCommands.getMatcher(command , GovernmentMenuCommands.FEARRATE)) != null) {
                 int rate = Integer.parseInt(matcher.group("rate"));
                 GovernmentMenuController.setFearRate(rate);
+            }
+            else {
+                output("Invalid command!");
             }
         }
     }

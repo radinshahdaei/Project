@@ -66,4 +66,16 @@ public class Tile {
     public void setHasKillingPit(boolean hasKillingPit) {
         this.hasKillingPit = hasKillingPit;
     }
+
+    public boolean isOnFire() {
+        return onFire;
+    }
+
+    public boolean isHasOil() {
+        return hasOil;
+    }
+
+    public boolean isHasKillingPit() {
+        return hasKillingPit;
+    }
 }

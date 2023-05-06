@@ -2,6 +2,8 @@ package Model.Person.Military;
 
 import Controller.GameMenuController;
 import Model.*;
+import Model.Building.Building;
+import Model.Building.Wall;
 import Model.Person.Military.Soldier.Soldier;
 import Model.Person.Military.Special.Engineer;
 import Model.Person.Military.Special.Ladderman;
@@ -205,13 +207,36 @@ public class MilitaryUnit extends Person {
     }
 
     private boolean checkPassTile(Tile tile) {
-        if (tile.getBuilding() != null && tile.getBuilding().getName().equals("campfire")) {
-            return false;
-        }
         if (tile.getTexture().equals("Stone") || tile.getTexture().equals("Lake")) {
             return false;
         }
-        return true;
+        if (tile.isOnFire() || tile.isHasKillingPit()) return false;
+        Building building;
+        if (this instanceof Soldier) {
+            Soldier soldier = (Soldier) this;
+            if (this.getName().equals("assassin")) return true;
+            if ((building = tile.getBuilding()) != null) {
+                if (building instanceof Wall) {
+                    Wall wall = (Wall) building;
+                    if (wall.isHasLadder() && soldier.getCanUseLadder()) return true;
+                    if ((wall.isHasStairs() || wall.isGateHouse()) && soldier.getOwner().equals(wall.getOwner())) return true;
+                    if (wall.isHasSiegeTower() && soldier.getOwner().equals(wall.getSiegeTowerOwner())) return true;
+                    if (wall.isGateHouse() && wall.isCaptured()) return true;
+                    if (wall.getHp() <= 0) return true;
+                    return false;
+                }
+                if (building.getHp() <= 0) return true;
+                return false;
+            }
+            return true;
+        }
+        else {
+            if ((building = tile.getBuilding()) != null) {
+                if (building.getHp() <= 0) return true;
+                return false;
+            }
+            return true;
+        }
     }
 
     private ArrayList<Pair> reverseArrayList(ArrayList<Pair> path) {
