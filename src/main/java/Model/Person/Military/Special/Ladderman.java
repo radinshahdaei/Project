@@ -1,6 +1,5 @@
 package Model.Person.Military.Special;
 
-import Model.Government;
 import Model.Person.Military.MilitaryUnit;
 import Model.User;
 
@@ -12,9 +11,13 @@ public class Ladderman extends MilitaryUnit {
     public Ladderman(int x, int y, User owner) {
         super("ladderman", x, y, 15, 0, 5, 0, getResources("gold", "20"), owner);
     }
+    //TODO ladderman can have wall destination
 
 
-    public static MilitaryUnit createUnit(int x,int y,User owner){
-        return new Ladderman(x,y,owner);
+    public static MilitaryUnit createUnit(int x, int y, User owner) {
+        return new Ladderman(x, y, owner);
     }
+
+    
 }
+

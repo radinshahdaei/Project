@@ -100,8 +100,10 @@ public class Building {
             building = Hovel.createBuilding(x, y, owner);
         } else if (name.equals("campfire")) {
             building = Campfire.createBuilding(x, y, owner);
-        } else if (name.equals("church") || name.equals("cathedral")) {
+        } else if (name.equalsIgnoreCase("church") || name.equalsIgnoreCase("cathedral")) {
             building = Church.createBuilding(name, x, y, owner);
+        } else if (name.equalsIgnoreCase("siege tent") || name.equalsIgnoreCase("oil smelter")) {
+            building = EnginnerBuilding.createBuilding(name, x, y, owner);
         }
         return building;
     }
