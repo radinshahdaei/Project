@@ -1,9 +1,6 @@
 package Model.Person.Military.Soldier;
 
-import Model.Government;
 import Model.Person.Military.MilitaryUnit;
-import Model.Person.Military.Siege.Siege;
-import Model.Person.Military.Siege.SiegeType;
 import Model.Resources.Resource;
 import Model.User;
 
@@ -18,7 +15,8 @@ public class Soldier extends MilitaryUnit {
         this.soldierGuild = soldierGuild;
         this.canUseLadder = canUseLadder;
     }
-    public static MilitaryUnit createUnit(String name,int x,int y,User owner){
+
+    public static MilitaryUnit createUnit(String name, int x, int y, User owner) {
         SoldierType unit = SoldierType.getUnitByName(name);
         if (unit == null) return null;
         int speed = unit.speed;
@@ -28,6 +26,10 @@ public class Soldier extends MilitaryUnit {
         boolean canUseLadder = unit.canUseLadder;
         ArrayList<Resource> price = unit.price;
         SoldierGuild type = unit.type;
-        return new Soldier(name,x,y,speed,attack,defence,range,owner,price,type,canUseLadder);
+        return new Soldier(name, x, y, speed, attack, defence, range, owner, price, type, canUseLadder);
+    }
+
+    public SoldierGuild getSoldierGuild() {
+        return soldierGuild;
     }
 }

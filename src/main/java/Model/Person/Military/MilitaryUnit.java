@@ -2,7 +2,6 @@ package Model.Person.Military;
 
 import Controller.GameMenuController;
 import Model.*;
-import Model.Person.Military.Siege.Siege;
 import Model.Person.Military.Soldier.Soldier;
 import Model.Person.Military.Special.Engineer;
 import Model.Person.Military.Special.Ladderman;
@@ -12,39 +11,41 @@ import Model.Person.PersonType;
 import Model.Resources.Resource;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class MilitaryUnit extends Person {
-    public static HashMap<String , String> AllMilitaryUnits = new HashMap<>();
+    public static HashMap<String, String> AllMilitaryUnits = new HashMap<>();
+
     static {
         AllMilitaryUnits.put("archer", "soldier");
-        AllMilitaryUnits.put("crossbowman","soldier");
-        AllMilitaryUnits.put("spearman","soldier");
-        AllMilitaryUnits.put("pikeman","soldier");
-        AllMilitaryUnits.put("maceman","soldier");
-        AllMilitaryUnits.put("swordsman","soldier");
-        AllMilitaryUnits.put("knight","soldier");
-        AllMilitaryUnits.put("monk","soldier");
-        AllMilitaryUnits.put("arabian archer","soldier");
-        AllMilitaryUnits.put("slave","soldier");
-        AllMilitaryUnits.put("slinger","soldier");
-        AllMilitaryUnits.put("horse archer","soldier");
-        AllMilitaryUnits.put("arabian swordsman","soldier");
-        AllMilitaryUnits.put("fire thrower","soldier");
-        AllMilitaryUnits.put("assassin","soldier");
+        AllMilitaryUnits.put("crossbowman", "soldier");
+        AllMilitaryUnits.put("spearman", "soldier");
+        AllMilitaryUnits.put("pikeman", "soldier");
+        AllMilitaryUnits.put("maceman", "soldier");
+        AllMilitaryUnits.put("swordsman", "soldier");
+        AllMilitaryUnits.put("knight", "soldier");
+        AllMilitaryUnits.put("monk", "soldier");
+        AllMilitaryUnits.put("arabian archer", "soldier");
+        AllMilitaryUnits.put("slave", "soldier");
+        AllMilitaryUnits.put("slinger", "soldier");
+        AllMilitaryUnits.put("horse archer", "soldier");
+        AllMilitaryUnits.put("arabian swordsman", "soldier");
+        AllMilitaryUnits.put("fire thrower", "soldier");
+        AllMilitaryUnits.put("assassin", "soldier");
 
-        AllMilitaryUnits.put("catapult","siege");
-        AllMilitaryUnits.put("trebuchet","siege");
-        AllMilitaryUnits.put("siege tower","siege");
-        AllMilitaryUnits.put("portable shield","siege");
-        AllMilitaryUnits.put("arabic fire ballista","siege");
-        AllMilitaryUnits.put("battering ram","siege");
+        AllMilitaryUnits.put("catapult", "siege");
+        AllMilitaryUnits.put("trebuchet", "siege");
+        AllMilitaryUnits.put("siege tower", "siege");
+        AllMilitaryUnits.put("portable shield", "siege");
+        AllMilitaryUnits.put("arabic fire ballista", "siege");
+        AllMilitaryUnits.put("battering ram", "siege");
 
-        AllMilitaryUnits.put("engineer","engineer");
-        AllMilitaryUnits.put("ladderman","ladderman");
-        AllMilitaryUnits.put("tunneler","tunneler");
+        AllMilitaryUnits.put("engineer", "engineer");
+        AllMilitaryUnits.put("ladderman", "ladderman");
+        AllMilitaryUnits.put("tunneler", "tunneler");
     }
+
+    boolean[][] ableToPass = new boolean[GameMenuController.mapSize][GameMenuController.mapSize];
     private int x;
     private int y;
     private int destinationX;
@@ -58,7 +59,6 @@ public class MilitaryUnit extends Person {
     private boolean onPatrol;
     private Pair startPatrol;
     private Pair endPatrol;
-    boolean[][] ableToPass = new boolean[GameMenuController.mapSize][GameMenuController.mapSize];
 
     public MilitaryUnit(String name, int x, int y, int speed, int attack, int defence, int range, ArrayList<Resource> price, User owner) {
         super(name, PersonType.MILITARY_UNIT, owner);
@@ -77,19 +77,14 @@ public class MilitaryUnit extends Person {
 
     public static MilitaryUnit createUnits(String name, String type, int x, int y, User owner) {
         MilitaryUnit militaryUnit = null;
-        if (type.equals("siege")) {
-            militaryUnit = Siege.createUnit(name, x, y, owner);
-        }
-        else if (type.equals("soldier")) {
+        if (type.equals("soldier")) {
             militaryUnit = Soldier.createUnit(name, x, y, owner);
-        }
-        else if (type.equals("engineer")) {
+        } else if (type.equals("engineer")) {
             militaryUnit = Engineer.createUnit(x, y, owner);
-        }
-        else if (type.equals("ladderman")) {
+        } else if (type.equals("ladderman")) {
             militaryUnit = Ladderman.createUnit(x, y, owner);
-        }
-        else if (type.equals("tunneler")) {
+            militaryUnit.makeMilitary();
+        } else if (type.equals("tunneler")) {
             militaryUnit = Tunneler.createUnit(x, y, owner);
         }
         return militaryUnit;
@@ -99,12 +94,12 @@ public class MilitaryUnit extends Person {
         return x;
     }
 
-    public int getY() {
-        return y;
-    }
-
     public void setX(int x) {
         this.x = x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public void setY(int y) {
@@ -135,8 +130,16 @@ public class MilitaryUnit extends Person {
         return attack;
     }
 
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
     public int getDefence() {
         return defence;
+    }
+
+    public void setDefence(int defence) {
+        this.defence = defence;
     }
 
     public int getRange() {
@@ -179,14 +182,6 @@ public class MilitaryUnit extends Person {
         this.status = status;
     }
 
-    public void setAttack(int attack) {
-        this.attack = attack;
-    }
-
-    public void setDefence(int defence) {
-        this.defence = defence;
-    }
-
     public void reduceDefence(int amount) {
         this.defence -= amount;
     }
@@ -202,8 +197,8 @@ public class MilitaryUnit extends Person {
 
     public void fixAbleToPass() {
         Map map = GameMenuController.game.getMap();
-        for (int i = 0 ; i < GameMenuController.mapSize ; i++) {
-            for (int j = 0 ; j < GameMenuController.mapSize ; j++) {
+        for (int i = 0; i < GameMenuController.mapSize; i++) {
+            for (int j = 0; j < GameMenuController.mapSize; j++) {
                 this.ableToPass[i][j] = checkPassTile(map.getTiles()[i][j]);
             }
         }
@@ -221,7 +216,7 @@ public class MilitaryUnit extends Person {
 
     private ArrayList<Pair> reverseArrayList(ArrayList<Pair> path) {
         ArrayList<Pair> newPath = new ArrayList<>();
-        for (int i = path.size() - 1 ; i > -1 ; i--) {
+        for (int i = path.size() - 1; i > -1; i--) {
             newPath.add(path.get(i));
         }
         return newPath;

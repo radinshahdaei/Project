@@ -2,6 +2,7 @@ package Model;
 
 
 import Model.Building.Building;
+import Model.Person.Military.Special.Engineer;
 import Model.Person.Person;
 import Model.Resources.Resource;
 import Model.Resources.ResourceType;
@@ -36,6 +37,16 @@ public class Government {
         this.user = user;
         this.coins = 0;
         this.lastTradeIndex = -1;
+    }
+
+    public ArrayList<Person> getEngineers() {
+        ArrayList<Person> allEngineers = new ArrayList<>();
+        for (Person person : people) {
+            if (person instanceof Engineer && ((Engineer) person).isAvailable()) {
+                allEngineers.add(person);
+            }
+        }
+        return allEngineers;
     }
 
     public void initializeResources() {

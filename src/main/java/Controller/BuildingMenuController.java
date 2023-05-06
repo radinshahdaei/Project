@@ -29,6 +29,7 @@ public class BuildingMenuController {
         if (type.equals("church")) Game.currentGovernment.addChurch(10);
         if (type.equals("cathedral")) Game.currentGovernment.addChurch(20);
         if (type.equals("hovel")) GameMenu.addPopulation(Game.currentGovernment, 8);
+        if (type.equals("keep")) GameMenu.addPopulation(Game.currentGovernment, 10);
         output("building successfully made");
     }
 

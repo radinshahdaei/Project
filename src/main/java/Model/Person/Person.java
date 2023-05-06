@@ -14,6 +14,10 @@ public class Person {
         this.owner = owner;
     }
 
+    public void makeMilitary() {
+        this.type = PersonType.MILITARY_UNIT;
+    }
+
     public String getName() {
         return name;
     }
