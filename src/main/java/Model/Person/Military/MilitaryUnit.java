@@ -193,6 +193,11 @@ public class MilitaryUnit extends Person {
         PathFinder pathFinder = new PathFinder(this.ableToPass, GameMenuController.mapSize, x, destinationX, y, destinationY);
         pathFinder.shortestPath();
         ArrayList<Pair> path = pathFinder.getPath();
+        if (path == null) {
+            this.destinationY = this.y;
+            this.destinationX = this.x;
+            return new Pair(this.x, this.y);
+        }
         path = reverseArrayList(path);
         return path.get(Math.min(path.size() - 1, (this.speed + 2) / 3));
     }
