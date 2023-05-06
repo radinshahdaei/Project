@@ -27,6 +27,7 @@ public class Engineer extends MilitaryUnit {
 
     boolean hasOilPot = false;
     boolean isInSiege = false;
+    boolean isInBuilding = false;
 
     public Engineer(int x, int y, User owner) {
         super("engineer", x, y, 15, 0, 30, 0, getResources("gold", "20"), owner);
@@ -36,7 +37,11 @@ public class Engineer extends MilitaryUnit {
         return new Engineer(x, y, owner);
     }
 
-    public void createSiege() {
+    public void createSiege() { //TODO if engineer selected, run this if asked
+        if (Game.currentGovernment.findBuildingByName("siege tent") == null) {
+            output("You don't have a siege tent");
+            return;
+        }
         String machine;
         while (true) {
             machine = printMachines();
@@ -100,4 +105,14 @@ public class Engineer extends MilitaryUnit {
     public void goInSiege() {
         this.isInSiege = true;
     }
+
+    public void goInBuilding() {
+        this.isInBuilding = true;
+    }
+
+    public void getOilPot() {
+        this.hasOilPot = true;
+    }
+
+
 }

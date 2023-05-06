@@ -21,6 +21,7 @@ public class BuildingMenuController {
             return;
         }
         Building building = Building.createBuildings(type, x, y, buildingType, Game.currentGovernment.getUser());
+        if (building == null) return;
         if (checkIfEnoughResourcesExist(building)) return;
         reduceRecommendedResources(building);
         Game.currentGovernment.getBuildings().add(building);

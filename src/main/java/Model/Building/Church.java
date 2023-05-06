@@ -21,9 +21,9 @@ public class Church extends Building {
     }
 
     public static Building createBuilding(String name, int x, int y, User owner) {
-        if (name.equals("church")) {
+        if (name.equalsIgnoreCase("church")) {
             return new Church("church", 200, x, y, getResources("gold", "500"), owner);
-        } else if (name.equals("cathedral")) {
+        } else if (name.equalsIgnoreCase("cathedral")) {
             return new Church("cathedral", 300, x, y, getResources("gold", "1000"), owner);
         }
         return null;
