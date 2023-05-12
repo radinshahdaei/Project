@@ -15,7 +15,21 @@ public class ProfileMenu {
         Matcher matcher;
         while (true) {
             command = input();
-            if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.BACK)) != null) {
+            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("back");
+                output("exit");
+                output("profile change -u <username>");
+                output("profile change -n <nickname>");
+                output("profile change password -o <oldpassword> -n <newpassword>");
+                output("profile change email -e <email>");
+                output("profile change solgan -s <slogan>");
+                output("profile remove slogan");
+                output("profile display highscore");
+                output("profile display slogan");
+                output("profile display rank");
+                output("profile display");
+            }
+            else if ((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.BACK)) != null) {
                 output("Entered Start Menu");
                 return;
             }

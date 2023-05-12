@@ -21,6 +21,16 @@ public class BuildingMenuController {
     public static void dropBuilding(int x, int y, String type) {
         if (checkSimpleErrorsOfDropBuilding(x, y)) return;
         if (checkNeededTexture(x, y, type)) return;
+        if (type.equalsIgnoreCase("killing pit")) {
+            GameMenuController.game.getMap().getTiles()[x][y].setHasKillingPit(true);
+            output("Killing pit added");
+            return;
+        }
+        if (type.equalsIgnoreCase("pitch ditch")) {
+            GameMenuController.game.getMap().getTiles()[x][y].setHasOil(true);
+            output("Pitch ditch added");
+            return;
+        }
         BuildingType buildingType = Building.ALL_BUILDINGS.get(type);
         if (buildingType == null) {
             output("This building does not exists!");
@@ -35,10 +45,6 @@ public class BuildingMenuController {
         if (type.equalsIgnoreCase("inn")) Game.currentGovernment.addInnRate(5);
         if (type.equalsIgnoreCase("church")) Game.currentGovernment.addChurch(10);
         if (type.equalsIgnoreCase("cathedral")) Game.currentGovernment.addChurch(20);
-        if (type.equalsIgnoreCase("killing pit"))
-            GameMenuController.game.getMap().getTiles()[x][y].setHasKillingPit(true);
-        if (type.equalsIgnoreCase("pitch ditch"))
-            GameMenuController.game.getMap().getTiles()[x][y].setHasOil(true);
         output("building successfully made");
     }
 
