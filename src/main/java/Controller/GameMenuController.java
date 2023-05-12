@@ -135,6 +135,12 @@ public class GameMenuController {
                     }
                     if (building instanceof Wall && person.getName().equals("siege tower")) {
                         ((Wall) building).setHasSiegeTower(true);
+                        ((Wall) building).setSiegeTowerOwner(militaryUnit.getOwner());
+                    }
+                    if ((building.getName().equals("small stone gatehouse") || building.getName().equals("big stone gatehouse"))
+                            && !building.getOwner().equals(militaryUnit.getOwner())) {
+                        assert building instanceof Wall;
+                        ((Wall) building).setCaptured(true);
                     }
                 }
             }
