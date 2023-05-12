@@ -20,10 +20,11 @@ public class TradeMenu {
             TradeMenuController.showNotification();
             command = input();
             if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
-                output("back\trade -t <resourceType> -a <resourceAmount> -p <price> -m <message> -u <username>\ntrade list\ntrade accept -i <id> -m <message>\ntrade history");
+                output("back\ntrade -t <resourceType> -a <resourceAmount> -p <price> -m <message> -u <username>\ntrade list\ntrade accept -i <id> -m <message>\ntrade history");
             }
             else if(command.matches("\\s*back\\s*")) {
                 output("Trade menu exited manually!");
+                return;
             }
             else if((matcher = TradeMenuCommands.getMatcher(command , TradeMenuCommands.TRADE)) != null) {
                 String resourceType = removeDoubleQuote(matcher.group("resourceType"));
