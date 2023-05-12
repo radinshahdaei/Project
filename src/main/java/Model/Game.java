@@ -4,11 +4,18 @@ import java.util.ArrayList;
 
 public class Game {
     private Map map;
-    private ArrayList<Government> governments = new ArrayList<Government>();
+    private static ArrayList<Government> governments = new ArrayList<Government>();
     private int turn;
     public static int currentX;
     public static int currentY;
     public static Government currentGovernment;
+
+    public static Government getGovernmentByUser(User owner) {
+        for (Government government : governments) {
+            if (government.getUser().equals(owner)) return government;
+        }
+        return null;
+    }
 
     public Map getMap() {
         return map;

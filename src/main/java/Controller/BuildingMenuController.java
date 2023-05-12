@@ -8,9 +8,13 @@ import Model.Building.Keep;
 import Model.Building.Storage.Storage;
 import Model.Building.WeaponMaker.WeaponMaker;
 import Model.Game;
+import Model.Pair;
+import Model.Person.Person;
 import Model.Resources.Resource;
 import View.Game.GameMenu;
 import View.Game.GovernmentMenu;
+
+import java.util.ArrayList;
 
 import static View.InputOutput.output;
 
@@ -31,8 +35,8 @@ public class BuildingMenuController {
         if (type.equals("inn")) Game.currentGovernment.addInnRate(5);
         if (type.equals("church")) Game.currentGovernment.addChurch(10);
         if (type.equals("cathedral")) Game.currentGovernment.addChurch(20);
-        if (type.equals("hovel")) GameMenu.addPopulation(Game.currentGovernment, 8);
-        if (type.equals("keep")) GameMenu.addPopulation(Game.currentGovernment, 10);
+        // if (type.equals("hovel")) GameMenu.addPopulation(Game.currentGovernment, 8);
+        // if (type.equals("keep")) GameMenu.addPopulation(Game.currentGovernment, 10);
         output("building successfully made");
     }
 
@@ -54,6 +58,13 @@ public class BuildingMenuController {
                 if (reduced == resource.getCount()) break;
             }
         }
+        int i = 0;
+        ArrayList<Person> peasants = Game.currentGovernment.getPeasants();
+        for (Person person : peasants) {
+            i++;
+            person.makeWorker();
+            if (i == building.getWorkers()) break;
+        }
     }
 
     private static boolean checkIfEnoughResourcesExist(Building building) {
@@ -73,6 +84,10 @@ public class BuildingMenuController {
                 output("Not enough resources to buy this building");
                 return true;
             }
+        }
+        if (building.getWorkers() > Game.currentGovernment.getPeasants().size()) {
+            output("Not enough workers to create this building!");
+            return true;
         }
         return false;
     }
