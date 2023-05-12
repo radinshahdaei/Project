@@ -87,6 +87,7 @@ public class MapMenuController {
         map.put("Stone", "\u001B[40m");
         map.put("Iron", "\u001B[40m");
 //        Red
+        map.put("Boulder", "\u001B[41m");
         map.put("Blood", "\u001B[41m");
 //        Green
         map.put("Earth", "\u001B[42m");
@@ -95,6 +96,8 @@ public class MapMenuController {
         map.put("Lake", "\u001B[44m");
 //        Yellow
         map.put("Sand", "\u001B[43m");
+//        Purple
+        map.put("Oil", "\u001B[45m");
 //        Reset
         map.put("Reset", "\u001B[0m");
         return map;
