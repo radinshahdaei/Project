@@ -129,7 +129,7 @@ public class BuildingMenuController {
         }
     }
 
-    private static boolean checkSimpleErrorsOfSelectBuilding(int x, int y) {
+    public static boolean checkSimpleErrorsOfSelectBuilding(int x, int y) {
         if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
             output("Invalid coordinates");
             return true;
