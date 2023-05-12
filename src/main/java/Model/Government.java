@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class Government {
     public static int[] taxRateEffect = {7, 5, 3, 1, -2, -4, -6, -8, -12, -16, -20, -24};
     public ArrayList<Resource> resources = new ArrayList<>();
-    public int coins;
     public ArrayList<Trade> tradeList = new ArrayList<>();
     public int lastTradeIndex;
     private int religion;
@@ -38,7 +37,6 @@ public class Government {
         this.religion = religion = 0;
         this.fearRate = fearRate = 0;
         this.user = user;
-        this.coins = 0;
         this.lastTradeIndex = -1;
         this.initializeResources();
     }

@@ -3,6 +3,7 @@ package Controller;
 import Model.Government;
 import Model.Resources.Resource;
 import Model.Resources.ResourceModel;
+import Model.Resources.ResourceType;
 import Model.User;
 import View.Game.GovernmentMenu;
 
@@ -42,7 +43,18 @@ public class GovernmentMenuController {
     public static void showFoodRate() {
         System.out.println(currentGovernment.getFoodRate());
     }
+
+    public static boolean checkTaxRate(int rate) {
+        if(rate >= 0) return true;
+        int valuePerPerson = 10 - (rate + 3) * 2;
+        int totalGoldNeeded = (valuePerPerson * currentGovernment.getPopulation() + 9) / 10;
+        return (totalGoldNeeded <= currentGovernment.getResource(ResourceType.GOLD).getCount());
+    }
     public static void setTaxRate(int rate) {
+        if(!checkTaxRate(rate)) {
+            System.out.println("Not enough gold!");
+            return;
+        }
         currentGovernment.setTaxRate(rate);
     }
     public static void showTaxRate() {

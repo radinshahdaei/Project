@@ -11,9 +11,11 @@ import Model.Person.Military.Special.Engineer;
 import Model.Person.Person;
 import Model.Resources.Resource;
 import Model.Resources.ResourceModel;
+import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
 
+import static Model.Game.currentGovernment;
 import static View.InputOutput.output;
 public class GameMenuController {
     public static Game game;
@@ -42,6 +44,7 @@ public class GameMenuController {
         GameMenuController.AllMilitaryUnitsAttack();
         GameMenuController.factoriesProduction();
         GameMenuController.foodDelivery();
+        GameMenuController.getTaxes();
         GameMenuController.clearMap();
     }
 
@@ -77,6 +80,23 @@ public class GameMenuController {
 
         while(!GovernmentMenuController.checkFoodRate(government.getFoodRate())) {
             government.setFoodRate(government.getFoodRate() - 1);
+        }
+    }
+
+    public static void getTaxes() {
+        Government government = Game.currentGovernment;
+        Storage Granary = (Storage) government.findBuildingByName("granary");
+        if(government.getTaxRate() < 0) {
+            int valuePerPerson = 10 - (government.getTaxRate() - 8) * 2;
+            int totalGoldNeeded = (valuePerPerson * currentGovernment.getPopulation()) / 10;
+            Resource needToDeleted = new Resource(ResourceType.GOLD , totalGoldNeeded);
+            Granary.removeFromStorage(needToDeleted);
+        }
+        else {
+            int valuePerPerson = 20 - (government.getTaxRate() + 3) * 2;
+            int totalGoldReceived = (valuePerPerson * currentGovernment.getPopulation()) / 10;
+            Resource needToAdded = new Resource(ResourceType.GOLD , totalGoldReceived);
+            Granary.addToStorage(needToAdded);
         }
     }
 

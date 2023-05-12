@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Commodity;
+import Model.Resources.ResourceType;
 import Model.Store;
 
 import static Controller.Controller.currentUser;
@@ -19,12 +20,12 @@ public class StoreMenuController {
     public static void buy(String name , int amount) {
         Commodity commodity = Store.getCommodityByName(name);
         int price = commodity.buyPrice * amount;
-        if(price > currentGovernment.coins) {
-            System.out.println("Not enough coins!");
+        if(price > currentGovernment.getResource(ResourceType.GOLD).getCount()) {
+            System.out.println("Not enough gold!");
             return ;
         }
         RegisterMenuController.captcha();
-        currentGovernment.coins -= price;
+        currentGovernment.getResource(ResourceType.GOLD).addCount(-price);
         currentGovernment.addResource(commodity.resourceType , amount);
     }
 
@@ -36,7 +37,7 @@ public class StoreMenuController {
         }
         RegisterMenuController.captcha();
         int price = commodity.sellPrice * amount;
-        currentGovernment.coins += price;
+        currentGovernment.getResource(ResourceType.GOLD).addCount(price);
         currentGovernment.removeResource(commodity.resourceType , amount);
     }
 }
