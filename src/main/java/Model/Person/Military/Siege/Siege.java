@@ -16,6 +16,10 @@ public class Siege extends MilitaryUnit {
         this.engineers = engineers;
     }
 
+    public ArrayList<Engineer> getEngineers() {
+        return engineers;
+    }
+
     public static MilitaryUnit createUnit(String name, int x, int y, ArrayList<Engineer> engineers, User owner) {
         SiegeType unit = SiegeType.getUnitByName(name);
         if (unit == null) return null;

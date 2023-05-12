@@ -32,6 +32,7 @@ public class Factory extends Building {
     }
 
     public void doWork() {
+        if(this.getHp() == 0) return ;
         if (consumed != null) {
             ResourceModel resourceModel = consumed.getResourceType().resourceModel;
             String storageName = getStorageName(resourceModel);

@@ -8,6 +8,7 @@ import Model.Game;
 import Model.Map;
 import Model.Pair;
 import Model.Person.Military.MilitaryUnit;
+import Model.Person.Military.Special.Engineer;
 import Model.Person.Person;
 import Model.Resources.Resource;
 import Model.Tile;
@@ -278,5 +279,38 @@ public class UnitMenuController {
             }
         }
         output("Canceled Patrol for all units in this tile");
+    }
+
+    public static void pourOil(char direction) {
+        if (direction != 'n' && direction != 's' && direction != 'w' && direction != 'e') {
+            output("Invalid direction!");
+            return;
+        }
+        if (!(UnitMenu.userUnitInTile.get(0) instanceof Engineer)) {
+            output("Your selected units are not engineers!");
+            return;
+        }
+        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+            ((Engineer) militaryUnit).pourOil(direction);
+        }
+    }
+
+    public static void buildEquipment() {
+        if (!(UnitMenu.userUnitInTile.get(0) instanceof Engineer)) {
+            output("Your selected units are not engineers!");
+        }
+        int x = UnitMenu.userUnitInTile.get(0).getX();
+        int y = UnitMenu.userUnitInTile.get(0).getY();
+//        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+//            ((Engineer) militaryUnit).createSiege();
+//        }
+        int lastSize = -1;
+        while (UnitMenu.userUnitInTile.size() != 0) {
+            UnitMenu.userUnitInTile = getUserUnitInTile(GameMenuController.game.getMap().getTiles()[x][y].getPeople(), "engineer");
+            if (lastSize == UnitMenu.userUnitInTile.size()) break;
+            if (UnitMenu.userUnitInTile.size() == 0) break;
+            lastSize = UnitMenu.userUnitInTile.size();
+            ((Engineer) UnitMenu.userUnitInTile.get(0)).createSiege();
+        }
     }
 }

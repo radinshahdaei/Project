@@ -27,7 +27,7 @@ public class EnginnerBuilding extends Building {
             if (((Engineer) person).isAvailable()) {
                 engineer = (Engineer) person;
                 engineer.goInBuilding();
-                GameMenuController.game.getMap().getTiles()[x][y].getPeople().remove(person);
+                GameMenuController.game.getMap().getTiles()[((Engineer) person).getX()][((Engineer) person).getY()].getPeople().remove(person);
                 break;
             }
         }

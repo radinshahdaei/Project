@@ -216,13 +216,13 @@ public class GameMenu {
 
     private void giveDefaultResources(Government government, Storage storage) {
         Resource resource;
-        resource = Resource.createResource(ResourceType.getResourceByName("wood"), 20);
+        resource = Resource.createResource(ResourceType.getResourceByName("wood"), 10000);
         storage.addToStorage(resource);
-        resource = Resource.createResource(ResourceType.getResourceByName("stone"), 20);
+        resource = Resource.createResource(ResourceType.getResourceByName("stone"), 10000);
         storage.addToStorage(resource);
-        resource = Resource.createResource(ResourceType.getResourceByName("iron"), 10);
+        resource = Resource.createResource(ResourceType.getResourceByName("iron"), 10000);
         storage.addToStorage(resource);
-        resource = Resource.createResource(ResourceType.getResourceByName("gold"), 10);
+        resource = Resource.createResource(ResourceType.getResourceByName("gold"), 10000);
         storage.addToStorage(resource);
     }
 }

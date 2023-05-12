@@ -6,6 +6,7 @@ import Model.Person.Military.MilitaryUnit;
 import Model.Person.Military.Special.Engineer;
 import Model.Person.Person;
 import Model.Resources.Resource;
+import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class Government {
         this.user = user;
         this.coins = 0;
         this.lastTradeIndex = -1;
+        this.initializeResources();
     }
 
     public void checkIfDead() {
@@ -65,6 +67,15 @@ public class Government {
             }
         }
         return allEngineers;
+    }
+
+    public Resource getResourceByType(ResourceType resourceType) {
+        for (Resource resource : resources) {
+            if (resourceType.equals(resource.getResourceType())) {
+                return resource;
+            }
+        }
+        return null;
     }
 
     public void initializeResources() {
@@ -98,6 +109,36 @@ public class Government {
                 return;
             }
         }
+    }
+
+    public ArrayList<Resource> getResourcesByModel(ResourceModel resourceModel) {
+        ArrayList<Resource> result = new ArrayList<>();
+        for (Resource resource : this.resources) {
+            if(resource.getResourceType().resourceModel.equals(resourceModel)) {
+                result.add(resource);
+            }
+        }
+        //sort
+        for (int i = 0; i < result.size(); ++i) {
+            for (int j = i + 1; j < result.size(); ++j) {
+                if(result.get(i).getCount() < result.get(j).getCount()) {
+                    //swap
+                    Resource tmp = result.get(j);
+                    result.set(j , result.get(i));
+                    result.set(i , tmp);
+                }
+            }
+        }
+        return result;
+    }
+    public int getFoodCount() {
+        int counter = 0;
+        for (Resource resource : this.resources) {
+            if(resource.getResourceType().resourceModel.equals(ResourceModel.FOOD)) {
+                counter += resource.getCount();
+            }
+        }
+        return counter;
     }
 
     public Building findBuildingByName(String name) {
@@ -174,7 +215,7 @@ public class Government {
     }
 
     public void updatePopularity() {
-        this.popularity += this.getFoodEffect() + this.getTaxEffect() + this.getReligionEffect() + this.getFearEffect();
+        this.popularity += this.getFoodEffect() + this.getTaxEffect() + this.getReligionEffect() + this.getFearEffect() + this.getInnEffect();
     }
 
     public void addTrade(Trade trade) {
