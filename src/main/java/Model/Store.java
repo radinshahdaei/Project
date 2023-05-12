@@ -10,7 +10,7 @@ public class Store {
     public static void initializeCommodities() {
         commodities = new ArrayList<>();
         for (ResourceType resourceType : ResourceType.values()) {
-            Commodity commodity = new Commodity(0 , 0 , resourceType);
+            Commodity commodity = new Commodity(1 , 1 , resourceType);
             commodities.add(commodity);
         }
     }

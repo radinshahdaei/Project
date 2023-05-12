@@ -50,7 +50,7 @@ public class GameMenu {
                         output("end\ndone\nadd <username>\ndropbuilding -x <X> -y <Y> -t <type>\nclear -x <X> -y <Y>\n" +
                                 "next turn\nselect building -x <X> -y <Y>\ndraw map -x <X> -y <Y>\nshow resources\n" +
                                 "dropunit -x <X> -y <Y> -t <type> -c <count>\nselect unit -x <X> -y <Y> -t <type>\n" +
-                                "cancel patrol -x <X> -y <Y>\nenter trade menu");
+                                "cancel patrol -x <X> -y <Y>\nenter trade menu\nenter store menu");
                     }
                     else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.END)) != null) {
                         output("Game ended manually");
@@ -96,6 +96,11 @@ public class GameMenu {
                         TradeMenu tradeMenu = new TradeMenu();
                         tradeMenu.run();
                         output("Exited trade menu");
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.STORE)) != null) {
+                        output("Entered store menu");
+                        StoreMenu storeMenu = new StoreMenu();
+                        storeMenu.run();
+                        output("Exited store menu");
                     } else {
                         output("Invalid command!");
                     }
