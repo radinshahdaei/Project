@@ -16,38 +16,32 @@ public class TradeMenu {
     public void run() {
         String command;
         Matcher matcher;
-        while(true) {
+        while (true) {
             TradeMenuController.showNotification();
             command = input();
-            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
-                output("back\trade -t <resourceType> -a <resourceAmount> -p <price> -m <message> -u <username>\ntrade list\ntrade accept -i <id> -m <message>\ntrade history");
-            }
-            else if(command.matches("\\s*back\\s*")) {
+            if (command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("back\ntrade -t <resourceType> -a <resourceAmount> -p <price> -m <message> -u <username>\ntrade list\ntrade accept -i <id> -m <message>\ntrade history");
+            } else if (command.matches("\\s*back\\s*")) {
                 output("Trade menu exited manually!");
-            }
-            else if((matcher = TradeMenuCommands.getMatcher(command , TradeMenuCommands.TRADE)) != null) {
+            } else if ((matcher = TradeMenuCommands.getMatcher(command, TradeMenuCommands.TRADE)) != null) {
                 String resourceType = removeDoubleQuote(matcher.group("resourceType"));
                 int resourceAmount = Integer.parseInt(removeDoubleQuote(matcher.group("resourceAmount")));
                 int price = Integer.parseInt(removeDoubleQuote(matcher.group("price")));
                 String message = removeDoubleQuote(matcher.group("message"));
                 String toUsername = removeDoubleQuote(matcher.group("username"));
 
-                Trade current = new Trade(resourceType , resourceAmount , price , message ,
-                        GovernmentMenuController.getGovernmentByUser(findUserByUsername(toUsername)) , GovernmentMenuController.getCurrentGovernment());
+                Trade current = new Trade(resourceType, resourceAmount, price, message,
+                        GovernmentMenuController.getGovernmentByUser(findUserByUsername(toUsername)), GovernmentMenuController.getCurrentGovernment());
                 TradeMenuController.addTrade(current);
-            }
-            else if((matcher = TradeMenuCommands.getMatcher(command , TradeMenuCommands.LIST)) != null) {
+            } else if ((matcher = TradeMenuCommands.getMatcher(command, TradeMenuCommands.LIST)) != null) {
                 TradeMenuController.showList();
-            }
-            else if((matcher = TradeMenuCommands.getMatcher(command , TradeMenuCommands.ACCEPT)) != null) {
+            } else if ((matcher = TradeMenuCommands.getMatcher(command, TradeMenuCommands.ACCEPT)) != null) {
                 int id = Integer.parseInt(removeDoubleQuote(matcher.group("id")));
                 String message = removeDoubleQuote(matcher.group("message"));
                 TradeMenuController.acceptTrade(id);
-            }
-            else if((matcher = TradeMenuCommands.getMatcher(command , TradeMenuCommands.HISTORY)) != null) {
+            } else if ((matcher = TradeMenuCommands.getMatcher(command, TradeMenuCommands.HISTORY)) != null) {
                 TradeMenuController.showHistory();
-            }
-            else {
+            } else {
                 output("Invalid command!");
             }
         }
