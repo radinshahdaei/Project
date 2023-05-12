@@ -115,6 +115,7 @@ public class BuildingMenuController {
                 if (reduced == resource.getCount()) break;
             }
         }
+        if (building.getWorkers() == 0) return;
         int i = 0;
         ArrayList<Person> peasants = Game.currentGovernment.getPeasants();
         for (Person person : peasants) {
@@ -142,6 +143,10 @@ public class BuildingMenuController {
                 return true;
             }
         }
+        if (building.getWorkers() == 0) return false;
+        System.out.println("building " + building.getWorkers());
+        System.out.println("population " + Game.currentGovernment.getPopulation());
+        System.out.println("peasants " + Game.currentGovernment.getPeasants().size());
         if (building.getWorkers() > Game.currentGovernment.getPeasants().size()) {
             output("Not enough workers to create this building!");
             return true;
