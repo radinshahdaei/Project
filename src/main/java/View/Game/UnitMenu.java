@@ -19,7 +19,7 @@ public class UnitMenu {
         while (true) {
             command = input();
             if ((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.EXIT)) != null) {
-                output("Exited Unit menu");
+                output("Unit menu exited manually!");
                 return;
             }
             else if ((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.MOVE_UNIT)) != null) {

@@ -17,6 +17,7 @@ public class GovernmentMenu {
         while(true) {
             command = input();
             if (command.matches("\\s*back\\s*")) {
+                output("Government menu exited manually!");
                 return;
             }
             else if(command.matches("\\s*show\\s+popularity\\s+factors\\s*")) {

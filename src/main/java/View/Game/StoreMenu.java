@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 
 import static Controller.Controller.*;
 import static View.InputOutput.input;
+import static View.InputOutput.output;
 
 public class StoreMenu {
 
@@ -18,6 +19,10 @@ public class StoreMenu {
         Matcher matcher;
         while(true) {
             command = input();
+            if(command.matches("\\s*back\\s*")) {
+                output("Store menu exited manually!");
+                return ;
+            }
             if(command.matches("\\s*show\\s+price\\s+list\\s*")) {
                 StoreMenuController.showCommodities();
             }
@@ -30,6 +35,9 @@ public class StoreMenu {
                 String name = matcher.group("name");
                 int amount  = Integer.parseInt(matcher.group("amount"));
                 StoreMenuController.sell(name , amount);
+            }
+            else {
+                output("Invalid command!");
             }
         }
     }

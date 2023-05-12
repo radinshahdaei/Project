@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 
 import static Controller.Controller.*;
 import static View.InputOutput.input;
+import static View.InputOutput.output;
 
 public class TradeMenu {
 
@@ -18,6 +19,9 @@ public class TradeMenu {
         while(true) {
             TradeMenuController.showNotification();
             command = input();
+            if(command.matches("\\s*back\\s*")) {
+                output("Trade menu exited manually!");
+            }
             if((matcher = TradeMenuCommands.getMatcher(command , TradeMenuCommands.TRADE)) != null) {
                 String resourceType = removeDoubleQuote(matcher.group("resourceType"));
                 int resourceAmount = Integer.parseInt(removeDoubleQuote(matcher.group("resourceAmount")));
@@ -39,6 +43,9 @@ public class TradeMenu {
             }
             else if((matcher = TradeMenuCommands.getMatcher(command , TradeMenuCommands.HISTORY)) != null) {
                 TradeMenuController.showHistory();
+            }
+            else {
+                output("Invalid command!");
             }
         }
     }
