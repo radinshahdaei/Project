@@ -1,5 +1,6 @@
 package Model.Building;
 
+import Controller.GameMenuController;
 import Model.Game;
 import Model.Person.Military.Special.Engineer;
 import Model.Person.Person;
@@ -26,6 +27,7 @@ public class EnginnerBuilding extends Building {
             if (((Engineer) person).isAvailable()) {
                 engineer = (Engineer) person;
                 engineer.goInBuilding();
+                GameMenuController.game.getMap().getTiles()[x][y].getPeople().remove(person);
                 break;
             }
         }
@@ -41,5 +43,5 @@ public class EnginnerBuilding extends Building {
         return null;
     }
 
-    
+
 }

@@ -112,6 +112,7 @@ public class Engineer extends MilitaryUnit {
             i++;
             engineers.add((Engineer) person);
             ((Engineer) person).goInSiege();
+            GameMenuController.game.getMap().getTiles()[x][y].getPeople().remove(person);
             if (i == engineersNeeded) break;
         }
         MilitaryUnit siege = Siege.createUnit(machine, x, y, engineers, Game.currentGovernment.getUser());
