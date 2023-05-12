@@ -10,7 +10,7 @@ public class Rock extends Building {
         this.type = type;
     }
 
-    public Building createRock(char direction, int x, int y) {
+    public static Building createRock(char direction, int x, int y) {
         RockType type = RockType.getRockByDirection(direction);
         String name = String.valueOf(direction) + " rock";
         return new Rock(name, x, y, type);

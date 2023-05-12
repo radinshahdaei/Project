@@ -12,7 +12,9 @@ public enum UnitMenuCommands {
     DISBAND("\\s*disband\\s+unit\\s*"),
     PATROL_UNIT("\\s*patrol\\s+unit\\s+(?=.*-x1 (?<X1>\\d+))(?=.*-y1 (?<Y1>\\d+))(?=.*-x2 (?<X2>\\d+))(?=.*-y2 (?<Y2>\\d+)).*"),
     POUR_OIL("\\s*pour\\s+oil\\s+-d\\s+(?<direction>\\w)\\s*"),
-    BUILD_EQUIPMENT("\\s*build\\s+equipment\\s*");
+    BUILD_EQUIPMENT("\\s*build\\s+equipment\\s*"),
+    DIG_MOAT("\\s*dig\\s+moat\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*"),
+    FILL_MOAT("\\s*fill\\s+moat\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*");
     String regex;
     private UnitMenuCommands(String regex) {this.regex = regex;}
     public static Matcher getMatcher(String input, UnitMenuCommands loginMenuCommand) {

@@ -14,7 +14,9 @@ public enum MapMenuCommands{
     MAP_MOVE("\\s*map\\s+move\\s+(?=.*(?<up>up\\s*(?<amountUp>\\d+)?))?(?=.*(?<down>down\\s*(?<amountDown>" +
             "\\d+)?))?(?=.*(?<left>left\\s*(?<amountLeft>\\d+)?))?(?=.*(?<right>right\\s*(?<amountRight>\\d+)?))?.*"),
     SHOW_DETAILS("\\s*show\\s+details\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*"),
-    DROP_BUILDING("\\s*dropbuilding\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+))(?=.*-t (?<type>\"[^\"]+\"|\\S*)).*");
+    DROP_BUILDING("\\s*dropbuilding\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+))(?=.*-t (?<type>\"[^\"]+\"|\\S*)).*"),
+    DROP_ROCK("\\s*droprock\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+))(?=.*-d (?<direction>\\w)).*"),
+    DROP_TREE("\\s*droptree\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+))(?=.*-t (?<type>\"[^\"]+\"|\\S*)).*");
     String regex;
     private MapMenuCommands(String regex) {this.regex = regex;}
     public static Matcher getMatcher(String input, MapMenuCommands loginMenuCommand) {

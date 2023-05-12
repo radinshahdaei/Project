@@ -1,6 +1,8 @@
 package Controller;
 
 import Model.Building.*;
+import Model.Building.Nature.Rock;
+import Model.Building.Nature.Tree;
 import Model.Game;
 import Model.Government;
 import Model.Person.Military.MilitaryUnit;
@@ -121,5 +123,21 @@ public class MapMenuController {
                 counter++;
             }
         }
+    }
+
+    public static void dropRock(int x, int y, char direction) {
+        if (GameMenuController.game.getMap().getTiles()[x][y].getBuilding() != null) {
+            output("There is already a building in this tile");
+        }
+        Building building = Rock.createRock(direction, x, y);
+        GameMenuController.game.getMap().getTiles()[x][y].setBuilding(building);
+    }
+
+    public static void dropTree(int x, int y, String type) {
+        if (GameMenuController.game.getMap().getTiles()[x][y].getBuilding() != null) {
+            output("There is already a building in this tile");
+        }
+        Building building = Tree.createTree(type, x, y);
+        GameMenuController.game.getMap().getTiles()[x][y].setBuilding(building);
     }
 }

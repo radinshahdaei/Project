@@ -63,6 +63,14 @@ public class UnitMenu {
                     return;
                 }
             }
+            else if ((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.DIG_MOAT)) != null) {
+                int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                UnitMenuController.digMoat(x, y);
+            }
+            else if ((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.FILL_MOAT)) != null) {
+                int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                UnitMenuController.fillMoat(x, y);
+            }
             else {
                 output("Invalid command!");
             }

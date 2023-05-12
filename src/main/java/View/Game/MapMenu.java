@@ -4,6 +4,7 @@ package View.Game;
 import Controller.Controller;
 import Controller.GameMenuController;
 import Controller.MapMenuController;
+import View.Commands.GameMenuCommands;
 import View.Commands.MapMenuCommands;
 
 import java.util.regex.Matcher;
@@ -45,6 +46,16 @@ public class MapMenu {
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SHOW_DETAILS)) != null) {
                 int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                 MapMenuController.showDetails(x , y);
+            }
+            else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.DROP_ROCK)) != null) {
+                int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                char direction = matcher.group("direction").charAt(0);
+                MapMenuController.dropRock(x, y, direction);
+            }
+            else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.DROP_TREE)) != null) {
+                int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                String type = matcher.group("type");
+                MapMenuController.dropTree(x, y, type);
             }
             else {
                 output("Invalid command!");
