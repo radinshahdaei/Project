@@ -186,6 +186,7 @@ public class MilitaryUnit extends Person {
 
     public void reduceDefence(int amount) {
         this.defence -= amount;
+        if (this.defence < 0) this.defence = 0;
     }
 
     public Pair move() {
@@ -200,6 +201,55 @@ public class MilitaryUnit extends Person {
         }
         path = reverseArrayList(path);
         return path.get(Math.min(path.size() - 1, (this.speed + 2) / 3));
+    }
+
+    public int getDistance(int x1, int y1, int x2, int y2) {
+        int d1 = (int) Math.pow(x1 - x2, 2);
+        int d2 = (int) Math.pow(y1 - y2, 2);
+        return (int) Math.sqrt(d1 + d2);
+    }
+
+    public MilitaryUnit getLowestHealth(Tile tile, User owner) {
+        ArrayList<Person> people = tile.getPeople(owner);
+        Person personWithLowestHealth = null;
+        int lowestHealth = 1000000;
+        if (people.size() == 0) return null;
+        for (Person person : people) {
+            if (((MilitaryUnit) person).getDefence() < lowestHealth) {
+                personWithLowestHealth = person;
+                lowestHealth = ((MilitaryUnit) person).getDefence();
+            }
+        }
+        return ((MilitaryUnit) personWithLowestHealth);
+    }
+
+    public MilitaryUnit scan() {
+        User owner = super.getOwner();
+        MilitaryUnit scanned = null;
+        int mapSize = GameMenuController.mapSize;
+        int minDistance = 1000000;
+        int distance;
+        Tile[][] tiles = GameMenuController.game.getMap().getTiles();
+        int startingX = Math.max(x - range, 0);
+        int startingY = Math.max(y - range, 0);
+        int endingX = Math.min(x + range, mapSize - 1);
+        int endingY = Math.min(y + range, mapSize - 1);
+        for (int i = startingX; i <= endingX; i++) {
+            for (int j = startingY; j <= endingY; j++) {
+                if (tiles[i][j].getPeople(owner).size() == 0) continue;
+                distance = getDistance(x, y, i, j);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    scanned = getLowestHealth(tiles[i][j], owner);
+                }
+            }
+        }
+        return scanned;
+    }
+
+    public void attack() {
+        MilitaryUnit scanned = scan();
+        scanned.reduceDefence(this.attack);
     }
 
     public void fixAbleToPass() {
@@ -224,7 +274,8 @@ public class MilitaryUnit extends Person {
                 if (building instanceof Wall) {
                     Wall wall = (Wall) building;
                     if (wall.isHasLadder() && soldier.getCanUseLadder()) return true;
-                    if ((wall.isHasStairs() || wall.isGateHouse()) && soldier.getOwner().equals(wall.getOwner())) return true;
+                    if ((wall.isHasStairs() || wall.isGateHouse()) && soldier.getOwner().equals(wall.getOwner()))
+                        return true;
                     if (wall.isHasSiegeTower() && soldier.getOwner().equals(wall.getSiegeTowerOwner())) return true;
                     if (wall.isGateHouse() && wall.isCaptured()) return true;
                     if (wall.getHp() <= 0) return true;
@@ -234,8 +285,7 @@ public class MilitaryUnit extends Person {
                 return false;
             }
             return true;
-        }
-        else {
+        } else {
             if ((building = tile.getBuilding()) != null) {
                 if (building.getHp() <= 0) return true;
                 return false;

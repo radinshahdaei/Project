@@ -35,6 +35,14 @@ public class Tile {
         return people;
     }
 
+    public ArrayList<Person> getPeople(User owner) {
+        ArrayList<Person> peopleNOT = new ArrayList<>();
+        for (Person person : people) {
+            if (!person.getOwner().equals(owner)) peopleNOT.add(person);
+        }
+        return peopleNOT;
+    }
+
     public void setPeople(ArrayList<Person> people) {
         this.people = people;
     }
