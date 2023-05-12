@@ -6,6 +6,7 @@ import Model.Store;
 
 import static Controller.Controller.currentUser;
 import static Model.Game.currentGovernment;
+import static View.InputOutput.output;
 
 public class StoreMenuController {
     public static void showCommodities() {
@@ -19,6 +20,10 @@ public class StoreMenuController {
 
     public static void buy(String name , int amount) {
         Commodity commodity = Store.getCommodityByName(name);
+        if (commodity == null) {
+            output("there is no such commodity");
+            return;
+        }
         int price = commodity.buyPrice * amount;
         if(price > currentGovernment.getResource(ResourceType.GOLD).getCount()) {
             System.out.println("Not enough gold!");
@@ -31,6 +36,10 @@ public class StoreMenuController {
 
     public static void sell(String name , int amount) {
         Commodity commodity = Store.getCommodityByName(name);
+        if (commodity == null) {
+            output("there is no such commodity");
+            return;
+        }
         if(currentGovernment.getResource(commodity.resourceType).getCount() < amount) {
             System.out.println("Not enough resource!");
             return ;
