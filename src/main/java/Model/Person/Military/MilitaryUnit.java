@@ -4,6 +4,7 @@ import Controller.GameMenuController;
 import Model.*;
 import Model.Building.Building;
 import Model.Building.DeffensiveBuilding.DefensiveBuilding;
+import Model.Building.Moat;
 import Model.Building.Wall;
 import Model.Person.Military.Siege.Siege;
 import Model.Person.Military.Soldier.Soldier;
@@ -16,6 +17,9 @@ import Model.Resources.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static Controller.BuildingMenuController.checkSimpleErrorsOfSelectBuilding;
+import static View.InputOutput.output;
 
 public class MilitaryUnit extends Person {
     public static HashMap<String, String> AllMilitaryUnits = new HashMap<>();
@@ -254,6 +258,25 @@ public class MilitaryUnit extends Person {
         return scanned;
     }
 
+    public void digMoat(int x, int y) { //TODO run when dig moat is typed
+        if (checkSimpleErrorsOfSelectBuilding(x, y)) {
+            output("You can't dig a moat here!");
+            return;
+        }
+        Building moat = new Moat(x, y, getOwner());
+        GameMenuController.game.getMap().getTiles()[x][y].setBuilding(moat);
+    }
+
+    public void fillMoat(int x, int y) { //TODO run when fill moat is added
+        Building building = GameMenuController.game.getMap().getTiles()[x][y].getBuilding();
+        if (building == null) return;
+        if (!(building instanceof Moat)) return;
+        if (!(building.getOwner().equals(getOwner()))) return;
+        GameMenuController.game.getMap().getTiles()[x][y].setBuilding(null);
+        output("Moat filled up!");
+    }
+
+
     public void batteringRamAttack() {
         Tile[][] tiles = GameMenuController.game.getMap().getTiles();
         Building building = tiles[this.getX()][this.getY()].getBuilding();
@@ -350,14 +373,16 @@ public class MilitaryUnit extends Person {
                         return false;
                     }
                     if (building.getHp() <= 0) return true;
-                    if (building instanceof DefensiveBuilding && building.getOwner().equals(soldier.getOwner())) return true;
+                    if (building instanceof DefensiveBuilding && building.getOwner().equals(soldier.getOwner()))
+                        return true;
                     return false;
                 }
                 return true;
             } else {
                 if ((building = tile.getBuilding()) != null) {
                     if (building.getHp() <= 0) return true;
-                    if (building instanceof DefensiveBuilding && building.getOwner().equals(this.getOwner())) return true;
+                    if (building instanceof DefensiveBuilding && building.getOwner().equals(this.getOwner()))
+                        return true;
                     return false;
                 }
                 return true;

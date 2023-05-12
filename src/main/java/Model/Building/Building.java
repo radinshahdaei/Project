@@ -66,7 +66,7 @@ public class Building {
         ALL_BUILDINGS.put("cathedral", BuildingType.SPECIAL);
         ALL_BUILDINGS.put("siege tent", BuildingType.SPECIAL);
         ALL_BUILDINGS.put("oil smelter", BuildingType.SPECIAL);
-
+        
     }
 
     private String name;

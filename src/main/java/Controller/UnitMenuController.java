@@ -28,7 +28,7 @@ public class UnitMenuController {
         MilitaryUnit militaryUnit = MilitaryUnit.createUnits(type, militaryType, x, y, Game.currentGovernment.getUser());
         if (checkIfEnoughResourcesExist(militaryUnit, count)) return;
         reduceRecommendedResources(militaryUnit, count);
-        for (int i = 0 ; i < count ; i++) {
+        for (int i = 0; i < count; i++) {
             militaryUnit = MilitaryUnit.createUnits(type, militaryType, x, y, Game.currentGovernment.getUser());
             Game.currentGovernment.getPeople().add(militaryUnit);
             GameMenuController.game.getMap().getTiles()[x][y].getPeople().add(militaryUnit);
@@ -49,12 +49,12 @@ public class UnitMenuController {
     }
 
     private static boolean checkIfEnoughResourcesExist(MilitaryUnit militaryUnit, int count) {
-        for (Resource resource: militaryUnit.getPrice()) {
+        for (Resource resource : militaryUnit.getPrice()) {
             int amount = 0;
-            for (Building checkBuilding: Game.currentGovernment.getBuildings()) {
+            for (Building checkBuilding : Game.currentGovernment.getBuildings()) {
                 if (checkBuilding.getName().equals("stockpile")) {
                     Storage storage = (Storage) checkBuilding;
-                    for (Resource stockResource: storage.getStorage()) {
+                    for (Resource stockResource : storage.getStorage()) {
                         if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
                             amount += stockResource.getCount();
                         }
@@ -70,12 +70,12 @@ public class UnitMenuController {
     }
 
     private static void reduceRecommendedResources(MilitaryUnit militaryUnit, int count) {
-        for (Resource resource: militaryUnit.getPrice()) {
+        for (Resource resource : militaryUnit.getPrice()) {
             int reduced = 0;
-            for (Building checkBuilding: Game.currentGovernment.getBuildings()) {
+            for (Building checkBuilding : Game.currentGovernment.getBuildings()) {
                 if (checkBuilding.getName().equals("stockpile")) {
                     Storage storage = (Storage) checkBuilding;
-                    for (Resource stockResource: storage.getStorage()) {
+                    for (Resource stockResource : storage.getStorage()) {
                         if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
                             int temp = reduced;
                             reduced += Math.min(resource.getCount() * count - reduced, stockResource.getCount());
@@ -127,8 +127,8 @@ public class UnitMenuController {
     public static void moveAllMilitaryUnits() {
         Tile[][] tiles = GameMenuController.game.getMap().getTiles();
         Tile[][] newTiles = new Tile[GameMenuController.mapSize][GameMenuController.mapSize];
-        for (int i = 0 ; i < GameMenuController.mapSize ; i++) {
-            for (int j = 0 ; j < GameMenuController.mapSize ; j++) {
+        for (int i = 0; i < GameMenuController.mapSize; i++) {
+            for (int j = 0; j < GameMenuController.mapSize; j++) {
                 newTiles[i][j] = new Tile();
                 newTiles[i][j].setBuilding(tiles[i][j].getBuilding());
                 newTiles[i][j].setTexture(tiles[i][j].getTexture());
@@ -137,9 +137,9 @@ public class UnitMenuController {
                 newTiles[i][j].setPeople(new ArrayList<>(tiles[i][j].getPeople()));
             }
         }
-        for (int i = 0 ; i < GameMenuController.mapSize ; i++) {
-            for (int j = 0 ; j < GameMenuController.mapSize ; j++) {
-                for (Person person:tiles[i][j].getPeople()) {
+        for (int i = 0; i < GameMenuController.mapSize; i++) {
+            for (int j = 0; j < GameMenuController.mapSize; j++) {
+                for (Person person : tiles[i][j].getPeople()) {
                     if (person instanceof MilitaryUnit) {
                         MilitaryUnit militaryUnit = (MilitaryUnit) person;
                         Pair pair = militaryUnit.move();
@@ -156,17 +156,16 @@ public class UnitMenuController {
 
     public static void checkPatrols() {
         Tile[][] tiles = GameMenuController.game.getMap().getTiles();
-        for (int i = 0 ; i < GameMenuController.mapSize ; i++) {
-            for (int j = 0 ; j < GameMenuController.mapSize ; j++) {
-                for (Person person:tiles[i][j].getPeople()) {
+        for (int i = 0; i < GameMenuController.mapSize; i++) {
+            for (int j = 0; j < GameMenuController.mapSize; j++) {
+                for (Person person : tiles[i][j].getPeople()) {
                     if (person instanceof MilitaryUnit && ((MilitaryUnit) person).isOnPatrol()) {
                         MilitaryUnit militaryUnit = (MilitaryUnit) person;
                         if (militaryUnit.getEndPatrol().first == militaryUnit.getX() &&
                                 militaryUnit.getEndPatrol().second == militaryUnit.getY()) {
                             militaryUnit.setDestinationY(militaryUnit.getStartPatrol().second);
                             militaryUnit.setDestinationX(militaryUnit.getStartPatrol().first);
-                        }
-                        else if (militaryUnit.getStartPatrol().first == militaryUnit.getX() &&
+                        } else if (militaryUnit.getStartPatrol().first == militaryUnit.getX() &&
                                 militaryUnit.getStartPatrol().second == militaryUnit.getY()) {
                             militaryUnit.setDestinationY(militaryUnit.getEndPatrol().second);
                             militaryUnit.setDestinationX(militaryUnit.getEndPatrol().first);
@@ -182,14 +181,14 @@ public class UnitMenuController {
             output("Invalid coordinates");
             return;
         }
-        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+        for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
             militaryUnit.setDestinationX(x);
             militaryUnit.setDestinationY(y);
         }
     }
 
     public static void setStatus(String status) {
-        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+        for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
             militaryUnit.setStatus(status);
         }
     }
@@ -210,15 +209,19 @@ public class UnitMenuController {
         }
         ArrayList<Person> peopleInTile = GameMenuController.game.getMap().getTiles()[x][y].getPeople();
         Building building = GameMenuController.game.getMap().getTiles()[x][y].getBuilding();
-        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+        for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
             if (militaryUnit.getRange() > 0 && checkInRange(militaryUnit, x, y)) {
-                for (Person person:peopleInTile) {
+                for (Person person : peopleInTile) {
                     if (person instanceof MilitaryUnit && !person.getOwner().equals(militaryUnit.getOwner())) {
                         ((MilitaryUnit) person).reduceDefence(militaryUnit.getAttack());
                     }
                 }
                 if (building != null && !building.getOwner().equals(militaryUnit.getOwner())) {
                     building.reduceHP(militaryUnit.getAttack());
+                }
+                if (GameMenuController.game.getMap().getTiles()[x][y].isHasOil()) {
+                    GameMenuController.game.getMap().getTiles()[x][y].setHasOil(false);
+                    GameMenuController.game.getMap().getTiles()[x][y].setOnFire(true);
                 }
             }
         }
@@ -236,7 +239,7 @@ public class UnitMenuController {
         int y = campfire.getY();
         moveUnit(x, y);
         setStatus("standing");
-        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+        for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
             militaryUnit.setOnPatrol(false);
         }
     }
@@ -250,7 +253,7 @@ public class UnitMenuController {
             output("Invalid coordinates");
             return false;
         }
-        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+        for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
             militaryUnit.setOnPatrol(true);
             militaryUnit.setStartPatrol(new Pair(x1, y1));
             militaryUnit.setEndPatrol(new Pair(x2, y2));
@@ -265,7 +268,7 @@ public class UnitMenuController {
             output("Invalid coordinates");
             return;
         }
-        for (Person person: GameMenuController.game.getMap().getTiles()[x][y].getPeople()) {
+        for (Person person : GameMenuController.game.getMap().getTiles()[x][y].getPeople()) {
             if (person instanceof MilitaryUnit) {
                 MilitaryUnit militaryUnit = (MilitaryUnit) person;
                 if (militaryUnit.isOnPatrol()) {
@@ -287,7 +290,7 @@ public class UnitMenuController {
             output("Your selected units are not engineers!");
             return;
         }
-        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+        for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
             ((Engineer) militaryUnit).pourOil(direction);
         }
     }
@@ -312,7 +315,7 @@ public class UnitMenuController {
     }
 
     public static void attackWithStatus() {
-        for (Person person:Game.currentGovernment.getPeople()) {
+        for (Person person : Game.currentGovernment.getPeople()) {
             if (!(person instanceof MilitaryUnit)) continue;
             MilitaryUnit militaryUnit = (MilitaryUnit) person;
             if (militaryUnit.getDestinationY() != militaryUnit.getY() ||
