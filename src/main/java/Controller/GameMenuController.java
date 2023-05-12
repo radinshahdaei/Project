@@ -39,9 +39,19 @@ public class GameMenuController {
         GameMenuController.clearMap();
         UnitMenuController.checkPatrols();
         UnitMenuController.moveAllMilitaryUnits();
+        GameMenuController.AllMilitaryUnitsAttack();
         GameMenuController.factoriesProduction();
-
+        GameMenuController.foodDelivery();
         GameMenuController.clearMap();
+    }
+
+    private static void AllMilitaryUnitsAttack() {
+        for (Government government:GameMenuController.game.getGovernments()) {
+            if (government.isDead()) continue;
+            for (Person person: government.getPeople()) {
+                if (person instanceof MilitaryUnit) ((MilitaryUnit) person).attack();
+            }
+        }
     }
 
     public static void factoriesProduction() {
