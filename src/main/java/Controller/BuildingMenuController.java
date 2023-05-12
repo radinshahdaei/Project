@@ -1,16 +1,14 @@
 package Controller;
 
+import Model.Building.*;
 import Model.Building.Barracks.Barracks;
-import Model.Building.Building;
-import Model.Building.BuildingType;
-import Model.Building.Church;
-import Model.Building.Keep;
 import Model.Building.Storage.Storage;
 import Model.Building.WeaponMaker.WeaponMaker;
 import Model.Game;
 import Model.Pair;
 import Model.Person.Person;
 import Model.Resources.Resource;
+import Model.Resources.ResourceType;
 import Model.Tile;
 import View.Game.GameMenu;
 import View.Game.GovernmentMenu;
@@ -42,6 +40,30 @@ public class BuildingMenuController {
         if (type.equalsIgnoreCase("pitch ditch"))
             GameMenuController.game.getMap().getTiles()[x][y].setHasOil(true);
         output("building successfully made");
+    }
+
+    public static void dropStairs(int x, int y) {
+        int mapSize = GameMenuController.mapSize;
+        if (x < 0 || y < 0 || x >= mapSize || y >= mapSize) {
+            output("Invalid coordinates!");
+            return;
+        }
+        Tile tile = GameMenuController.game.getMap().getTiles()[x][y];
+        if (tile.getBuilding() == null || !(tile.getBuilding() instanceof Wall)) {
+            output("There is no wall here!");
+            return;
+        }
+        if (!(tile.getBuilding().getOwner().equals(Game.currentGovernment.getUser()))) {
+            output("This isn't your wall!");
+            return;
+        }
+        Storage stockpile = (Storage) Game.currentGovernment.findBuildingByName("stockpile");
+        if (!stockpile.removeFromStorage(Resource.createResource(ResourceType.STONE, 10))) {
+            output("You don't have enough stone");
+            return;
+        }
+        ((Wall) tile.getBuilding()).setHasStairs(true);
+        output("Wall successfully created!");
     }
 
     private static boolean checkNeededTexture(int x, int y, String type) {

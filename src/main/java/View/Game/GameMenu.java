@@ -52,6 +52,9 @@ public class GameMenu {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                         String type = Controller.removeDoubleQuote(matcher.group("type"));
                         BuildingMenuController.dropBuilding(x, y, type);
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.DROP_STAIRS)) != null) {
+                        int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                        BuildingMenuController.dropStairs(x, y);
                     } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SELECT_BUILDING)) != null) {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                         BuildingMenuController.selectBuilding(x, y);

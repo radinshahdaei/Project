@@ -8,6 +8,7 @@ public enum GameMenuCommands {
     DONE("\\s*Done\\s*"),
     ADD_USER("\\s*add\\s+(?<username>\\S+)\\s*"),
     DROP_BUILDING("\\s*dropbuilding\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+))(?=.*-t (?<type>\"[^\"]+\"|\\S*)).*"),
+    DROP_STAIRS("\\s*dropstairs\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*"),
     CLEAR("\\s*clear\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*"),
     NEXT_TURN("\\s*next\\s+turn\\s*"),
     SELECT_BUILDING("\\s*select\\s+building\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*"),
@@ -17,7 +18,11 @@ public enum GameMenuCommands {
     SELECT_UNIT("\\s*select\\s+unit\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+))(?=.*-t (?<type>\"[^\"]+\"|\\S*)).*"),
     CANCEL_PATROL("\\s*cancel\\s+patrol\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*");
     String regex;
-    private GameMenuCommands(String regex) {this.regex = regex;}
+
+    private GameMenuCommands(String regex) {
+        this.regex = regex;
+    }
+
     public static Matcher getMatcher(String input, GameMenuCommands loginMenuCommand) {
         Matcher matcher = Pattern.compile(loginMenuCommand.regex).matcher(input);
         if (matcher.matches()) {
