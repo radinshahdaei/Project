@@ -32,18 +32,18 @@ public class Factory extends Building {
     }
 
     public void doWork() {
-        if(this.getHp() == 0) return ;
+        if (this.getHp() == 0) return;
         if (consumed != null) {
             ResourceModel resourceModel = consumed.getResourceType().resourceModel;
             String storageName = getStorageName(resourceModel);
-            Storage storage = (Storage) Game.currentGovernment.findBuildingByName(storageName);
+            Storage storage = (Storage) Game.getGovernmentByUser(this.getOwner()).findBuildingByName(storageName);
             if (storage == null) return;
             storage.removeFromStorage(consumed);
         }
         if (produced == null) return;
         ResourceModel resourceModel = produced.getResourceType().resourceModel;
         String storageName = getStorageName(resourceModel);
-        Storage storage = (Storage) Game.currentGovernment.findBuildingByName(storageName);
+        Storage storage = (Storage) Game.getGovernmentByUser(this.getOwner()).findBuildingByName(storageName);
         if (storage == null) return;
         storage.addToStorage(produced);
         if (super.getName().equals("diary farmer")) //diary farmer also produces cows!

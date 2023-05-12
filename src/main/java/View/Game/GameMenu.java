@@ -47,7 +47,7 @@ public class GameMenu {
                 while (true) {
                     command = input();
                     if (command.matches("\\s*show\\s+related\\s+commands\\s*")) {
-                        output("end\ndone\nadd <username>\ndropbuilding -x <X> -y <Y> -t <type>\nclear -x <X> -y <Y>\nnext turn\nselect building -x <X> -y <Y>\ndraw map -x <X> -y <Y>\nshow resources\ndropunit -x <X> -y <Y> -t <type> -c <count>\nselect unit -x <X> -y <Y> -t <type>\ncancel patrol -x <X> -y <Y>");
+                        output("end\ndone\nadd <username>\ndropbuilding -x <X> -y <Y> -t <type>\nclear -x <X> -y <Y>\nnext turn\nselect building -x <X> -y <Y>\ndraw map -x <X> -y <Y>\nshow details -x <X> -y <Y>\nshow resources\ndropunit -x <X> -y <Y> -t <type> -c <count>\nselect unit -x <X> -y <Y> -t <type>\ncancel patrol -x <X> -y <Y>");
                     } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.END)) != null) {
                         output("Game ended manually");
                         return;
@@ -96,7 +96,9 @@ public class GameMenu {
     }
 
     private static void createMap() {
-        output("Enter 1 if you want a 200 in 200 map or 2 if you want a 400 in 400 map");
+        output("Which map do you want? Type it's number!" +
+                "\n1) 200 in 200 map" +
+                "\n2) 400 in 400 map");
         String size = input();
         while (!size.equals("1") && !size.equals("2")) {
             output("Please enter 1 or 2!");
