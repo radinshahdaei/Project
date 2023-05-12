@@ -60,6 +60,14 @@ public class UnitMenuController {
                         }
                     }
                 }
+                if (checkBuilding.getName().equals("armoury")) {
+                    Storage storage = (Storage) checkBuilding;
+                    for (Resource stockResource : storage.getStorage()) {
+                        if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
+                            amount += stockResource.getCount();
+                        }
+                    }
+                }
             }
             if (amount < resource.getCount() * count) {
                 output("Not enough resources to buy this unit");
@@ -80,6 +88,17 @@ public class UnitMenuController {
             int reduced = 0;
             for (Building checkBuilding : Game.currentGovernment.getBuildings()) {
                 if (checkBuilding.getName().equals("stockpile")) {
+                    Storage storage = (Storage) checkBuilding;
+                    for (Resource stockResource : storage.getStorage()) {
+                        if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
+                            int temp = reduced;
+                            reduced += Math.min(resource.getCount() * count - reduced, stockResource.getCount());
+                            stockResource.setCount(stockResource.getCount() -
+                                    Math.min(resource.getCount() * count - temp, stockResource.getCount()));
+                        }
+                    }
+                }
+                if (checkBuilding.getName().equals("armoury")) {
                     Storage storage = (Storage) checkBuilding;
                     for (Resource stockResource : storage.getStorage()) {
                         if (resource.getResourceType().name.equals(stockResource.getResourceType().name)) {
