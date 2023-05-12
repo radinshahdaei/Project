@@ -17,7 +17,8 @@ public enum GameMenuCommands {
     DROP_UNIT("\\s*dropunit\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+))(?=.*-t (?<type>\"[^\"]+\"|\\S*))(?=.*-c (?<count>\\d+)).*"),
     SELECT_UNIT("\\s*select\\s+unit\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+))(?=.*-t (?<type>\"[^\"]+\"|\\S*)).*"),
     CANCEL_PATROL("\\s*cancel\\s+patrol\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*"),
-    TRADE("\\s*enter\\s+trade\\s+menu\\s*");
+    TRADE("\\s*enter\\s+trade\\s+menu\\s*"),
+    STORE("\\s*enter\\s+store\\s+menu\\s*");
     String regex;
 
     private GameMenuCommands(String regex) {
