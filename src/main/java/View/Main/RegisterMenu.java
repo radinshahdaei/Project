@@ -16,7 +16,12 @@ public class RegisterMenu {
         Matcher matcher;
         while (true) {
             command = input();
-            if ((matcher = RegisterMenuCommands.getMatcher(command, RegisterMenuCommands.BACK)) != null) {
+            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("back");
+                output("user create -u <username> -n <nickname> -p <\"random\"|\"your password\"> <passwordConfirmation> -email <email> -s <\"random\" | \"your slogan\"");
+                output("question pick -q <question number> -a <answer> <answerConfirmation>");
+            }
+            else if ((matcher = RegisterMenuCommands.getMatcher(command, RegisterMenuCommands.BACK)) != null) {
                 output("Entered Main Menu!");
                 break;
             } else if ((matcher = RegisterMenuCommands.getMatcher(command, RegisterMenuCommands.REGISTER)) != null) {

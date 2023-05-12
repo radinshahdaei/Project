@@ -16,7 +16,13 @@ public class StartMenu {
         output("[GAME][PROFILE]");
         while (true) {
             command = input();
-            if ((matcher = StartMenuCommands.getMatcher(command, StartMenuCommands.LOGOUT)) != null) {
+            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("logout");
+                output("exit");
+                output("enter profile menu");
+                output("start game");
+            }
+            else if ((matcher = StartMenuCommands.getMatcher(command, StartMenuCommands.LOGOUT)) != null) {
                 StartMenuController.logout();
                 output("Logged out");
                 return "logged out";
