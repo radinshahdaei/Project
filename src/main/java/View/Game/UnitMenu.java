@@ -49,6 +49,17 @@ public class UnitMenu {
                     return;
                 }
             }
+            else if ((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.POUR_OIL)) != null) {
+                char direction = matcher.group("direction").charAt(0);
+                UnitMenuController.pourOil(direction);
+            }
+            else if ((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.BUILD_EQUIPMENT)) != null) {
+                UnitMenuController.buildEquipment();
+                if (userUnitInTile.size() == 0) {
+                    output("There are no more units remaining in this tile\nexiting!");
+                    return;
+                }
+            }
             else {
                 output("Invalid command!");
             }
