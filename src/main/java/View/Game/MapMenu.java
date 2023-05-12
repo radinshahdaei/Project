@@ -17,7 +17,10 @@ public class MapMenu {
         Matcher matcher;
         while (true) {
             command = input();
-            if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.END_MAP)) != null) {
+            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("end map\nsettexture -x <X> -y <Y> -t <type>\nsettexture -x1 <X1> -x2 <X2> -y1 <Y1> -y2 <Y2> -t <type>\nclear -x <X> -y <Y>\ndraw map\nend show map\nmap move up <amountUp> down <amountDown> left <amountLeft> right <amountRight>\nshow details -x <X> -y <Y>\ndropbuilding -x <X> -y <Y> -t <type>");
+            }
+            else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.END_MAP)) != null) {
                 output("Map making ended!");
                 return;
             }

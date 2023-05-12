@@ -18,7 +18,10 @@ public class UnitMenu {
         Matcher matcher;
         while (true) {
             command = input();
-            if ((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.EXIT)) != null) {
+            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("exit\nmove unit to -x <X> -y <Y>\nset -s <status>\nattack -e <X> <Y>\nattack -x <X> -y <Y>\ndisband unit\npatrol unit -x1 <X1> -y1 <Y1> -x2 <X2> -y2 <Y2>\npour oil -d <direction>\nbuild equipment");
+            }
+            else if ((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.EXIT)) != null) {
                 output("Unit menu exited manually!");
                 return;
             }

@@ -16,7 +16,10 @@ public class GovernmentMenu {
         Matcher matcher;
         while(true) {
             command = input();
-            if (command.matches("\\s*back\\s*")) {
+            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("back\nshow popularity factors\nshow popularity\nshow food list\nfood rate -r <rate>\nfood rate show\ntax rate -r <rate>\tax rate show\nfear rate -r <rate>");
+            }
+            else if (command.matches("\\s*back\\s*")) {
                 output("Government menu exited manually!");
                 return;
             }
