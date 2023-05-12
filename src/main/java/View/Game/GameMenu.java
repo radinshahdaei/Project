@@ -46,10 +46,9 @@ public class GameMenu {
                 output("Currently " + government.getUser().getUsername() + " is playing");
                 while (true) {
                     command = input();
-                    if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                    if (command.matches("\\s*show\\s+related\\s+commands\\s*")) {
                         output("end\ndone\nadd <username>\ndropbuilding -x <X> -y <Y> -t <type>\nclear -x <X> -y <Y>\nnext turn\nselect building -x <X> -y <Y>\ndraw map -x <X> -y <Y>\nshow resources\ndropunit -x <X> -y <Y> -t <type> -c <count>\nselect unit -x <X> -y <Y> -t <type>\ncancel patrol -x <X> -y <Y>");
-                    }
-                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.END)) != null) {
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.END)) != null) {
                         output("Game ended manually");
                         return;
                     } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.NEXT_TURN)) != null) {
@@ -229,13 +228,13 @@ public class GameMenu {
 
     private void giveDefaultResources(Government government, Storage storage) {
         Resource resource;
-        resource = Resource.createResource(ResourceType.getResourceByName("wood"), 10000);
+        resource = Resource.createResource(ResourceType.getResourceByName("wood"), 100);
         storage.addToStorage(resource);
-        resource = Resource.createResource(ResourceType.getResourceByName("stone"), 10000);
+        resource = Resource.createResource(ResourceType.getResourceByName("stone"), 100);
         storage.addToStorage(resource);
-        resource = Resource.createResource(ResourceType.getResourceByName("iron"), 10000);
+        resource = Resource.createResource(ResourceType.getResourceByName("iron"), 100);
         storage.addToStorage(resource);
-        resource = Resource.createResource(ResourceType.getResourceByName("gold"), 10000);
+        resource = Resource.createResource(ResourceType.getResourceByName("gold"), 1000);
         storage.addToStorage(resource);
     }
 }
