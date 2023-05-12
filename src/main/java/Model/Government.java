@@ -181,7 +181,7 @@ public class Government {
     }
 
     public int getPopularity() {
-        this.updatePopularity();
+        // this.updatePopularity();
         return this.popularity;
     }
 

@@ -14,43 +14,32 @@ public class GovernmentMenu {
     public void run() {
         String command;
         Matcher matcher;
-        while(true) {
+        while (true) {
             command = input();
-            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
-                output("back\nshow popularity factors\nshow popularity\nshow food list\nfood rate -r <rate>\nfood rate show\ntax rate -r <rate>\tax rate show\nfear rate -r <rate>");
-            }
-            else if (command.matches("\\s*back\\s*")) {
-                output("Government menu exited manually!");
+            if (command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("back\nshow popularity factors\nshow popularity\nshow food list\nfood rate -r <rate>\nfood rate show\ntax rate -r <rate>\ntax rate show\nfear rate -r <rate>");
+            } else if (command.matches("\\s*back\\s*")) {
                 return;
-            }
-            else if(command.matches("\\s*show\\s+popularity\\s+factors\\s*")) {
+            } else if (command.matches("\\s*show\\s+popularity\\s+factors\\s*")) {
                 GovernmentMenuController.showPopularityFactors();
-            }
-            else if(command.matches("\\s*show\\s+popularity\\s*")) {
+            } else if (command.matches("\\s*show\\s+popularity\\s*")) {
                 GovernmentMenuController.showPopularity();
-            }
-            else if(command.matches("\\s*show\\s+food\\s+list\\s*")) {
+            } else if (command.matches("\\s*show\\s+food\\s+list\\s*")) {
                 GovernmentMenuController.showFoodList();
-            }
-            else if((matcher = GovernmentMenuCommands.getMatcher(command , GovernmentMenuCommands.FOODRATE)) != null) {
+            } else if ((matcher = GovernmentMenuCommands.getMatcher(command, GovernmentMenuCommands.FOODRATE)) != null) {
                 int rate = Integer.parseInt(matcher.group("rate"));
                 GovernmentMenuController.setFoodRate(rate);
-            }
-            else if(command.matches("\\s*food\\s+rate\\s+show\\s*")) {
+            } else if (command.matches("\\s*food\\s+rate\\s+show\\s*")) {
                 GovernmentMenuController.showFoodRate();
-            }
-            else if((matcher = GovernmentMenuCommands.getMatcher(command , GovernmentMenuCommands.TAXRATE)) != null) {
+            } else if ((matcher = GovernmentMenuCommands.getMatcher(command, GovernmentMenuCommands.TAXRATE)) != null) {
                 int rate = Integer.parseInt(matcher.group("rate"));
                 GovernmentMenuController.setTaxRate(rate);
-            }
-            else if(command.matches("\\s*tax\\s+rate\\s+show\\s*")) {
+            } else if (command.matches("\\s*tax\\s+rate\\s+show\\s*")) {
                 GovernmentMenuController.showTaxRate();
-            }
-            else if((matcher = GovernmentMenuCommands.getMatcher(command , GovernmentMenuCommands.FEARRATE)) != null) {
+            } else if ((matcher = GovernmentMenuCommands.getMatcher(command, GovernmentMenuCommands.FEARRATE)) != null) {
                 int rate = Integer.parseInt(matcher.group("rate"));
                 GovernmentMenuController.setFearRate(rate);
-            }
-            else {
+            } else {
                 output("Invalid command!");
             }
         }
