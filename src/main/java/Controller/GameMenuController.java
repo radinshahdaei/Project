@@ -117,6 +117,11 @@ public class GameMenuController {
                 ((MilitaryUnit) person).reduceDefence(20);
             }
         }
+        for (Building building: currentGovernment.getBuildings()) {
+            if (game.getMap().getTiles()[building.getX()][building.getY()].isOnFire()) {
+                building.reduceHP(20);
+            }
+        }
     }
 
     public static void showResources() {
