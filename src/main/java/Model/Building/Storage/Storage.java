@@ -73,9 +73,6 @@ public class Storage extends Building {
         if (storedResource.getCount() == 0) return false;
         storedResource.addCount(-resource.getCount());
         governmentResource.addCount(-resource.getCount());
-        if (storedResource.getCount() <= 0) {
-            storage.remove(storedResource);
-        }
         return true;
     }
 }
