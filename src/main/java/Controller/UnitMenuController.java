@@ -69,6 +69,12 @@ public class UnitMenuController {
         return false;
     }
 
+    public static void showHealth() {
+        for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
+            output("1) " + militaryUnit.getName() + ": " + militaryUnit.getDefence() + " hp");
+        }
+    }
+
     private static void reduceRecommendedResources(MilitaryUnit militaryUnit, int count) {
         for (Resource resource : militaryUnit.getPrice()) {
             int reduced = 0;
