@@ -34,7 +34,7 @@ public class GameMenu {
         Matcher matcher;
         while (true) {
             for (Government government : GameMenuController.game.getGovernments()) {
-                if (!government.isDead()) continue;
+                if (government.isDead()) continue;
                 Game.currentGovernment = government;
                 output("Currently " + government.getUser().getUsername() + " is playing");
                 while (true) {
