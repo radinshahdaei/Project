@@ -10,7 +10,8 @@ public class Keep extends Building {
     }
 
     public static Building createBuilding(int x, int y, User owner) {
-        GameMenu.addPopulation(Game.currentGovernment, 10);
+        Game.getGovernmentByUser(owner).addPopulation(10);
+        // GameMenu.addPopulation(Game.currentGovernment, 10);
         return new Keep(x, y, owner);
     }
 

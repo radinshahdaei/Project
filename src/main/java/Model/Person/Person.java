@@ -18,6 +18,14 @@ public class Person {
         this.type = PersonType.MILITARY_UNIT;
     }
 
+    public void makeWorker() {
+        this.type = PersonType.WORKER;
+    }
+
+    public PersonType getType() {
+        return type;
+    }
+
     public String getName() {
         return name;
     }
