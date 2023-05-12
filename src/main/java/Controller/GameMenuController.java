@@ -14,6 +14,7 @@ import Model.Person.Person;
 import Model.Resources.Resource;
 import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;
+import View.Game.GameMenu;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ public class GameMenuController {
             for (int j = 0; j < mapSize; ++j) {
                 ArrayList<Person> died = new ArrayList<>();
                 for (Person person : game.getMap().getTiles()[i][j].getPeople()) {
-                    if(person instanceof MilitaryUnit && ((MilitaryUnit) person).getDefence() == 0) {
+                    if(person instanceof MilitaryUnit && ((MilitaryUnit) person).getDefence() <= 0) {
                         died.add(person);
                         if(person instanceof Siege)  died.addAll(((Siege) person).getEngineers());
                     }
@@ -40,6 +41,7 @@ public class GameMenuController {
         }
     }
     public static void nextTurn() {
+        GameMenuController.onFire();
         GameMenuController.clearMap();
         UnitMenuController.checkPatrols();
         UnitMenuController.attackWithStatus();
@@ -105,6 +107,15 @@ public class GameMenuController {
             int totalGoldReceived = (valuePerPerson * currentGovernment.getPopulation()) / 10;
             Resource needToAdded = new Resource(ResourceType.GOLD , totalGoldReceived);
             stockpile.addToStorage(needToAdded);
+        }
+    }
+
+    public static void onFire() {
+        for (Person person : currentGovernment.getPeople()) {
+            if(person instanceof MilitaryUnit &&
+                    game.getMap().getTiles()[((MilitaryUnit) person).getX()][((MilitaryUnit) person).getY()].isOnFire()) {
+                ((MilitaryUnit) person).reduceDefence(20);
+            }
         }
     }
 
