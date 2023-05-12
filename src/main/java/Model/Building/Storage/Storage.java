@@ -68,8 +68,10 @@ public class Storage extends Building {
 
     public boolean removeFromStorage(Resource resource) {
         Resource storedResource = getStoredResourceByType(resource.getResourceType());
+        Resource governmentResource = Game.currentGovernment.getResourceByType(resource.getResourceType());
         if (storedResource.getCount() == 0) return false;
         storedResource.addCount(-resource.getCount());
+        governmentResource.addCount(-resource.getCount());
         if (storedResource.getCount() <= 0) {
             storage.remove(storedResource);
         }

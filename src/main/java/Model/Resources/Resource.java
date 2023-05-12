@@ -66,5 +66,6 @@ public class Resource {
 
     public void addCount(int amount) {
         count += amount;
+        if (count < 0) count = 0;
     }
 }

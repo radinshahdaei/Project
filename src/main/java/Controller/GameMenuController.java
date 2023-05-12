@@ -10,6 +10,7 @@ import Model.Person.Military.Siege.Siege;
 import Model.Person.Military.Special.Engineer;
 import Model.Person.Person;
 import Model.Resources.Resource;
+import Model.Resources.ResourceModel;
 
 import java.util.ArrayList;
 
@@ -39,16 +40,33 @@ public class GameMenuController {
         UnitMenuController.checkPatrols();
         UnitMenuController.moveAllMilitaryUnits();
         GameMenuController.factoriesProduction();
+
         GameMenuController.clearMap();
     }
 
-    private static void factoriesProduction() {
+    public static void factoriesProduction() {
         for (Government government : game.getGovernments()) {
             for (Building building : government.getBuildings()) {
                 if(building instanceof Factory) {
                     ((Factory) building).doWork();
                 }
             }
+        }
+    }
+
+    public static void foodDelivery() {
+        Government government = Game.currentGovernment;
+        int valuePerPerson = (government.getFoodRate() + 2) / 2;
+        Storage Granary = (Storage) government.findBuildingByName("granary");
+        for (int i = 0; i < government.getPopulation(); ++i) {
+            ArrayList<Resource> sortedFoods = government.getResourcesByModel(ResourceModel.FOOD);
+            Resource maxFood = sortedFoods.get(0);
+            Resource needToDeleted = new Resource(maxFood.getResourceType() , valuePerPerson);
+            Granary.removeFromStorage(needToDeleted);
+        }
+
+        while(!GovernmentMenuController.checkFoodRate(government.getFoodRate())) {
+            government.setFoodRate(government.getFoodRate() - 1);
         }
     }
 
