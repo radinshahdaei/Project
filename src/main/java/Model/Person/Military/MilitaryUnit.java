@@ -254,10 +254,20 @@ public class MilitaryUnit extends Person {
         return scanned;
     }
 
+    public void batteringRamAttack() {
+        Tile[][] tiles = GameMenuController.game.getMap().getTiles();
+        Building building = tiles[this.getX()][this.getY()].getBuilding();
+        if (!this.getName().equals("battering ram")) return;
+        if (!(building instanceof Wall)) return;
+        building.reduceHP(this.attack);
+    }
+
+
     public void attack() {
         MilitaryUnit scanned = scan(range);
         if (scanned == null) return;
         scanned.reduceDefence(this.attack);
+        batteringRamAttack();
     }
 
     public void fixAbleToPass() {
