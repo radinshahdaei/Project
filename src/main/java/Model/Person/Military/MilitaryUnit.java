@@ -3,7 +3,7 @@ package Model.Person.Military;
 import Controller.GameMenuController;
 import Model.*;
 import Model.Building.Building;
-import Model.Building.BuildingType;
+import Model.Building.DeffensiveBuilding.DefensiveBuilding;
 import Model.Building.Wall;
 import Model.Person.Military.Siege.Siege;
 import Model.Person.Military.Soldier.Soldier;
@@ -286,7 +286,7 @@ public class MilitaryUnit extends Person {
         if (tile.getTexture().equals("Stone") || tile.getTexture().equals("Lake")) {
             return false;
         }
-        if (tile.isOnFire() || tile.isHasKillingPit()) return false;
+//        if (tile.isOnFire() || tile.isHasKillingPit()) return false;
         Building building;
         if (this instanceof Soldier) {
             Soldier soldier = (Soldier) this;
@@ -320,7 +320,7 @@ public class MilitaryUnit extends Person {
             if (tile.getTexture().equals("Stone") || tile.getTexture().equals("Lake")) {
                 return false;
             }
-            if (tile.isOnFire() || tile.isHasKillingPit()) return false;
+//            if (tile.isOnFire() || tile.isHasKillingPit()) return false;
             Building building;
             if ((building = tile.getBuilding()) != null) {
                 if (building.getHp() <= 0) return true;
@@ -328,6 +328,41 @@ public class MilitaryUnit extends Person {
                 return false;
             }
             return true;
+        }
+        if (this instanceof Engineer || this.range > 0) {
+            if (tile.getTexture().equals("Stone") || tile.getTexture().equals("Lake")) {
+                return false;
+            }
+//            if (tile.isOnFire() || tile.isHasKillingPit()) return false;
+            Building building;
+            if (this instanceof Soldier) {
+                Soldier soldier = (Soldier) this;
+                if (this.getName().equals("assassin")) return true;
+                if ((building = tile.getBuilding()) != null) {
+                    if (building instanceof Wall) {
+                        Wall wall = (Wall) building;
+                        if (wall.isHasLadder() && soldier.getCanUseLadder()) return true;
+                        if ((wall.isHasStairs() || wall.isGateHouse()) && soldier.getOwner().equals(wall.getOwner()))
+                            return true;
+                        if (wall.isHasSiegeTower() && soldier.getOwner().equals(wall.getSiegeTowerOwner())) return true;
+                        if (wall.isGateHouse() && wall.isCaptured()) return true;
+                        if (wall.getHp() <= 0) return true;
+                        return false;
+                    }
+                    if (building.getHp() <= 0) return true;
+                    if (building instanceof DefensiveBuilding && building.getOwner().equals(soldier.getOwner())) return true;
+                    return false;
+                }
+                return true;
+            } else {
+                if ((building = tile.getBuilding()) != null) {
+                    if (building.getHp() <= 0) return true;
+                    if (building instanceof DefensiveBuilding && building.getOwner().equals(this.getOwner())) return true;
+                    return false;
+                }
+                return true;
+            }
+
         }
         return checkPassTile(tile);
     }
