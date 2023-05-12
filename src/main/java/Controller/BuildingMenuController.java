@@ -11,6 +11,7 @@ import Model.Game;
 import Model.Pair;
 import Model.Person.Person;
 import Model.Resources.Resource;
+import Model.Tile;
 import View.Game.GameMenu;
 import View.Game.GovernmentMenu;
 
@@ -21,6 +22,7 @@ import static View.InputOutput.output;
 public class BuildingMenuController {
     public static void dropBuilding(int x, int y, String type) {
         if (checkSimpleErrorsOfDropBuilding(x, y)) return;
+        if (checkNeededTexture(x, y, type)) return;
         BuildingType buildingType = Building.ALL_BUILDINGS.get(type);
         if (buildingType == null) {
             output("This building does not exists!");
@@ -38,6 +40,31 @@ public class BuildingMenuController {
         // if (type.equals("hovel")) GameMenu.addPopulation(Game.currentGovernment, 8);
         // if (type.equals("keep")) GameMenu.addPopulation(Game.currentGovernment, 10);
         output("building successfully made");
+    }
+
+    private static boolean checkNeededTexture(int x, int y, String type) {
+        Tile tile = GameMenuController.game.getMap().getTiles()[x][y];
+        if (type.equals("wheat farmer") && !tile.getTexture().equals("Grass")) {
+            output("Wheat farmer has to be built on top of Grass");
+            return true;
+        }
+        if (type.equals("iron mine") && !tile.getTexture().equals("Iron")) {
+            output("Iron mine needs to be built on top of Iron");
+            return true;
+        }
+        if (type.equals("quarry") && !tile.getTexture().equals("Boulder")) {
+            output("Quarry needs to be built on top of Boulder");
+            return true;
+        }
+        if (type.equals("pitch rig") && !tile.getTexture().equals("Oil")) {
+            output("Pitch rig needs to be built on top of Oil");
+            return true;
+        }
+        if (tile.isHasKillingPit() || tile.isHasOil() || tile.getTexture().equals("Lake") || tile.getTexture().equals("Stone")) {
+            output("Can't build on a tile which is Lake or stone or has a killing pit or has oil on it");
+            return true;
+        }
+        return false;
     }
 
     private static void reduceRecommendedResources(Building building) {
