@@ -47,7 +47,10 @@ public class GameMenu {
                 while (true) {
                     command = input();
                     if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
-                        output("end\ndone\nadd <username>\ndropbuilding -x <X> -y <Y> -t <type>\nclear -x <X> -y <Y>\nnext turn\nselect building -x <X> -y <Y>\ndraw map -x <X> -y <Y>\nshow resources\ndropunit -x <X> -y <Y> -t <type> -c <count>\nselect unit -x <X> -y <Y> -t <type>\ncancel patrol -x <X> -y <Y>");
+                        output("end\ndone\nadd <username>\ndropbuilding -x <X> -y <Y> -t <type>\nclear -x <X> -y <Y>\n" +
+                                "next turn\nselect building -x <X> -y <Y>\ndraw map -x <X> -y <Y>\nshow resources\n" +
+                                "dropunit -x <X> -y <Y> -t <type> -c <count>\nselect unit -x <X> -y <Y> -t <type>\n" +
+                                "cancel patrol -x <X> -y <Y>\nenter trade menu");
                     }
                     else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.END)) != null) {
                         output("Game ended manually");
@@ -88,6 +91,11 @@ public class GameMenu {
                     } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CANCEL_PATROL)) != null) {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                         UnitMenuController.cancelPatrol(x, y);
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.TRADE)) != null) {
+                        output("Entered trade menu");
+                        TradeMenu tradeMenu = new TradeMenu();
+                        tradeMenu.run();
+                        output("Exited trade menu");
                     } else {
                         output("Invalid command!");
                     }
