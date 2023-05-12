@@ -59,6 +59,10 @@ public class Engineer extends MilitaryUnit {
             if (!checkCoordinates(x, y, mapSize)) return;
         }
         Map map = GameMenuController.game.getMap();
+        if (map.getTiles()[x][y].getBuilding() != null) {
+            output("You can't pour oil here!");
+            return;
+        }
         map.getTiles()[x][y].setHasOil(true);
     }
 

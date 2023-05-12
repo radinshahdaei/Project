@@ -32,11 +32,13 @@ public class BuildingMenuController {
         reduceRecommendedResources(building);
         Game.currentGovernment.getBuildings().add(building);
         GameMenuController.game.getMap().getTiles()[x][y].setBuilding(building);
-        if (type.equals("inn")) Game.currentGovernment.addInnRate(5);
-        if (type.equals("church")) Game.currentGovernment.addChurch(10);
-        if (type.equals("cathedral")) Game.currentGovernment.addChurch(20);
-        // if (type.equals("hovel")) GameMenu.addPopulation(Game.currentGovernment, 8);
-        // if (type.equals("keep")) GameMenu.addPopulation(Game.currentGovernment, 10);
+        if (type.equalsIgnoreCase("inn")) Game.currentGovernment.addInnRate(5);
+        if (type.equalsIgnoreCase("church")) Game.currentGovernment.addChurch(10);
+        if (type.equalsIgnoreCase("cathedral")) Game.currentGovernment.addChurch(20);
+        if (type.equalsIgnoreCase("killing pit"))
+            GameMenuController.game.getMap().getTiles()[x][y].setHasKillingPit(true);
+        if (type.equalsIgnoreCase("pitch ditch"))
+            GameMenuController.game.getMap().getTiles()[x][y].setHasOil(true);
         output("building successfully made");
     }
 
