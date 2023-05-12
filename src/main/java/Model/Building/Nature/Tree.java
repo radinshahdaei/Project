@@ -10,7 +10,7 @@ public class Tree extends Building {
         this.type = type;
     }
 
-    public Building createTree(String typeName, int x, int y) {
+    public static Building createTree(String typeName, int x, int y) {
         TreeType type = TreeType.getTreeByName(typeName);
         String name = typeName + " tree";
         return new Tree(name, x, y, type);

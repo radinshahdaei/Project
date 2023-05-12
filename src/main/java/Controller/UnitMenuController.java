@@ -348,4 +348,16 @@ public class UnitMenuController {
             militaryUnit.setDestinationY(path.get(Math.min(path.size() - 1, (militaryUnit.getSpeed() + 2) / 3)).second);
         }
     }
+
+    public static void digMoat(int x, int y) {
+        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+            militaryUnit.digMoat(x, y);
+        }
+    }
+
+    public static void fillMoat(int x, int y) {
+        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+            militaryUnit.fillMoat(x, y);
+        }
+    }
 }

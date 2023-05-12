@@ -24,22 +24,32 @@ import static View.InputOutput.output;
 public class GameMenu {
     private static final int[] defaultXPositions = new int[20];
     private static final int[] defaultYPositions = new int[20];
+    public static int numberOfTurns;
 
 
     public void run() {
         GameMenuController.game = new Game();
         createMap();
         selectUsers();
+        numberOfTurns = 0;
         String command;
         Matcher matcher;
         while (true) {
             for (Government government : GameMenuController.game.getGovernments()) {
+                if (GameMenuController.checkAllGovernmentsDead()) {
+                    GameMenuController.countScores();
+                    return;
+                }
                 if (government.isDead()) continue;
+                numberOfTurns++;
                 Game.currentGovernment = government;
                 output("Currently " + government.getUser().getUsername() + " is playing");
                 while (true) {
                     command = input();
-                    if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.END)) != null) {
+                    if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                        output("end\ndone\nadd <username>\ndropbuilding -x <X> -y <Y> -t <type>\nclear -x <X> -y <Y>\nnext turn\nselect building -x <X> -y <Y>\ndraw map -x <X> -y <Y>\nshow resources\ndropunit -x <X> -y <Y> -t <type> -c <count>\nselect unit -x <X> -y <Y> -t <type>\ncancel patrol -x <X> -y <Y>");
+                    }
+                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.END)) != null) {
                         output("Game ended manually");
                         return;
                     } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.NEXT_TURN)) != null) {

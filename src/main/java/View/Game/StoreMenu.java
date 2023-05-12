@@ -19,11 +19,14 @@ public class StoreMenu {
         Matcher matcher;
         while(true) {
             command = input();
-            if(command.matches("\\s*back\\s*")) {
+            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("back\nshow price list\nbuy -i <name> -a <amount>\nsell -i <name> -a <amount>");
+            }
+            else if(command.matches("\\s*back\\s*")) {
                 output("Store menu exited manually!");
                 return ;
             }
-            if(command.matches("\\s*show\\s+price\\s+list\\s*")) {
+            else if(command.matches("\\s*show\\s+price\\s+list\\s*")) {
                 StoreMenuController.showCommodities();
             }
             else if((matcher = StoreMenuCommands.getMatcher(command , StoreMenuCommands.BUY)) != null) {

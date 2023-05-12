@@ -19,10 +19,13 @@ public class TradeMenu {
         while(true) {
             TradeMenuController.showNotification();
             command = input();
-            if(command.matches("\\s*back\\s*")) {
+            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("back\trade -t <resourceType> -a <resourceAmount> -p <price> -m <message> -u <username>\ntrade list\ntrade accept -i <id> -m <message>\ntrade history");
+            }
+            else if(command.matches("\\s*back\\s*")) {
                 output("Trade menu exited manually!");
             }
-            if((matcher = TradeMenuCommands.getMatcher(command , TradeMenuCommands.TRADE)) != null) {
+            else if((matcher = TradeMenuCommands.getMatcher(command , TradeMenuCommands.TRADE)) != null) {
                 String resourceType = removeDoubleQuote(matcher.group("resourceType"));
                 int resourceAmount = Integer.parseInt(removeDoubleQuote(matcher.group("resourceAmount")));
                 int price = Integer.parseInt(removeDoubleQuote(matcher.group("price")));

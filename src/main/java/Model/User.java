@@ -89,4 +89,8 @@ public class User {
         this.highScore = highScore;
     }
 
+    public void addHighScore(int amount) {
+        this.highScore += amount;
+    }
+
 }
