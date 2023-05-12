@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Store;
 import Model.User;
 import View.Main.MainMenu;
 import View.Start.StartMenu;
@@ -13,6 +14,7 @@ public class Controller {
     public static boolean stayLoggedIn = currentUser != null;
 
     public static void run() throws InterruptedException {
+        Store.initializeCommodities();
         while (true) {
             if (currentUser == null) {
                 MainMenu mainMenu = new MainMenu();
