@@ -19,11 +19,22 @@ public class TradeMenu {
         while (true) {
             TradeMenuController.showNotification();
             command = input();
+<<<<<<< HEAD
             if (command.matches("\\s*show\\s+related\\s+commands\\s*")) {
                 output("back\ntrade -t <resourceType> -a <resourceAmount> -p <price> -m <message> -u <username>\ntrade list\ntrade accept -i <id> -m <message>\ntrade history");
             } else if (command.matches("\\s*back\\s*")) {
                 output("Trade menu exited manually!");
             } else if ((matcher = TradeMenuCommands.getMatcher(command, TradeMenuCommands.TRADE)) != null) {
+=======
+            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("back\ntrade -t <resourceType> -a <resourceAmount> -p <price> -m <message> -u <username>\ntrade list\ntrade accept -i <id> -m <message>\ntrade history");
+            }
+            else if(command.matches("\\s*back\\s*")) {
+                output("Trade menu exited manually!");
+                return;
+            }
+            else if((matcher = TradeMenuCommands.getMatcher(command , TradeMenuCommands.TRADE)) != null) {
+>>>>>>> 43f91bbaab7965fea73704ef87e82e5273e7e64f
                 String resourceType = removeDoubleQuote(matcher.group("resourceType"));
                 int resourceAmount = Integer.parseInt(removeDoubleQuote(matcher.group("resourceAmount")));
                 int price = Integer.parseInt(removeDoubleQuote(matcher.group("price")));
