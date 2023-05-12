@@ -51,6 +51,8 @@ public class Building {
 
         ALL_BUILDINGS.put("high wall", BuildingType.WALL);
         ALL_BUILDINGS.put("low wall", BuildingType.WALL);
+        ALL_BUILDINGS.put("big stone gatehouse", BuildingType.WALL);
+        ALL_BUILDINGS.put("small stone gatehouse", BuildingType.WALL);
 
         ALL_BUILDINGS.put("barracks", BuildingType.BARRACKS);
         ALL_BUILDINGS.put("mercenary post", BuildingType.BARRACKS);
@@ -100,6 +102,8 @@ public class Building {
             building = WeaponMaker.createBuilding(name, x, y, owner);
         } else if (buildingType.equals(BuildingType.BARRACKS)) {
             building = Barracks.createBuilding(name, x, y, owner);
+        } else if (buildingType.equals(BuildingType.WALL)) {
+            building = Wall.createWall(name, x, y, owner);
         } else if (name.equals("keep")) {
             building = Keep.createBuilding(x, y, owner);
         } else if (name.equals("hovel")) {
