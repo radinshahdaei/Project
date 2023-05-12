@@ -224,7 +224,7 @@ public class MilitaryUnit extends Person {
         return ((MilitaryUnit) personWithLowestHealth);
     }
 
-    public MilitaryUnit scan() {
+    public MilitaryUnit scan(int range) {
         User owner = super.getOwner();
         MilitaryUnit scanned = null;
         int mapSize = GameMenuController.mapSize;
@@ -249,7 +249,7 @@ public class MilitaryUnit extends Person {
     }
 
     public void attack() {
-        MilitaryUnit scanned = scan();
+        MilitaryUnit scanned = scan(range);
         scanned.reduceDefence(this.attack);
     }
 

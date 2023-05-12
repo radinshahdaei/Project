@@ -5,11 +5,15 @@ import Model.Building.DeffensiveBuilding.DefensiveBuilding;
 import Model.Building.Factory.Factory;
 import Model.Building.Storage.Storage;
 import Model.Building.WeaponMaker.WeaponMaker;
+import Model.Game;
 import Model.Resources.Resource;
+import Model.Resources.ResourceType;
 import Model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static View.InputOutput.output;
 
 public class Building {
     public static HashMap<String, BuildingType> ALL_BUILDINGS = new HashMap<>();
@@ -65,6 +69,7 @@ public class Building {
 
     private String name;
     private int hp;
+    private final int maxHP;
     private int x;
     private int y;
     private int workers;
@@ -75,6 +80,7 @@ public class Building {
     public Building(String name, int hp, int x, int y, int workers, ArrayList<Resource> price, User owner) {
         this.name = name;
         this.hp = hp;
+        this.maxHP = hp;
         this.x = x;
         this.y = y;
         this.workers = workers;
@@ -106,6 +112,17 @@ public class Building {
             building = EnginnerBuilding.createBuilding(name, x, y, owner);
         }
         return building;
+    }
+
+    public void repair() {
+        Storage stockpile = (Storage) Game.currentGovernment.findBuildingByName("stockpile");
+        Resource stone = stockpile.getStoredResourceByType(ResourceType.STONE);
+        if (stone.getCount() < 20) {
+            output("You don't have enough stone!");
+            return;
+        }
+        this.setHp(maxHP);
+        stockpile.removeFromStorage(Resource.createResource(ResourceType.STONE, 20));
     }
 
     public void setHp(int hp) {
