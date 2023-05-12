@@ -330,6 +330,7 @@ public class UnitMenuController {
                     break;
             }
             MilitaryUnit enemy = militaryUnit.scan(range);
+            if (enemy == null) return;
             PathFinder pathFinder = new PathFinder(militaryUnit.getAbleToPass(), GameMenuController.mapSize,
                     militaryUnit.getX(), enemy.getX(), militaryUnit.getY(), enemy.getY());
             pathFinder.shortestPath();

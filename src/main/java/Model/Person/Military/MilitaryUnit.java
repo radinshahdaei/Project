@@ -255,6 +255,7 @@ public class MilitaryUnit extends Person {
 
     public void attack() {
         MilitaryUnit scanned = scan(range);
+        if (scanned == null) return;
         scanned.reduceDefence(this.attack);
     }
 
