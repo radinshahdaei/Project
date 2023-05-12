@@ -68,6 +68,10 @@ public class Engineer extends MilitaryUnit {
 
 
     public void createSiege() { //TODO if engineer selected, run this if "build equipment" typed
+        if (this.hasOilPot) {
+            output("This engineer has an oil pot!");
+            return;
+        }
         if (Game.currentGovernment.findBuildingByName("siege tent") == null) {
             output("You don't have a siege tent");
             return;
