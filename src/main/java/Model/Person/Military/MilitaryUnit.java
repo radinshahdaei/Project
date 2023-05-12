@@ -4,6 +4,7 @@ import Controller.GameMenuController;
 import Model.*;
 import Model.Building.Building;
 import Model.Building.Wall;
+import Model.Person.Military.Siege.Siege;
 import Model.Person.Military.Soldier.Soldier;
 import Model.Person.Military.Special.Engineer;
 import Model.Person.Military.Special.Ladderman;
@@ -262,6 +263,9 @@ public class MilitaryUnit extends Person {
         for (int i = 0; i < GameMenuController.mapSize; i++) {
             for (int j = 0; j < GameMenuController.mapSize; j++) {
                 this.ableToPass[i][j] = checkPassTile(map.getTiles()[i][j]);
+                if (i == this.destinationX && j == this.destinationY) {
+                    this.ableToPass[i][j] = checkPassEndTile(map.getTiles()[i][j]);
+                }
             }
         }
     }
@@ -299,6 +303,23 @@ public class MilitaryUnit extends Person {
         }
     }
 
+    private boolean checkPassEndTile(Tile tile) {
+        if (this instanceof Ladderman || this.getName().equals("siege tower") || this.getName().equals("battering ram")) {
+            if (tile.getTexture().equals("Stone") || tile.getTexture().equals("Lake")) {
+                return false;
+            }
+            if (tile.isOnFire() || tile.isHasKillingPit()) return false;
+            Building building;
+            if ((building = tile.getBuilding()) != null) {
+                if (building.getHp() <= 0) return true;
+                if (building instanceof Wall) return true;
+                return false;
+            }
+            return true;
+        }
+        return checkPassTile(tile);
+    }
+
     public ArrayList<Pair> reverseArrayList(ArrayList<Pair> path) {
         ArrayList<Pair> newPath = new ArrayList<>();
         for (int i = path.size() - 1; i > -1; i--) {
@@ -306,5 +327,4 @@ public class MilitaryUnit extends Person {
         }
         return newPath;
     }
-
 }

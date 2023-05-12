@@ -3,11 +3,13 @@ package Controller;
 import Model.Building.Building;
 import Model.Building.Factory.Factory;
 import Model.Building.Storage.Storage;
+import Model.Building.Wall;
 import Model.Game;
 import Model.Government;
 import Model.Person.Military.MilitaryUnit;
 import Model.Person.Military.Siege.Siege;
 import Model.Person.Military.Special.Engineer;
+import Model.Person.Military.Special.Ladderman;
 import Model.Person.Person;
 import Model.Resources.Resource;
 import Model.Resources.ResourceModel;
@@ -42,6 +44,7 @@ public class GameMenuController {
         UnitMenuController.checkPatrols();
         UnitMenuController.attackWithStatus();
         UnitMenuController.moveAllMilitaryUnits();
+        GameMenuController.putLadderAndSiege();
         GameMenuController.AllMilitaryUnitsAttack();
         GameMenuController.factoriesProduction();
         GameMenuController.foodDelivery();
@@ -72,6 +75,10 @@ public class GameMenuController {
         Government government = Game.currentGovernment;
         int valuePerPerson = (government.getFoodRate() + 2) / 2;
         Storage Granary = (Storage) government.findBuildingByName("granary");
+        if (Granary == null) {
+            output("You do not have a Granary to feed your fucking people you stupid bitch!");
+            return;
+        }
         for (int i = 0; i < government.getPopulation(); ++i) {
             ArrayList<Resource> sortedFoods = government.getResourcesByModel(ResourceModel.FOOD);
             Resource maxFood = sortedFoods.get(0);
@@ -86,18 +93,18 @@ public class GameMenuController {
 
     public static void getTaxes() {
         Government government = Game.currentGovernment;
-        Storage Granary = (Storage) government.findBuildingByName("granary");
+        Storage stockpile = (Storage) government.findBuildingByName("stockpile");
         if(government.getTaxRate() < 0) {
             int valuePerPerson = 10 - (government.getTaxRate() + 3) * 2;
             int totalGoldNeeded = (valuePerPerson * currentGovernment.getPopulation()) / 10;
             Resource needToDeleted = new Resource(ResourceType.GOLD , totalGoldNeeded);
-            Granary.removeFromStorage(needToDeleted);
+            stockpile.removeFromStorage(needToDeleted);
         }
         else {
             int valuePerPerson = 20 - (government.getTaxRate() - 8) * 2;
             int totalGoldReceived = (valuePerPerson * currentGovernment.getPopulation()) / 10;
             Resource needToAdded = new Resource(ResourceType.GOLD , totalGoldReceived);
-            Granary.addToStorage(needToAdded);
+            stockpile.addToStorage(needToAdded);
         }
     }
 
@@ -111,6 +118,25 @@ public class GameMenuController {
                     output(resource.getResourceType().name + ": " + resource.getCount());
                 }
                 counter++;
+            }
+        }
+    }
+
+    public static void putLadderAndSiege() {
+        for (Government government:GameMenuController.game.getGovernments()) {
+            for (Person person:government.getPeople()) {
+                if (!(person instanceof MilitaryUnit)) continue;
+                MilitaryUnit militaryUnit = (MilitaryUnit) person;
+                Building building;
+                if ((building = GameMenuController.game.getMap().getTiles()[militaryUnit.getX()]
+                        [militaryUnit.getY()].getBuilding()) != null){
+                    if (building instanceof Wall && person instanceof Ladderman) {
+                        ((Wall) building).setHasLadder(true);
+                    }
+                    if (building instanceof Wall && person.getName().equals("siege tower")) {
+                        ((Wall) building).setHasSiegeTower(true);
+                    }
+                }
             }
         }
     }
