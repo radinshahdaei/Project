@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Building.Building;
 import Model.Building.Factory.Factory;
+import Model.Building.Keep;
 import Model.Building.Storage.Storage;
 import Model.Building.Wall;
 import Model.Game;
@@ -16,6 +17,7 @@ import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;
 import View.Game.GameMenu;
 
+import java.awt.font.GlyphVector;
 import java.util.ArrayList;
 
 import static Model.Game.currentGovernment;
@@ -159,6 +161,38 @@ public class GameMenuController {
                         ((Wall) building).setCaptured(true);
                     }
                 }
+            }
+        }
+    }
+
+    public static boolean checkAllGovernmentsDead() {
+        int counter = 0;
+        for (Government government:GameMenuController.game.getGovernments()) {
+            if (government.isDead()) counter++;
+        }
+        if (counter <= 1) return false;
+        return true;
+    }
+
+    public static void countScores() {
+        int score = 0;
+        for (Government government:GameMenuController.game.getGovernments()) {
+            score = 0;
+            if (government.isDead()) {
+                score += 100;
+                score += (government.getPopularity() * GameMenuController.game.getGovernments().size()) / GameMenu.numberOfTurns;
+                score += government.getResourceByType(ResourceType.GOLD).getCount() / 10;
+                government.getUser().addHighScore(score);
+            }
+            else {
+                score += 500;
+                score += (government.getPopularity() * GameMenuController.game.getGovernments().size()) / GameMenu.numberOfTurns;
+                score += government.getResourceByType(ResourceType.GOLD).getCount() / 10;
+                for (Building building:government.getBuildings()) {
+                    if (building instanceof Keep) score += building.getHp();
+                }
+                government.getUser().addHighScore(score);
+                output("User " + government.getUser().getUsername() + " is the winner");
             }
         }
     }

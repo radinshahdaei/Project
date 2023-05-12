@@ -24,17 +24,24 @@ import static View.InputOutput.output;
 public class GameMenu {
     private static final int[] defaultXPositions = new int[20];
     private static final int[] defaultYPositions = new int[20];
+    public static int numberOfTurns;
 
 
     public void run() {
         GameMenuController.game = new Game();
         createMap();
         selectUsers();
+        numberOfTurns = 0;
         String command;
         Matcher matcher;
         while (true) {
             for (Government government : GameMenuController.game.getGovernments()) {
+                if (GameMenuController.checkAllGovernmentsDead()) {
+                    GameMenuController.countScores();
+                    return;
+                }
                 if (government.isDead()) continue;
+                numberOfTurns++;
                 Game.currentGovernment = government;
                 output("Currently " + government.getUser().getUsername() + " is playing");
                 while (true) {
