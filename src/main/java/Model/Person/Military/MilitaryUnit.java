@@ -268,6 +268,10 @@ public class MilitaryUnit extends Person {
     }
 
     public void fillMoat(int x, int y) { //TODO run when fill moat is added
+        if (this instanceof Siege) {
+            output("Siege machine can't fill a moat dumbass!");
+            return;
+        }
         Building building = GameMenuController.game.getMap().getTiles()[x][y].getBuilding();
         if (building == null) return;
         if (!(building instanceof Moat)) return;
@@ -278,6 +282,10 @@ public class MilitaryUnit extends Person {
 
 
     public void batteringRamAttack() {
+        if (this instanceof Siege) {
+            output("Siege machine can't dig a moat dumbass!");
+            return;
+        }
         Tile[][] tiles = GameMenuController.game.getMap().getTiles();
         Building building = tiles[this.getX()][this.getY()].getBuilding();
         if (!this.getName().equals("battering ram")) return;
@@ -287,9 +295,17 @@ public class MilitaryUnit extends Person {
 
 
     public void attack() {
-        MilitaryUnit scanned = scan(range);
+        int addedRange = 0;
+        int addedDamage = 0;
+        Tile[][] tiles = GameMenuController.game.getMap().getTiles();
+        Building building = tiles[x][y].getBuilding();
+        if (building instanceof DefensiveBuilding) {
+            addedRange = ((DefensiveBuilding) building).getFireRange();
+            addedDamage = ((DefensiveBuilding) building).getDamageAdded();
+        }
+        MilitaryUnit scanned = scan(this.range + addedRange);
         if (scanned == null) return;
-        scanned.reduceDefence(this.attack);
+        scanned.reduceDefence(this.attack + addedDamage);
         batteringRamAttack();
     }
 

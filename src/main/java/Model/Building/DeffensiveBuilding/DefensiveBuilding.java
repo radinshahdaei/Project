@@ -26,4 +26,12 @@ public class DefensiveBuilding extends Building {
         int damageAdded = building.damage;
         return new DefensiveBuilding(name, hp, x, y, workers, price, fireRange, damageAdded, owner);
     }
+
+    public int getFireRange() {
+        return fireRange;
+    }
+
+    public int getDamageAdded() {
+        return damageAdded;
+    }
 }
