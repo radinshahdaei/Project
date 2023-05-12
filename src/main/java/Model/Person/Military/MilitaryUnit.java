@@ -325,6 +325,7 @@ public class MilitaryUnit extends Person {
         if (tile.getTexture().equals("Stone") || tile.getTexture().equals("Lake")) {
             return false;
         }
+        if (this instanceof Tunneler) return true;
 //        if (tile.isOnFire() || tile.isHasKillingPit()) return false;
         Building building;
         if (this instanceof Soldier) {

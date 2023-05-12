@@ -14,9 +14,14 @@ public enum UnitMenuCommands {
     POUR_OIL("\\s*pour\\s+oil\\s+-d\\s+(?<direction>\\w)\\s*"),
     BUILD_EQUIPMENT("\\s*build\\s+equipment\\s*"),
     DIG_MOAT("\\s*dig\\s+moat\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*"),
-    FILL_MOAT("\\s*fill\\s+moat\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*");
+    FILL_MOAT("\\s*fill\\s+moat\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*"),
+    DIG_TUNNEL("\\s*dig\\s+tunnel\\s+(?=.*-x (?<X>\\d+))(?=.*-y (?<Y>\\d+)).*");
     String regex;
-    private UnitMenuCommands(String regex) {this.regex = regex;}
+
+    private UnitMenuCommands(String regex) {
+        this.regex = regex;
+    }
+
     public static Matcher getMatcher(String input, UnitMenuCommands loginMenuCommand) {
         Matcher matcher = Pattern.compile(loginMenuCommand.regex).matcher(input);
         if (matcher.matches()) {

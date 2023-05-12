@@ -7,6 +7,7 @@ import Model.Building.Campfire;
 import Model.Building.Storage.Storage;
 import Model.Person.Military.MilitaryUnit;
 import Model.Person.Military.Special.Engineer;
+import Model.Person.Military.Special.Tunneler;
 import Model.Person.Person;
 import Model.Resources.Resource;
 import View.Game.GameMenu;
@@ -225,6 +226,14 @@ public class UnitMenuController {
         }
         moveUnit(x, y);
         output("Your troop are moving towards the enemy");
+    }
+
+    public static void digTunnel(int x, int y) {
+        if (!(UnitMenu.userUnitInTile.get(0) instanceof Tunneler)) {
+            output("Your selected units are not tunnelers!");
+            return;
+        }
+        moveUnit(x, y);
     }
 
     public static void attackArcher(int x, int y) {

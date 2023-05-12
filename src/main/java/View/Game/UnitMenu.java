@@ -60,6 +60,9 @@ public class UnitMenu {
             } else if ((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.FILL_MOAT)) != null) {
                 int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                 UnitMenuController.fillMoat(x, y);
+            } else if ((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.DIG_TUNNEL)) != null) {
+                int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
+                UnitMenuController.digTunnel(x, y);
             } else if (command.equalsIgnoreCase("show health")) {
                 UnitMenuController.showHealth();
             } else {
