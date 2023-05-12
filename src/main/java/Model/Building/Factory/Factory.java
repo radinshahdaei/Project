@@ -50,7 +50,7 @@ public class Factory extends Building {
             storage.addToStorage(Resource.createResource(ResourceType.COW, 1));
     }
 
-    public String getStorageName(ResourceModel resourceModel) {
+    public static String getStorageName(ResourceModel resourceModel) {
         String storageName = null;
         if (resourceModel.equals(ResourceModel.FOOD)) {
             storageName = "granary";

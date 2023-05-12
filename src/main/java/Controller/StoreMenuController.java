@@ -1,6 +1,10 @@
 package Controller;
 
+import Model.Building.Building;
+import Model.Building.Factory.Factory;
+import Model.Building.Storage.Storage;
 import Model.Commodity;
+import Model.Resources.Resource;
 import Model.Resources.ResourceType;
 import Model.Store;
 
@@ -30,8 +34,19 @@ public class StoreMenuController {
             return ;
         }
         RegisterMenuController.captcha();
-        currentGovernment.getResource(ResourceType.GOLD).addCount(-price);
-        currentGovernment.addResource(commodity.resourceType , amount);
+        String storageName = Factory.getStorageName(commodity.resourceType.resourceModel);
+        for (Building building:currentGovernment.getBuildings()) {
+            if (building.getName().equals(storageName)) {
+                ((Storage) building).addToStorage(Resource.createResource(commodity.resourceType, amount));
+                break;
+            }
+        }
+        for (Building building:currentGovernment.getBuildings()) {
+            if (building.getName().equals("stockpile")) {
+                ((Storage) building).removeFromStorage(Resource.createResource(ResourceType.GOLD, price));
+                break;
+            }
+        }
     }
 
     public static void sell(String name , int amount) {
@@ -46,7 +61,18 @@ public class StoreMenuController {
         }
         RegisterMenuController.captcha();
         int price = commodity.sellPrice * amount;
-        currentGovernment.getResource(ResourceType.GOLD).addCount(price);
-        currentGovernment.removeResource(commodity.resourceType , amount);
+        String storageName = Factory.getStorageName(commodity.resourceType.resourceModel);
+        for (Building building:currentGovernment.getBuildings()) {
+            if (building.getName().equals(storageName)) {
+                ((Storage) building).removeFromStorage(Resource.createResource(commodity.resourceType, amount));
+                break;
+            }
+        }
+        for (Building building:currentGovernment.getBuildings()) {
+            if (building.getName().equals("stockpile")) {
+                ((Storage) building).addToStorage(Resource.createResource(ResourceType.GOLD, price));
+                break;
+            }
+        }
     }
 }
