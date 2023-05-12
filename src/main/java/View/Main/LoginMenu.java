@@ -16,7 +16,12 @@ public class LoginMenu {
         Matcher matcher;
         while (true) {
             command = input();
-            if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.BACK)) != null) {
+            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("back");
+                output("user login -u <username> -p <password> --stay-logged-in");
+                output("forgot my password");
+            }
+            else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.BACK)) != null) {
                 output("Entered Main Menu!");
                 return false;
             } else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.LOGIN)) != null) {

@@ -16,7 +16,12 @@ public class MainMenu {
         Matcher matcher;
         while (true) {
             command = input();
-            if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.EXIT)) != null) {
+            if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
+                output("exit");
+                output("enter register menu");
+                output("enter loggin menu");
+            }
+            else if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.EXIT)) != null) {
                 output("Exited!");
                 if (!Controller.stayLoggedIn) Controller.setCurrentUser(null);
                 ManageData.saveCurrentUser();
