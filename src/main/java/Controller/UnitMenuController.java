@@ -62,7 +62,7 @@ public class UnitMenuController {
                 }
             }
             if (amount < resource.getCount() * count) {
-                output("Not enough resources to buy this building");
+                output("Not enough resources to buy this unit");
                 return true;
             }
         }
@@ -350,13 +350,13 @@ public class UnitMenuController {
     }
 
     public static void digMoat(int x, int y) {
-        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+        for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
             militaryUnit.digMoat(x, y);
         }
     }
 
     public static void fillMoat(int x, int y) {
-        for (MilitaryUnit militaryUnit:UnitMenu.userUnitInTile) {
+        for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
             militaryUnit.fillMoat(x, y);
         }
     }
