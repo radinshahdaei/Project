@@ -190,6 +190,10 @@ public class MilitaryUnit extends Person {
         if (this.defence < 0) this.defence = 0;
     }
 
+    public boolean[][] getAbleToPass() {
+        return ableToPass;
+    }
+
     public Pair move() {
         this.fixAbleToPass();
         PathFinder pathFinder = new PathFinder(this.ableToPass, GameMenuController.mapSize, x, destinationX, y, destinationY);
@@ -295,7 +299,7 @@ public class MilitaryUnit extends Person {
         }
     }
 
-    private ArrayList<Pair> reverseArrayList(ArrayList<Pair> path) {
+    public ArrayList<Pair> reverseArrayList(ArrayList<Pair> path) {
         ArrayList<Pair> newPath = new ArrayList<>();
         for (int i = path.size() - 1; i > -1; i--) {
             newPath.add(path.get(i));

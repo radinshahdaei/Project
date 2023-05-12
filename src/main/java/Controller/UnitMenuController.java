@@ -1,17 +1,14 @@
 package Controller;
 
 
+import Model.*;
 import Model.Building.Building;
 import Model.Building.Campfire;
 import Model.Building.Storage.Storage;
-import Model.Game;
-import Model.Map;
-import Model.Pair;
 import Model.Person.Military.MilitaryUnit;
 import Model.Person.Military.Special.Engineer;
 import Model.Person.Person;
 import Model.Resources.Resource;
-import Model.Tile;
 import View.Game.GameMenu;
 import View.Game.UnitMenu;
 
@@ -311,6 +308,40 @@ public class UnitMenuController {
             if (UnitMenu.userUnitInTile.size() == 0) break;
             lastSize = UnitMenu.userUnitInTile.size();
             ((Engineer) UnitMenu.userUnitInTile.get(0)).createSiege();
+        }
+    }
+
+    public static void attackWithStatus() {
+        for (Person person:Game.currentGovernment.getPeople()) {
+            if (!(person instanceof MilitaryUnit)) continue;
+            MilitaryUnit militaryUnit = (MilitaryUnit) person;
+            if (militaryUnit.getDestinationY() != militaryUnit.getY() ||
+                    militaryUnit.getDestinationX() != militaryUnit.getX()) continue;
+            int range = -1;
+            switch (militaryUnit.getStatus()) {
+                case "standing":
+                    range = 0;
+                    break;
+                case "defensive":
+                    range = 5;
+                    break;
+                case "offensive":
+                    range = 10;
+                    break;
+            }
+            MilitaryUnit enemy = militaryUnit.scan(range);
+            PathFinder pathFinder = new PathFinder(militaryUnit.getAbleToPass(), GameMenuController.mapSize,
+                    militaryUnit.getX(), enemy.getX(), militaryUnit.getY(), enemy.getY());
+            pathFinder.shortestPath();
+            ArrayList<Pair> path = pathFinder.getPath();
+            if (path == null) {
+                militaryUnit.setDestinationX(militaryUnit.getX());
+                militaryUnit.setDestinationY(militaryUnit.getY());
+                return;
+            }
+            path = militaryUnit.reverseArrayList(path);
+            militaryUnit.setDestinationX(path.get(Math.min(path.size() - 1, (militaryUnit.getSpeed() + 2) / 3)).first);
+            militaryUnit.setDestinationY(path.get(Math.min(path.size() - 1, (militaryUnit.getSpeed() + 2) / 3)).second);
         }
     }
 }
