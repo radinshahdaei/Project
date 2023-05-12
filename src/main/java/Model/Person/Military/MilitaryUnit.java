@@ -276,7 +276,7 @@ public class MilitaryUnit extends Person {
         if (tile.getTexture().equals("Stone") || tile.getTexture().equals("Lake")) {
             return false;
         }
-        if (tile.isOnFire() || tile.isHasKillingPit()) return false;
+//        if (tile.isOnFire() || tile.isHasKillingPit()) return false;
         Building building;
         if (this instanceof Soldier) {
             Soldier soldier = (Soldier) this;
@@ -310,7 +310,7 @@ public class MilitaryUnit extends Person {
             if (tile.getTexture().equals("Stone") || tile.getTexture().equals("Lake")) {
                 return false;
             }
-            if (tile.isOnFire() || tile.isHasKillingPit()) return false;
+//            if (tile.isOnFire() || tile.isHasKillingPit()) return false;
             Building building;
             if ((building = tile.getBuilding()) != null) {
                 if (building.getHp() <= 0) return true;
@@ -323,7 +323,7 @@ public class MilitaryUnit extends Person {
             if (tile.getTexture().equals("Stone") || tile.getTexture().equals("Lake")) {
                 return false;
             }
-            if (tile.isOnFire() || tile.isHasKillingPit()) return false;
+//            if (tile.isOnFire() || tile.isHasKillingPit()) return false;
             Building building;
             if (this instanceof Soldier) {
                 Soldier soldier = (Soldier) this;
