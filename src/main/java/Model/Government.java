@@ -37,6 +37,7 @@ public class Government {
         this.user = user;
         this.coins = 0;
         this.lastTradeIndex = -1;
+        this.initializeResources();
     }
 
     public ArrayList<Person> getEngineers() {
@@ -47,6 +48,15 @@ public class Government {
             }
         }
         return allEngineers;
+    }
+
+    public Resource getResourceByType(ResourceType resourceType) {
+        for (Resource resource : resources) {
+            if (resourceType.equals(resource.getResourceType())) {
+                return resource;
+            }
+        }
+        return null;
     }
 
     public void initializeResources() {

@@ -1,6 +1,8 @@
 package Model.Building.Storage;
 
+import Controller.GameMenuController;
 import Model.Building.Building;
+import Model.Game;
 import Model.Resources.Resource;
 import Model.Resources.ResourceType;
 import Model.User;
@@ -56,7 +58,9 @@ public class Storage extends Building {
 
     public void addToStorage(Resource resource) {
         Resource storedResource = getStoredResourceByType(resource.getResourceType());
+        Resource governmentResource = Game.currentGovernment.getResourceByType(resource.getResourceType());
         storedResource.addCount(resource.getCount());
+        governmentResource.addCount(resource.getCount());
         if (storedResource.getCount() > maxCapacity) {
             storedResource.setCount(maxCapacity);
         }
