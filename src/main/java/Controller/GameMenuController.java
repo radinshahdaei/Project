@@ -87,13 +87,13 @@ public class GameMenuController {
         Government government = Game.currentGovernment;
         Storage Granary = (Storage) government.findBuildingByName("granary");
         if(government.getTaxRate() < 0) {
-            int valuePerPerson = 10 - (government.getTaxRate() - 8) * 2;
+            int valuePerPerson = 10 - (government.getTaxRate() + 3) * 2;
             int totalGoldNeeded = (valuePerPerson * currentGovernment.getPopulation()) / 10;
             Resource needToDeleted = new Resource(ResourceType.GOLD , totalGoldNeeded);
             Granary.removeFromStorage(needToDeleted);
         }
         else {
-            int valuePerPerson = 20 - (government.getTaxRate() + 3) * 2;
+            int valuePerPerson = 20 - (government.getTaxRate() - 8) * 2;
             int totalGoldReceived = (valuePerPerson * currentGovernment.getPopulation()) / 10;
             Resource needToAdded = new Resource(ResourceType.GOLD , totalGoldReceived);
             Granary.addToStorage(needToAdded);
