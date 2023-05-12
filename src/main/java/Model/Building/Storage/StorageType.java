@@ -12,7 +12,7 @@ public enum StorageType {
 
     GRANARY("granary", 300, 0, getResources("wood", "5"), getResourcesByType(ResourceModel.FOOD, 0), 1000),
     ARMOURY("armoury", 300, 0, getResources("wood", "5"), getResourcesByType(ResourceModel.WEAPON, 0), 100),
-    STOCKPILE("stockpile", 300, 0, getResources(), getResourcesByType(ResourceModel.OTHER, 0), 1000),
+    STOCKPILE("stockpile", 300, 0, getResources(), getResourcesByType(ResourceModel.OTHER, 0), 10000),
     STABLE("stable", 300, 0, getResources("wood", "20", "gold", "400"), getResourcesByType(ResourceModel.HORSE, 4), 4);
 
     String name;

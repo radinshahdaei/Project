@@ -79,6 +79,7 @@ public class Engineer extends MilitaryUnit {
         String machine;
         while (true) {
             machine = printMachines();
+            if (machine.equals("exit")) return;
             if (machine == null) {
                 output("You can't build this machine!");
             } else {
@@ -107,13 +108,17 @@ public class Engineer extends MilitaryUnit {
             return;
         }
         ArrayList<Engineer> engineers = new ArrayList<>();
-        int i = 0;
+        engineers.add(this);
+        this.goInSiege();
+        GameMenuController.game.getMap().getTiles()[x][y].getPeople().remove(this);
+        allEngineers = Game.currentGovernment.getEngineers();
+        int i = 1;
         for (Person person : allEngineers) {
+            if (i == engineersNeeded) break;
             i++;
             engineers.add((Engineer) person);
             ((Engineer) person).goInSiege();
             GameMenuController.game.getMap().getTiles()[x][y].getPeople().remove(person);
-            if (i == engineersNeeded) break;
         }
         MilitaryUnit siege = Siege.createUnit(machine, x, y, engineers, Game.currentGovernment.getUser());
         Game.currentGovernment.getPeople().add(siege);
@@ -129,13 +134,13 @@ public class Engineer extends MilitaryUnit {
             counter++;
         }
         String input = input();
-        if (siegeMachines.contains(input)) return input;
+        if (siegeMachines.contains(input) || input.equals("exit")) return input;
         return null;
 
     }
 
     public boolean isAvailable() {
-        return !this.hasOilPot && !this.isInSiege;
+        return !this.hasOilPot && !this.isInSiege && !this.isInBuilding;
     }
 
     public void goInSiege() {
