@@ -5,6 +5,7 @@ import Model.Building.Building;
 import Model.Person.Military.Special.Engineer;
 import Model.Person.Person;
 import Model.Resources.Resource;
+import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
@@ -92,6 +93,16 @@ public class Government {
         }
     }
 
+    public int getFoodCount() {
+        int counter = 0;
+        for (Resource resource : this.resources) {
+            if(resource.getResourceType().resourceModel.equals(ResourceModel.FOOD)) {
+                counter += resource.getCount();
+            }
+        }
+        return counter;
+    }
+
     public Building findBuildingByName(String name) {
         for (Building building : buildings) {
             if (building.getName().equals(name)) {
@@ -166,7 +177,7 @@ public class Government {
     }
 
     public void updatePopularity() {
-        this.popularity += this.getFoodEffect() + this.getTaxEffect() + this.getReligionEffect() + this.getFearEffect();
+        this.popularity += this.getFoodEffect() + this.getTaxEffect() + this.getReligionEffect() + this.getFearEffect() + this.getInnEffect();
     }
 
     public void addTrade(Trade trade) {

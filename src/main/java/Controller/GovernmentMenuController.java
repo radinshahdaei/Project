@@ -27,6 +27,12 @@ public class GovernmentMenuController {
         }
     }
     public static void setFoodRate(int rate) {
+        int valuePerPerson = rate + 2;
+        int totalFoodNeeded = (currentGovernment.getPopulation() * valuePerPerson + 1) / 2;
+        if(totalFoodNeeded > currentGovernment.getFoodCount()) {
+            System.out.println("Not enough food!");
+            return;
+        }
         currentGovernment.setFoodRate(rate);
     }
     public static void showFoodRate() {
