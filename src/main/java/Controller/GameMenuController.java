@@ -38,6 +38,7 @@ public class GameMenuController {
     public static void nextTurn() {
         GameMenuController.clearMap();
         UnitMenuController.checkPatrols();
+        UnitMenuController.attackWithStatus();
         UnitMenuController.moveAllMilitaryUnits();
         GameMenuController.AllMilitaryUnitsAttack();
         GameMenuController.factoriesProduction();
