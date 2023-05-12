@@ -108,6 +108,10 @@ public class Building {
         return building;
     }
 
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
     public int getWorkers() {
         return workers;
     }
@@ -118,6 +122,7 @@ public class Building {
 
     public void reduceHP(int amount) {
         this.hp -= amount;
+        if (this.hp < 0) this.hp = 0;
     }
 
     public String getName() {

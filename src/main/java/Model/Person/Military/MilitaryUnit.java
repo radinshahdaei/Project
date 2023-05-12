@@ -184,6 +184,7 @@ public class MilitaryUnit extends Person {
         this.status = status;
     }
 
+
     public void reduceDefence(int amount) {
         this.defence -= amount;
         if (this.defence < 0) this.defence = 0;

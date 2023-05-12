@@ -2,6 +2,7 @@ package Model;
 
 
 import Model.Building.Building;
+import Model.Person.Military.MilitaryUnit;
 import Model.Person.Military.Special.Engineer;
 import Model.Person.Person;
 import Model.Resources.Resource;
@@ -25,6 +26,7 @@ public class Government {
     private User user;
     private ArrayList<Building> buildings = new ArrayList<>();
     private ArrayList<Person> people = new ArrayList<>();
+    private boolean isDead = false;
 
     //private ArrayList<PatrollingUnit> patrollingUnits = new ArrayList<>();
     public Government(User user) {
@@ -37,6 +39,22 @@ public class Government {
         this.user = user;
         this.coins = 0;
         this.lastTradeIndex = -1;
+    }
+
+    public void checkIfDead() {
+        Building keep = findBuildingByName("keep");
+        if (keep.getHp() != 0) return;
+        for (Building building : buildings) {
+            building.setHp(0);
+        }
+        for (Person person : people) {
+            if (person instanceof MilitaryUnit) ((MilitaryUnit) person).setDefence(0);
+        }
+        isDead = true;
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 
     public ArrayList<Person> getEngineers() {

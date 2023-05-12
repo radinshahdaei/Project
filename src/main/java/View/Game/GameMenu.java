@@ -33,7 +33,8 @@ public class GameMenu {
         String command;
         Matcher matcher;
         while (true) {
-            for (Government government:GameMenuController.game.getGovernments()){
+            for (Government government : GameMenuController.game.getGovernments()) {
+                if (!government.isDead()) continue;
                 Game.currentGovernment = government;
                 output("Currently " + government.getUser().getUsername() + " is playing");
                 while (true) {
@@ -41,51 +42,40 @@ public class GameMenu {
                     if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.END)) != null) {
                         output("Game ended manually");
                         return;
-                    }
-                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.NEXT_TURN)) != null) {
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.NEXT_TURN)) != null) {
                         GameMenuController.nextTurn();
                         break;
-                    }
-                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CLEAR)) != null) {
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CLEAR)) != null) {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
-                        MapMenuController.clear(x , y);
-                    }
-                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.DROP_BUILDING)) != null) {
+                        MapMenuController.clear(x, y);
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.DROP_BUILDING)) != null) {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                         String type = Controller.removeDoubleQuote(matcher.group("type"));
                         BuildingMenuController.dropBuilding(x, y, type);
-                    }
-                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SELECT_BUILDING)) != null) {
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SELECT_BUILDING)) != null) {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                         BuildingMenuController.selectBuilding(x, y);
-                    }
-                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.DRAW_MAP)) != null) {
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.DRAW_MAP)) != null) {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                         MapMenu.movingMap(x, y);
-                    }
-                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_RESOURCES)) != null) {
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_RESOURCES)) != null) {
                         GameMenuController.showResources();
-                    }
-                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.DROP_UNIT)) != null) {
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.DROP_UNIT)) != null) {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                         int count = Integer.parseInt(matcher.group("count"));
                         String type = Controller.removeDoubleQuote(matcher.group("type"));
                         UnitMenuController.dropUnit(x, y, count, type);
-                    }
-                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SELECT_UNIT)) != null) {
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SELECT_UNIT)) != null) {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                         String type = Controller.removeDoubleQuote(matcher.group("type"));
                         UnitMenuController.selectUnit(x, y, type);
-                    }
-                    else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SHOW_DETAILS)) != null) {
+                    } else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SHOW_DETAILS)) != null) {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
-                        MapMenuController.showDetails(x , y);
-                    }
-                    else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CANCEL_PATROL)) != null) {
+                        MapMenuController.showDetails(x, y);
+                    } else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CANCEL_PATROL)) != null) {
                         int x = Integer.parseInt(matcher.group("X")), y = Integer.parseInt(matcher.group("Y"));
                         UnitMenuController.cancelPatrol(x, y);
-                    }
-                    else {
+                    } else {
                         output("Invalid command!");
                     }
                 }
