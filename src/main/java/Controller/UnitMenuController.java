@@ -233,7 +233,11 @@ public class UnitMenuController {
             output("Your selected units are not tunnelers!");
             return;
         }
+        for (Person person : UnitMenu.userUnitInTile) {
+            ((Tunneler) person).setUnderTunnel(true);
+        }
         moveUnit(x, y);
+
     }
 
     public static void attackArcher(int x, int y) {
@@ -349,37 +353,39 @@ public class UnitMenuController {
     }
 
     public static void attackWithStatus() {
-        for (Person person : Game.currentGovernment.getPeople()) {
-            if (!(person instanceof MilitaryUnit)) continue;
-            MilitaryUnit militaryUnit = (MilitaryUnit) person;
-            if (militaryUnit.getDestinationY() != militaryUnit.getY() ||
-                    militaryUnit.getDestinationX() != militaryUnit.getX()) continue;
-            int range = -1;
-            switch (militaryUnit.getStatus()) {
-                case "standing":
-                    range = 0;
-                    break;
-                case "defensive":
-                    range = 5;
-                    break;
-                case "offensive":
-                    range = 10;
-                    break;
+        for (Government government : GameMenuController.game.getGovernments()) {
+            for (Person person : government.getPeople()) {
+                if (!(person instanceof MilitaryUnit)) continue;
+                MilitaryUnit militaryUnit = (MilitaryUnit) person;
+                if (militaryUnit.getDestinationY() != militaryUnit.getY() ||
+                        militaryUnit.getDestinationX() != militaryUnit.getX()) continue;
+                int range = -1;
+                switch (militaryUnit.getStatus()) {
+                    case "standing":
+                        range = 0;
+                        break;
+                    case "defensive":
+                        range = 5;
+                        break;
+                    case "offensive":
+                        range = 10;
+                        break;
+                }
+                MilitaryUnit enemy = militaryUnit.scan(range);
+                if (enemy == null) return;
+                PathFinder pathFinder = new PathFinder(militaryUnit.getAbleToPass(), GameMenuController.mapSize,
+                        militaryUnit.getX(), enemy.getX(), militaryUnit.getY(), enemy.getY());
+                pathFinder.shortestPath();
+                ArrayList<Pair> path = pathFinder.getPath();
+                if (path == null) {
+                    militaryUnit.setDestinationX(militaryUnit.getX());
+                    militaryUnit.setDestinationY(militaryUnit.getY());
+                    return;
+                }
+                path = militaryUnit.reverseArrayList(path);
+                militaryUnit.setDestinationX(path.get(Math.min(path.size() - 1, (militaryUnit.getSpeed() + 2) / 3)).first);
+                militaryUnit.setDestinationY(path.get(Math.min(path.size() - 1, (militaryUnit.getSpeed() + 2) / 3)).second);
             }
-            MilitaryUnit enemy = militaryUnit.scan(range);
-            if (enemy == null) return;
-            PathFinder pathFinder = new PathFinder(militaryUnit.getAbleToPass(), GameMenuController.mapSize,
-                    militaryUnit.getX(), enemy.getX(), militaryUnit.getY(), enemy.getY());
-            pathFinder.shortestPath();
-            ArrayList<Pair> path = pathFinder.getPath();
-            if (path == null) {
-                militaryUnit.setDestinationX(militaryUnit.getX());
-                militaryUnit.setDestinationY(militaryUnit.getY());
-                return;
-            }
-            path = militaryUnit.reverseArrayList(path);
-            militaryUnit.setDestinationX(path.get(Math.min(path.size() - 1, (militaryUnit.getSpeed() + 2) / 3)).first);
-            militaryUnit.setDestinationY(path.get(Math.min(path.size() - 1, (militaryUnit.getSpeed() + 2) / 3)).second);
         }
     }
 

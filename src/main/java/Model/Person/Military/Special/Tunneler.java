@@ -16,4 +16,11 @@ public class Tunneler extends MilitaryUnit {
         return new Tunneler(x, y, owner);
     }
 
+    public void setUnderTunnel(boolean underTunnel) {
+        this.underTunnel = underTunnel;
+    }
+
+    public boolean isUnderTunnel() {
+        return underTunnel;
+    }
 }

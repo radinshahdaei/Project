@@ -6,10 +6,12 @@ import Model.Building.Nature.Tree;
 import Model.Game;
 import Model.Government;
 import Model.Person.Military.MilitaryUnit;
+import Model.Person.Military.Special.Tunneler;
 import Model.Person.Person;
 import Model.Resources.Resource;
 import Model.Tile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
@@ -70,7 +72,7 @@ public class MapMenuController {
                 Tile tile = GameMenuController.game.getMap().getTiles()[mapX][mapY];
                 String c;
                 if (tile.getBuilding() != null) c = "##B##";
-                else if (tile.getPeople().size() > 0) c = "##S##";
+                else if (tile.getPeople().size() > 0 && isThereNotTunneler(tile.getPeople())) c = "##S##";
                 else c = "#####";
                 c = COLORS.get(GameMenuController.game.getMap().getTiles()[mapX][mapY].getTexture()) + c +
                         COLORS.get("Reset") + "|";
@@ -129,6 +131,8 @@ public class MapMenuController {
         if (tile.getPeople().size() > 0) {
             int counter = 1;
             for (Person person : tile.getPeople()) {
+                if (person instanceof Tunneler) System.out.println(((Tunneler) person).isUnderTunnel());
+                if (person instanceof Tunneler && ((Tunneler) person).isUnderTunnel()) continue;
                 output("Person " + counter + ": " + person.getName() + ", owner: " + person.getOwner().getUsername());
                 counter++;
             }
@@ -149,5 +153,12 @@ public class MapMenuController {
         }
         Building building = Tree.createTree(type, x, y);
         GameMenuController.game.getMap().getTiles()[x][y].setBuilding(building);
+    }
+
+    public static boolean isThereNotTunneler(ArrayList<Person> people) {
+        for (Person person : people) {
+            if (!(person instanceof Tunneler) || !((Tunneler) person).isUnderTunnel()) return true;
+        }
+        return false;
     }
 }
