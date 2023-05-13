@@ -12,6 +12,7 @@ import Model.Person.Person;
 import Model.Resources.Resource;
 import View.Game.GameMenu;
 import View.Game.UnitMenu;
+import org.jetbrains.annotations.NotNull;
 
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class UnitMenuController {
             return;
         }
         MilitaryUnit militaryUnit = MilitaryUnit.createUnits(type, militaryType, x, y, Game.currentGovernment.getUser());
+        if (militaryUnit == null) return;
         if (checkIfEnoughResourcesExist(militaryUnit, count)) return;
         reduceRecommendedResources(militaryUnit, count);
         for (int i = 0; i < count; i++) {
