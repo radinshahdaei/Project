@@ -32,9 +32,9 @@ public class RegisterMenuController {
 
     // register methods
 
-    public static boolean register(String username , String nickname , String password , 
-                                   String passwordConfirmation , String passwordRandom , 
-                                   String email , String slogan , String containsSlogan , String sloganRandom) {
+    public static boolean register(String username, String nickname, String password,
+                                   String passwordConfirmation, String passwordRandom,
+                                   String email, String slogan, String containsSlogan, String sloganRandom) {
         clearFinals();
         if (!checkEmptyField(nickname, username, email,
                 password, passwordConfirmation, passwordRandom,
@@ -50,7 +50,7 @@ public class RegisterMenuController {
         return true; //move to security question
     }
 
-    public static boolean securityQuestion(int questionNumber , String answer , String answerConfirmation) {
+    public static boolean securityQuestion(int questionNumber, String answer, String answerConfirmation) {
         if (!checkNumber(questionNumber)) return false;
         if (!checkAnswer(answer, answerConfirmation)) return false;
         captcha();
@@ -120,8 +120,8 @@ public class RegisterMenuController {
     }
 
     public static boolean checkEmptyField(String nickname, String username, String email,
-                                           String password, String passwordConfirmation, String passwordRandom,
-                                           String containsSlogan, String sloganRandom, String slogan) {
+                                          String password, String passwordConfirmation, String passwordRandom,
+                                          String containsSlogan, String sloganRandom, String slogan) {
         if (nickname == null || username == null || email == null) {
             output("Empty field!");
             return false;
@@ -192,7 +192,7 @@ public class RegisterMenuController {
     }
 
     public static boolean checkSlogan(String slogan, String sloganRandom, String containsSlogan) {
-        if (sloganRandom != null) {
+        if (sloganRandom != null && slogan == null) {
             slogan = randomSlogan();
             output("Your slogan is \"" + slogan + "\"");
         }
@@ -200,7 +200,9 @@ public class RegisterMenuController {
         if (containsSlogan == null) {
             slogan = "";
         }
+
         finalSlogan = slogan;
+        System.out.println(slogan);
         return true;
     }
 
