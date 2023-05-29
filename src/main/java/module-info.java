@@ -7,6 +7,9 @@ module Project {
     opens View.LoginRegister to javafx.fxml;
     exports View.LoginRegister;
 
+    opens View.Game to javafx.fxml;
+    exports View.Game;
+
     opens Model to com.google.gson;
     exports Model;
 
