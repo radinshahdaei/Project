@@ -1,6 +1,7 @@
 package View.LoginRegister;
 
 import Controller.Controller;
+import Model.User;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,6 +15,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import Controller.RegisterMenuController;
 
@@ -175,6 +178,15 @@ public class RegisterMenuGUI extends Application {
             sloganPrompt.setText(randomSloganText);
         });
 
+        Button back = new Button("Back");
+        back.setOnAction(actionEvent -> {
+            try {
+                new MainMenuGUI().start(stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         Button confirmButton = new Button("Confirm");
         confirmButton.setOnAction(actionEvent -> {
             boolean emptyField = false;
@@ -183,10 +195,7 @@ public class RegisterMenuGUI extends Application {
                 usernamePrompt.setStyle("-fx-background-color: #FFCCCC;");
                 emptyField = true;
             }
-            if (passwordHidden.get() && passwordPrompt.getText().trim().equals("")) {
-                passwordPrompt.setStyle("-fx-background-color: #FFCCCC;");
-                emptyField = true;
-            }
+
             if (passwordHidden.get() && passwordConfirmationPrompt.getText().trim().equals("")) {
                 passwordConfirmationPrompt.setStyle("-fx-background-color: #FFCCCC;");
                 emptyField = true;
@@ -213,15 +222,27 @@ public class RegisterMenuGUI extends Application {
                     || !emailError.getText().equals("")) hasError = true;
             if (!hasError && !emptyField) {
                 System.out.println("Hooray");
-                AtomicBoolean answerFound = new AtomicBoolean(false);
-                startSecurityQuestion(answerFound);
+                AtomicReference<String> answerText = new AtomicReference<>();
+                int answerNumber = startSecurityQuestion(answerText);
+                String username = usernamePrompt.getText();
+                String password;
+                if (passwordHidden.get()) password = passwordPrompt.getText();
+                else password = passwordShownPrompt.getText();
+                String email = emailPrompt.getText();
+                String nickname = nicknamePrompt.getText();
+                String slogan;
+                if (sloganPrompt.getText() == null) slogan = "";
+                slogan = sloganPrompt.getText();
+                User.createUser(username,password,nickname,email,slogan,answerText.get(),answerNumber);
+
+                //TODO add captcha
             }
         });
 
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
-        hBox.setSpacing(10);
-        hBox.getChildren().addAll(confirmButton,randomSloganButton,randomPasswordButton,showPasswordButton);
+        hBox.setSpacing(5);
+        hBox.getChildren().addAll(confirmButton,back,randomSloganButton,randomPasswordButton,showPasswordButton);
         vBox.getChildren().addAll(usernameView,usernamePrompt,
                 passwordView,passwordPrompt,passwordConfirmationPrompt,
                 emailView,emailPrompt,
@@ -267,7 +288,7 @@ public class RegisterMenuGUI extends Application {
 
     }
 
-    public void startSecurityQuestion (AtomicBoolean answerFound){
+    public int startSecurityQuestion (AtomicReference<String> answerText){
         Alert securityQuestion = new Alert(Alert.AlertType.CONFIRMATION);
         securityQuestion.setTitle("Security Question");
         securityQuestion.setHeaderText("pick your security question!");
@@ -297,6 +318,8 @@ public class RegisterMenuGUI extends Application {
         AtomicBoolean deleteConfirmed = new AtomicBoolean(false);
         // AtomicBoolean answerFound = new AtomicBoolean(false);
 
+        AtomicInteger answerNumber = new AtomicInteger();
+
         while (!deleteConfirmed.get()) {
             securityQuestion.showAndWait().ifPresent(buttonType -> {
                 if (buttonType == buttonTypeYes) {
@@ -309,15 +332,19 @@ public class RegisterMenuGUI extends Application {
                     } else {
                         // System.out.println("ok");
                         deleteConfirmed.set(true);
-                        answerFound.set(true);
+                        if (choices.getValue().equals("1. What is my father’s name?")) answerNumber.set(1);
+                        else if (choices.getValue().equals("2. What was my first pet’s name")) answerNumber.set(2);
+                        else answerNumber.set(3);
+                        answerText.set(answer.getText());
                     }
                 } else if (buttonType == buttonTypeNo) {
                     // System.out.println("Deletion canceled");
                     deleteConfirmed.set(true);
                 }
             });
-        }
 
-        System.out.println(answerFound);
+        }
+        return answerNumber.get();
+        // System.out.println(answerFound);
     }
 }
