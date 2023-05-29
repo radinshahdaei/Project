@@ -18,7 +18,6 @@ import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;
 import View.Game.GameMenu;
 
-import java.awt.font.GlyphVector;
 import java.util.ArrayList;
 
 import static Model.Game.currentGovernment;

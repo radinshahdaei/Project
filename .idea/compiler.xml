@@ -13,7 +13,13 @@
         <module name="project" />
         <module name="project-main" />
         <module name="Project_AP" />
+        <module name="project-graphics" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="project-graphics" options="--add-exports java.datatransfer/java.awt=Project" />
+    </option>
   </component>
 </project>

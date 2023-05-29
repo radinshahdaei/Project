@@ -158,6 +158,32 @@ public class RegisterMenuController {
         return true;
     }
 
+    public static String checkUsernameError(String username) {
+        if (!checkUsernameFormat(username)) {
+            return "Invalid username format";
+        } else if (Controller.findUserByUsername(username) != null) {
+            return "Username already exists";
+        } return "Success";
+    }
+
+    public static String checkPasswordError(String password,String passwordConfirmation){
+        String passwordStrength = checkPasswordStrength(password);
+        if (password.equals("")){
+            return "Success";
+        } else if (!passwordStrength.equals("success")) {
+            return "Weak password";
+        } else if (!password.equals(passwordConfirmation)) {
+            return "Passwords don't match";
+        } return "Success";
+    }
+
+    public static String checkPasswordConfirmation(String password,String passwordConfirmation){
+        if (!password.equals(passwordConfirmation)) {
+            return "Passwords don't match";
+        } return "Success";
+    }
+
+
     public static boolean checkPassword(String password, String passwordConfirmation, String passwordRandom) {
         if (passwordRandom != null) {
             password = randomPassword();
@@ -189,6 +215,17 @@ public class RegisterMenuController {
         }
         finalEmail = email;
         return true;
+    }
+
+    public static String checkEmailError(String email){
+        if (Controller.findUserByEmail(email) != null) {
+            return "A user with this email already exists!";
+
+        }
+        if (!checkEmailFormat(email)) {
+            return "Invalid email format!";
+        }
+        return "Success";
     }
 
     public static boolean checkSlogan(String slogan, String sloganRandom, String containsSlogan) {

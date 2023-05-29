@@ -2,8 +2,9 @@ package Controller;
 
 import Model.Store;
 import Model.User;
-import View.Main.MainMenu;
+import View.LoginRegister.MainMenu;
 import View.Start.StartMenu;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,16 @@ public class Controller {
     public static ArrayList<User> users = ManageData.loadUsers();
     public static User currentUser = ManageData.loadCurrentUser();
     public static boolean stayLoggedIn = currentUser != null;
+
+    public static Stage stage;
+
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        Controller.stage = stage;
+    }
 
     public static void run() throws InterruptedException {
         Store.initializeCommodities();
