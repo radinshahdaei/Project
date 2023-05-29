@@ -81,9 +81,27 @@ public class LoginMenuController {
         return true;
     }
 
+    public static String checkUsername(String username){
+        User user = Controller.findUserByUsername(username);
+        if (user == null) {
+            return "Username doesn't exist!";
+        } return "Success";
+    }
+
+    public static String checkUsernameAndPassword(String username,String password){
+        User user = Controller.findUserByUsername(username);
+        if (user != null && !ManageData.decrypt(user.getPassword(), password)) {
+            return "Username and password don't match";
+        } return "Success";
+    }
+
     public static void waitForLogin() throws InterruptedException {
         timer++;
         output("You cannot login for " + timer * 5 + " seconds!");
         Thread.sleep(5000L * timer);
+    }
+
+    public static int getTimer() {
+        return timer;
     }
 }
