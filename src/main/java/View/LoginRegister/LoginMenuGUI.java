@@ -1,24 +1,23 @@
 package View.LoginRegister;
 
 import Controller.Controller;
+import Controller.LoginMenuController;
+import Controller.ManageData;
+import Controller.RegisterMenuController;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.util.concurrent.atomic.AtomicBoolean;
-import Controller.RegisterMenuController;
-import Controller.ManageData;
-
-import Controller.LoginMenuController;
 import javafx.stage.StageStyle;
+
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LoginMenuGUI extends Application {
     private static int time = 5;
@@ -26,7 +25,7 @@ public class LoginMenuGUI extends Application {
         launch(args);
     }
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, 500, 200);
         stage.setScene(scene);
@@ -77,7 +76,6 @@ public class LoginMenuGUI extends Application {
             passwordError.setText("");
         });
 
-
         AtomicBoolean passwordHidden = new AtomicBoolean(true);
         Button showPasswordButton = new Button("Show Password");
         showPasswordButton.setOnAction(event -> {
@@ -96,16 +94,9 @@ public class LoginMenuGUI extends Application {
                 vBox.getChildren().set(vBox.getChildren().indexOf(passwordShownPrompt),passwordPrompt);
             }
         });
-        usernamePrompt.textProperty().addListener(observable -> {
-            usernamePrompt.setStyle("-fx-background-color: #FFFFFF;");
-            passwordError.setText("");
-        });
 
         Button forgetPassword = new Button("Forgot my password");
-        forgetPassword.setOnAction(actionEvent -> {
-            forgetPassword();
-        });
-
+        forgetPassword.setOnAction(actionEvent -> forgetPassword());
 
         Button confirm = new Button("Confirm");
         confirm.setOnAction(actionEvent -> {
@@ -114,10 +105,12 @@ public class LoginMenuGUI extends Application {
                 usernamePrompt.setStyle("-fx-background-color: #FFCCCC;");
                 emptyField = true;
             }
+
             if (passwordHidden.get() && passwordPrompt.getText().trim().equals("")) {
                 passwordPrompt.setStyle("-fx-background-color: #FFCCCC;");
                 emptyField = true;
             }
+
             if (!passwordHidden.get() && passwordShownPrompt.getText().trim().equals("")) {
                 passwordShownPrompt.setStyle("-fx-background-color: #FFCCCC;");
                 emptyField = true;
@@ -126,17 +119,23 @@ public class LoginMenuGUI extends Application {
             String result;
             if (passwordHidden.get()){
                 result = LoginMenuController.checkUsernameAndPassword(usernamePrompt.getText(),passwordPrompt.getText());
-            } else {
+            }
+            else {
                 result = LoginMenuController.checkUsernameAndPassword(usernamePrompt.getText(),passwordShownPrompt.getText());
             }
+
             if (result.equals("Success")) {
                 passwordError.setText("");
                 if (usernameError.getText().equals("") && !emptyField) {
                     Controller.setCurrentUser(Controller.findUserByUsername(usernamePrompt.getText()));
                     ManageData.saveCurrentUser();
                     System.out.println("Hooray");
+
+                    //TODO add captcha
+                    //TODO go to game menu
                 }
             }
+
             else {
                 passwordError.setText(result);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -152,7 +151,7 @@ public class LoginMenuGUI extends Application {
                         .findFirst()
                         .orElse(null);
                 if (okButton != null) {
-                    ((Button) alert.getDialogPane().lookupButton(okButton)).setDisable(true);
+                    alert.getDialogPane().lookupButton(okButton).setDisable(true);
                 }
                 alert.getDialogPane().lookupButton(okButton).setVisible(false);
 
@@ -167,8 +166,6 @@ public class LoginMenuGUI extends Application {
                     }
                 }).start();
             }
-
-
         });
 
         Button back = new Button("back");
@@ -178,6 +175,11 @@ public class LoginMenuGUI extends Application {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+        });
+
+        usernamePrompt.textProperty().addListener(observable -> {
+            usernamePrompt.setStyle("-fx-background-color: #FFFFFF;");
+            passwordError.setText("");
         });
 
         HBox hBox = new HBox();
@@ -232,8 +234,6 @@ public class LoginMenuGUI extends Application {
         usernamePrompt.setMaxWidth(450);
         usernamePrompt.setPromptText("username");
 
-
-
         BorderPane questionView = new BorderPane();
         Text question = new Text("Question: ");
         Text error = new Text();
@@ -267,12 +267,8 @@ public class LoginMenuGUI extends Application {
         passwordConfirmationPrompt.setMaxWidth(450);
         passwordPrompt.setPromptText("password");
         passwordConfirmationPrompt.setPromptText("confirm password");
-        passwordPrompt.textProperty().addListener(observable -> {
-            passwordPrompt.setStyle("-fx-background-color: #FFFFFF;");
-        });
-        passwordConfirmationPrompt.textProperty().addListener(observable -> {
-            passwordConfirmationPrompt.setStyle("-fx-background-color: #FFFFFF;");
-        });
+        passwordPrompt.textProperty().addListener(observable -> passwordPrompt.setStyle("-fx-background-color: #FFFFFF;"));
+        passwordConfirmationPrompt.textProperty().addListener(observable -> passwordConfirmationPrompt.setStyle("-fx-background-color: #FFFFFF;"));
 
         TextField passwordShownPrompt = new TextField();
         TextField passwordConfirmationShownPrompt = new TextField();
@@ -282,12 +278,8 @@ public class LoginMenuGUI extends Application {
         passwordConfirmationShownPrompt.setMaxWidth(450);
         passwordShownPrompt.setPromptText("password");
         passwordConfirmationShownPrompt.setPromptText("confirm password");
-        passwordShownPrompt.textProperty().addListener(observable -> {
-            passwordShownPrompt.setStyle("-fx-background-color: #FFFFFF;");
-        });
-        passwordConfirmationShownPrompt.textProperty().addListener(observable -> {
-            passwordConfirmationShownPrompt.setStyle("-fx-background-color: #FFFFFF;");
-        });
+        passwordShownPrompt.textProperty().addListener(observable -> passwordShownPrompt.setStyle("-fx-background-color: #FFFFFF;"));
+        passwordConfirmationShownPrompt.textProperty().addListener(observable -> passwordConfirmationShownPrompt.setStyle("-fx-background-color: #FFFFFF;"));
 
         AtomicBoolean passwordHidden = new AtomicBoolean(true);
         Button showPasswordButton = new Button("Show Password");
@@ -303,7 +295,8 @@ public class LoginMenuGUI extends Application {
                 passwordConfirmationShownPrompt.setText(passwordConfirmationPrompt.getText());
                 vBox.getChildren().set(vBox.getChildren().indexOf(passwordPrompt),passwordShownPrompt);
                 vBox.getChildren().set(vBox.getChildren().indexOf(passwordConfirmationPrompt),passwordConfirmationShownPrompt);
-            } else {
+            }
+            else {
                 showPasswordButton.setText("Show Password");
                 passwordShownPrompt.setVisible(false);
                 passwordConfirmationShownPrompt.setVisible(false);
@@ -337,7 +330,7 @@ public class LoginMenuGUI extends Application {
                     if (result.equals("Success") || usernamePrompt.getText().equals("")) {
                         usernameError.setText("");
                         if (result.equals("Success")){
-                            int questionNumber = Controller.findUserByUsername(usernamePrompt.getText()).getQuestionNumber();
+                            int questionNumber = Objects.requireNonNull(Controller.findUserByUsername(usernamePrompt.getText())).getQuestionNumber();
                             if (questionNumber == 1) question.setText("Question: What is my father’s name?");
                             if (questionNumber == 2) question.setText("Question: What was my first pet’s name?");
                             if (questionNumber == 3) question.setText("Question: What is my mother’s last name?");
@@ -377,6 +370,7 @@ public class LoginMenuGUI extends Application {
                         answer.setStyle("-fx-background-color: #FFCCCC;");
                         emptyField = true;
                     }
+
                     if (passwordHidden.get() && passwordPrompt.getText().trim().equals("")) {
                         passwordPrompt.setStyle("-fx-background-color: #FFCCCC;");
                         emptyField = true;
@@ -391,25 +385,28 @@ public class LoginMenuGUI extends Application {
                         passwordShownPrompt.setStyle("-fx-background-color: #FFCCCC;");
                         emptyField = true;
                     }
+
                     if (!passwordHidden.get() && passwordConfirmationShownPrompt.getText().trim().equals("")) {
                         passwordConfirmationShownPrompt.setStyle("-fx-background-color: #FFCCCC;");
                         emptyField = true;
                     }
 
                     if (!usernamePrompt.getText().equals("") && usernameError.getText().equals("") &&
-                            !answer.getText().equals(Controller.findUserByUsername(usernamePrompt.getText()).getAnswer()) &&
+                            !answer.getText().equals(Objects.requireNonNull(Controller.findUserByUsername(usernamePrompt.getText())).getAnswer()) &&
                             !answer.getText().trim().equals("")) {
                         error.setText("Wrong answer");
                     }
+
                     if (error.getText().equals("") && passwordError.getText().equals("") && usernameError.getText().equals("") && !emptyField) {
                         String password;
                         if (passwordHidden.get()) password = passwordPrompt.getText();
                         else password = passwordShownPrompt.getText();
-                        Controller.findUserByUsername(usernamePrompt.getText()).setPassword(ManageData.encrypt(password));
+                        Objects.requireNonNull(Controller.findUserByUsername(usernamePrompt.getText())).setPassword(ManageData.encrypt(password));
                         ManageData.saveUsers();
                         deleteConfirmed.set(true);
                         errorCheck.set(false);
                     }
+
                 } else if (buttonType == buttonTypeNo){
                     deleteConfirmed.set(true);
                     errorCheck.set(false);

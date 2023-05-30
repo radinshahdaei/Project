@@ -104,7 +104,8 @@ public class RegisterMenuGUI extends Application {
                 passwordConfirmationShownPrompt.setText(passwordConfirmationPrompt.getText());
                 vBox.getChildren().set(vBox.getChildren().indexOf(passwordPrompt),passwordShownPrompt);
                 vBox.getChildren().set(vBox.getChildren().indexOf(passwordConfirmationPrompt),passwordConfirmationShownPrompt);
-            } else {
+            }
+            else {
                 showPasswordButton.setText("Show Password");
                 passwordShownPrompt.setVisible(false);
                 passwordConfirmationShownPrompt.setVisible(false);
@@ -241,6 +242,7 @@ public class RegisterMenuGUI extends Application {
                 User.createUser(username,password,nickname,email,slogan,answerText.get(),answerNumber);
 
                 //TODO add captcha
+                //TODO go to game menu
             }
         });
 
