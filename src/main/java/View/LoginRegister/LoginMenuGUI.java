@@ -109,14 +109,18 @@ public class LoginMenuGUI extends Application {
 
         Button confirm = new Button("Confirm");
         confirm.setOnAction(actionEvent -> {
+            boolean emptyField = false;
             if (usernamePrompt.getText().trim().equals("")) {
                 usernamePrompt.setStyle("-fx-background-color: #FFCCCC;");
+                emptyField = true;
             }
             if (passwordHidden.get() && passwordPrompt.getText().trim().equals("")) {
                 passwordPrompt.setStyle("-fx-background-color: #FFCCCC;");
+                emptyField = true;
             }
             if (!passwordHidden.get() && passwordShownPrompt.getText().trim().equals("")) {
                 passwordShownPrompt.setStyle("-fx-background-color: #FFCCCC;");
+                emptyField = true;
             }
 
             String result;
@@ -125,7 +129,14 @@ public class LoginMenuGUI extends Application {
             } else {
                 result = LoginMenuController.checkUsernameAndPassword(usernamePrompt.getText(),passwordShownPrompt.getText());
             }
-            if (result.equals("Success")) passwordError.setText("");
+            if (result.equals("Success")) {
+                passwordError.setText("");
+                if (usernameError.getText().equals("") && !emptyField) {
+                    Controller.setCurrentUser(Controller.findUserByUsername(usernamePrompt.getText()));
+                    ManageData.saveCurrentUser();
+                    System.out.println("Hooray");
+                }
+            }
             else {
                 passwordError.setText(result);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -160,10 +171,19 @@ public class LoginMenuGUI extends Application {
 
         });
 
+        Button back = new Button("back");
+        back.setOnAction(actionEvent -> {
+            try {
+                new MainMenuGUI().start(stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(5);
-        hBox.getChildren().addAll(confirm,forgetPassword, showPasswordButton);
+        hBox.getChildren().addAll(confirm,back, forgetPassword, showPasswordButton);
         vBox.getChildren().addAll(usernameView,usernamePrompt,
                 passwordView,passwordPrompt,
                 hBox);
@@ -386,6 +406,7 @@ public class LoginMenuGUI extends Application {
                         if (passwordHidden.get()) password = passwordPrompt.getText();
                         else password = passwordShownPrompt.getText();
                         Controller.findUserByUsername(usernamePrompt.getText()).setPassword(ManageData.encrypt(password));
+                        ManageData.saveUsers();
                         deleteConfirmed.set(true);
                         errorCheck.set(false);
                     }

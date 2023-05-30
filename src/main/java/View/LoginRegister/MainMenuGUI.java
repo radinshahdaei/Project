@@ -42,7 +42,8 @@ public class MainMenuGUI extends Application {
         Button login = new Button("LOGIN");
         login.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
-                //TODO enter login menu
+               LoginMenuGUI loginMenuGUI = new LoginMenuGUI();
+               loginMenuGUI.start(Controller.getStage());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
