@@ -196,6 +196,11 @@ public class RegisterMenuGUI extends Application {
                 emptyField = true;
             }
 
+            if (passwordHidden.get() && passwordPrompt.getText().trim().equals("")) {
+                passwordPrompt.setStyle("-fx-background-color: #FFCCCC;");
+                emptyField = true;
+            }
+
             if (passwordHidden.get() && passwordConfirmationPrompt.getText().trim().equals("")) {
                 passwordConfirmationPrompt.setStyle("-fx-background-color: #FFCCCC;");
                 emptyField = true;
@@ -295,7 +300,7 @@ public class RegisterMenuGUI extends Application {
 
         DialogPane dialogPane = securityQuestion.getDialogPane();
         ComboBox<String> choices= new ComboBox<>();
-        choices.getItems().addAll("1. What is my father’s name?","2. What was my first pet’s name","3. What is my mother’s last name");
+        choices.getItems().addAll("1. What is my father’s name?","2. What was my first pet’s name?","3. What is my mother’s last name?");
         TextField answer = new TextField();
         TextField answerConfirmation = new TextField();
         answer.setPromptText("answer");

@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 public class MapMenuGUI extends Application {
     private static double xStamp = 0;
     private static double yStamp = 0;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Pane contentPane = new Pane();
