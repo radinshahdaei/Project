@@ -2,18 +2,15 @@ package View.Game;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import javax.swing.plaf.TableHeaderUI;
 import java.util.ArrayList;
 
 public class MapGUI extends Application {
@@ -24,6 +21,8 @@ public class MapGUI extends Application {
     private static int mapSize = 200;
     private static Pane[][] map = new Pane[mapSize][mapSize];
     private static ArrayList<Pane> selectedTiles = new ArrayList<>();
+    private static int scale = 160;
+    private static int prevScale = 160;
     public static void main(String[] args) {
         launch(args);
     }
@@ -32,9 +31,14 @@ public class MapGUI extends Application {
         Pane gamePane = new Pane();
         gamePane.setPrefSize(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
         Scene scene = new Scene(gamePane);
+        Pane menuPane = new Pane();
+        menuPane.setPrefSize(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight() / 4);
+        menuPane.setLayoutX(0);
+        menuPane.setLayoutY(3 * Screen.getPrimary().getBounds().getHeight() / 4);
+        menuPane.setStyle("-fx-background-color: white");
         createMap();
 
-        drawMap(startingX, startingY, gamePane, scene);
+        drawMap(startingX, startingY, gamePane, menuPane);
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -52,12 +56,12 @@ public class MapGUI extends Application {
                     yStamp = event.getY();
                     x = Math.max(0, x);
                     y = Math.max(0, y);
-                    x = Math.min(160 * mapSize - gamePane.getWidth(), x);
-                    y = Math.min(160 * mapSize - gamePane.getHeight(), y);
+                    x = Math.min(scale * mapSize - gamePane.getWidth(), x);
+                    y = Math.min(scale * mapSize - gamePane.getHeight(), y);
                     startingX = x;
                     startingY = y;
                     gamePane.getChildren().clear();
-                    drawMap(startingX, startingY, gamePane, scene);
+                    drawMap(startingX, startingY, gamePane, menuPane);
                 }
             }
         });
@@ -73,7 +77,7 @@ public class MapGUI extends Application {
                 }
                 if (event.getCode().getName().equals("Right")) {
                     double x = startingX + 70;
-                    x = Math.min(160 * mapSize - gamePane.getWidth(), x);
+                    x = Math.min(scale * mapSize - gamePane.getWidth(), x);
                     startingX = x;
                 }
                 if (event.getCode().getName().equals("Up")) {
@@ -83,11 +87,24 @@ public class MapGUI extends Application {
                 }
                 if (event.getCode().getName().equals("Down")) {
                     double y = startingY + 70;
-                    y = Math.min(160 * mapSize - gamePane.getHeight(), y);
+                    y = Math.min(scale * mapSize - gamePane.getHeight(), y);
                     startingY = y;
                 }
                 gamePane.getChildren().clear();
-                drawMap(startingX, startingY, gamePane, scene);
+                drawMap(startingX, startingY, gamePane, menuPane);
+            }
+        });
+
+        scene.setOnScroll(new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                prevScale = scale;
+                if (event.getDeltaY() > 0) scale += 5;
+                if (event.getDeltaY() < 0) scale -= 5;
+                scale = Math.min(250, scale);
+                scale = Math.max(120, scale);
+                gamePane.getChildren().clear();
+                drawMap(startingX, startingY, gamePane, menuPane);
             }
         });
 
@@ -99,10 +116,10 @@ public class MapGUI extends Application {
         for (int i = 0 ; i < mapSize ; i++) {
             for (int j = 0 ; j < mapSize ; j++) {
                 map[i][j] = new Pane();
-                map[i][j].setPrefSize(170, 170);
-                Rectangle backGroundRectangle = new Rectangle(0, 0, 170, 170);
+                map[i][j].setPrefSize(scale + (double) scale / 16, scale + (double) scale / 16);
+                Rectangle backGroundRectangle = new Rectangle(0, 0, scale + (double) scale / 16, scale + (double) scale / 16);
                 backGroundRectangle.setFill(Color.TRANSPARENT);
-                Rectangle rect = new Rectangle(10, 10, 150, 150);
+                Rectangle rect = new Rectangle((double) scale / 16, (double) scale / 16, scale - (double) scale / 16, scale - (double) scale / 16);
                 rect.setFill(Color.BLUE);
                 map[i][j].getChildren().add(backGroundRectangle);
                 map[i][j].getChildren().add(rect);
@@ -131,15 +148,26 @@ public class MapGUI extends Application {
         }
     }
 
-    private void drawMap(double startingX, double startingY, Pane gamePane, Scene scene) {
-        int x = (int) (startingX / 160);
-        int y = (int) (startingY / 160);
-        for (int i = 0 ; i < 16 ; i++) {
-            for (int j = 0 ; j < 10 ; j++) {
-                map[x + i][y + j].setLayoutX((x + i) * 160 - startingX - 10);
-                map[x + i][y + j].setLayoutY((y + j) * 160 - startingY - 10);
+    private void drawMap(double startingX, double startingY, Pane gamePane, Pane menuPane) {
+        int x = (int) (startingX / scale);
+        int y = (int) (startingY / scale);
+        for (int i = 0; i < 16 * 160 / scale; i++) {
+            for (int j = 0; j < 10 * 160 / scale; j++) {
+                if (x + i >= mapSize || y + j >= mapSize) break;
+                map[x + i][y + j].setPrefSize(scale + (double) scale / 16, scale + (double) scale / 16);
+                Rectangle backGroundRectangle = (Rectangle) map[x + i][y + j].getChildren().get(0);
+                backGroundRectangle.setHeight(scale + (double) scale / 16);
+                backGroundRectangle.setWidth(scale + (double) scale / 16);
+                Rectangle rectangle = (Rectangle) map[x + i][y + j].getChildren().get(1);
+                rectangle.setX((double) scale / 16);
+                rectangle.setY((double) scale / 16);
+                rectangle.setHeight(scale - (double) scale / 16);
+                rectangle.setWidth(scale - (double) scale / 16);
+                map[x + i][y + j].setLayoutX((x + i) * scale - startingX - (double) scale / 16);
+                map[x + i][y + j].setLayoutY((y + j) * scale - startingY - (double) scale / 16);
                 gamePane.getChildren().add(map[x + i][y + j]);
             }
         }
+        gamePane.getChildren().add(menuPane);
     }
 }
