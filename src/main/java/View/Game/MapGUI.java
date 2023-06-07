@@ -12,6 +12,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MapGUI extends Application {
     private static double startingX = 0;
@@ -22,7 +23,8 @@ public class MapGUI extends Application {
     private static Pane[][] map = new Pane[mapSize][mapSize];
     private static ArrayList<Pane> selectedTiles = new ArrayList<>();
     private static int scale = 160;
-    private static int prevScale = 160;
+    public static HashMap<Node, Double> firstX = new HashMap<>();
+    public static HashMap<Node, Double> firstY = new HashMap<>();
     public static void main(String[] args) {
         launch(args);
     }
@@ -57,7 +59,7 @@ public class MapGUI extends Application {
                     x = Math.max(0, x);
                     y = Math.max(0, y);
                     x = Math.min(scale * mapSize - gamePane.getWidth(), x);
-                    y = Math.min(scale * mapSize - gamePane.getHeight(), y);
+                    y = Math.min(scale * mapSize - gamePane.getHeight() + menuPane.getHeight(), y);
                     startingX = x;
                     startingY = y;
                     gamePane.getChildren().clear();
@@ -87,7 +89,7 @@ public class MapGUI extends Application {
                 }
                 if (event.getCode().getName().equals("Down")) {
                     double y = startingY + 70;
-                    y = Math.min(scale * mapSize - gamePane.getHeight(), y);
+                    y = Math.min(scale * mapSize - gamePane.getHeight() + menuPane.getHeight(), y);
                     startingY = y;
                 }
                 gamePane.getChildren().clear();
@@ -98,7 +100,6 @@ public class MapGUI extends Application {
         scene.setOnScroll(new EventHandler<ScrollEvent>() {
             @Override
             public void handle(ScrollEvent event) {
-                prevScale = scale;
                 if (event.getDeltaY() > 0) scale += 5;
                 if (event.getDeltaY() < 0) scale -= 5;
                 scale = Math.min(250, scale);
@@ -116,13 +117,17 @@ public class MapGUI extends Application {
         for (int i = 0 ; i < mapSize ; i++) {
             for (int j = 0 ; j < mapSize ; j++) {
                 map[i][j] = new Pane();
-                map[i][j].setPrefSize(scale + (double) scale / 16, scale + (double) scale / 16);
-                Rectangle backGroundRectangle = new Rectangle(0, 0, scale + (double) scale / 16, scale + (double) scale / 16);
+                map[i][j].setPrefSize(170, 170);
+                Rectangle backGroundRectangle = new Rectangle(0, 0, 170, 170);
                 backGroundRectangle.setFill(Color.TRANSPARENT);
-                Rectangle rect = new Rectangle((double) scale / 16, (double) scale / 16, scale - (double) scale / 16, scale - (double) scale / 16);
+                Rectangle rect = new Rectangle(10, 10, 150, 150);
                 rect.setFill(Color.BLUE);
                 map[i][j].getChildren().add(backGroundRectangle);
                 map[i][j].getChildren().add(rect);
+                firstX.put(backGroundRectangle, (double) 0);
+                firstY.put(backGroundRectangle, (double) 0);
+                firstX.put(rect, (double) 10);
+                firstY.put(rect, (double) 10);
                 int I = i;
                 int J = j;
                 map[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -155,14 +160,10 @@ public class MapGUI extends Application {
             for (int j = 0; j < 10 * 160 / scale; j++) {
                 if (x + i >= mapSize || y + j >= mapSize) break;
                 map[x + i][y + j].setPrefSize(scale + (double) scale / 16, scale + (double) scale / 16);
-                Rectangle backGroundRectangle = (Rectangle) map[x + i][y + j].getChildren().get(0);
-                backGroundRectangle.setHeight(scale + (double) scale / 16);
-                backGroundRectangle.setWidth(scale + (double) scale / 16);
-                Rectangle rectangle = (Rectangle) map[x + i][y + j].getChildren().get(1);
-                rectangle.setX((double) scale / 16);
-                rectangle.setY((double) scale / 16);
-                rectangle.setHeight(scale - (double) scale / 16);
-                rectangle.setWidth(scale - (double) scale / 16);
+                for (Node node: map[x + i][y + j].getChildren()) {
+                    node.setScaleX((double) scale / 160);
+                    node.setScaleY((double) scale / 160);
+                }
                 map[x + i][y + j].setLayoutX((x + i) * scale - startingX - (double) scale / 16);
                 map[x + i][y + j].setLayoutY((y + j) * scale - startingY - (double) scale / 16);
                 gamePane.getChildren().add(map[x + i][y + j]);
