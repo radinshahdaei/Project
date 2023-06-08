@@ -242,6 +242,13 @@ public class ProfileMenuGUI extends Application {
         PasswordField oldPasswordPrompt = new PasswordField();
         oldPasswordPrompt.setMaxWidth(450);
         oldPasswordPrompt.setPromptText("old password");
+        oldPasswordPrompt.textProperty().addListener(observable -> oldPasswordPrompt.setStyle("-fx-background-color: #FFFFFF;"));
+
+        TextField oldPasswordShownPrompt = new TextField();
+        oldPasswordShownPrompt.setVisible(false);
+        oldPasswordShownPrompt.setMaxWidth(450);
+        oldPasswordShownPrompt.setPromptText("old password");
+        oldPasswordShownPrompt.textProperty().addListener(observable -> oldPasswordShownPrompt.setStyle("-fx-background-color: #FFFFFF;"));
 
 
         BorderPane passwordView = new BorderPane();
@@ -256,7 +263,7 @@ public class ProfileMenuGUI extends Application {
         PasswordField passwordConfirmationPrompt = new PasswordField();
         passwordPrompt.setMaxWidth(450);
         passwordConfirmationPrompt.setMaxWidth(450);
-        passwordPrompt.setPromptText("password");
+        passwordPrompt.setPromptText("new password");
         passwordConfirmationPrompt.setPromptText("confirm password");
         passwordPrompt.textProperty().addListener(observable -> passwordPrompt.setStyle("-fx-background-color: #FFFFFF;"));
         passwordConfirmationPrompt.textProperty().addListener(observable -> passwordConfirmationPrompt.setStyle("-fx-background-color: #FFFFFF;"));
@@ -267,7 +274,7 @@ public class ProfileMenuGUI extends Application {
         passwordConfirmationShownPrompt.setVisible(false);
         passwordShownPrompt.setMaxWidth(450);
         passwordConfirmationShownPrompt.setMaxWidth(450);
-        passwordShownPrompt.setPromptText("password");
+        passwordShownPrompt.setPromptText("new password");
         passwordConfirmationShownPrompt.setPromptText("confirm password");
         passwordShownPrompt.textProperty().addListener(observable -> passwordShownPrompt.setStyle("-fx-background-color: #FFFFFF;"));
         passwordConfirmationShownPrompt.textProperty().addListener(observable -> passwordConfirmationShownPrompt.setStyle("-fx-background-color: #FFFFFF;"));
@@ -278,23 +285,31 @@ public class ProfileMenuGUI extends Application {
             passwordHidden.set(!passwordHidden.get());
             if (showPasswordButton.getText().equals("Show Password")) {
                 showPasswordButton.setText("Hide Password");
+                oldPasswordPrompt.setVisible(false);
+                oldPasswordShownPrompt.setVisible(true);
                 passwordPrompt.setVisible(false);
                 passwordConfirmationPrompt.setVisible(false);
                 passwordShownPrompt.setVisible(true);
                 passwordShownPrompt.setText(passwordPrompt.getText());
+                oldPasswordShownPrompt.setText(oldPasswordPrompt.getText());
                 passwordConfirmationShownPrompt.setVisible(true);
                 passwordConfirmationShownPrompt.setText(passwordConfirmationPrompt.getText());
                 vBox.getChildren().set(vBox.getChildren().indexOf(passwordPrompt),passwordShownPrompt);
+                vBox.getChildren().set(vBox.getChildren().indexOf(oldPasswordPrompt),oldPasswordShownPrompt);
                 vBox.getChildren().set(vBox.getChildren().indexOf(passwordConfirmationPrompt),passwordConfirmationShownPrompt);
             }
             else {
                 showPasswordButton.setText("Show Password");
+                oldPasswordShownPrompt.setVisible(false);
+                oldPasswordPrompt.setVisible(true);
                 passwordShownPrompt.setVisible(false);
                 passwordConfirmationShownPrompt.setVisible(false);
                 passwordPrompt.setVisible(true);
                 passwordPrompt.setText(passwordShownPrompt.getText());
+                oldPasswordPrompt.setText(oldPasswordShownPrompt.getText());
                 passwordConfirmationPrompt.setVisible(true);
                 passwordConfirmationPrompt.setText(passwordConfirmationShownPrompt.getText());
+                vBox.getChildren().set(vBox.getChildren().indexOf(oldPasswordShownPrompt),oldPasswordPrompt);
                 vBox.getChildren().set(vBox.getChildren().indexOf(passwordShownPrompt),passwordPrompt);
                 vBox.getChildren().set(vBox.getChildren().indexOf(passwordConfirmationShownPrompt),passwordConfirmationPrompt);
             }
@@ -341,8 +356,13 @@ public class ProfileMenuGUI extends Application {
             alert.showAndWait().ifPresent(buttonType -> {
                 if (buttonType == buttonTypeYes) {
                     boolean emptyField = false;
-                    if (oldPasswordPrompt.getText().trim().equals("")) {
+                    if (passwordHidden.get() && oldPasswordPrompt.getText().trim().equals("")) {
                         oldPasswordPrompt.setStyle("-fx-background-color: #FFCCCC;");
+                        emptyField = true;
+                    }
+
+                    if (!passwordHidden.get() && oldPasswordShownPrompt.getText().trim().equals("")) {
+                        oldPasswordShownPrompt.setStyle("-fx-background-color: #FFCCCC;");
                         emptyField = true;
                     }
 
