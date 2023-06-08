@@ -22,6 +22,9 @@ import javafx.stage.Stage;
 import Controller.RegisterMenuController;
 import Controller.ManageData;
 
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class ProfileMenuGUI extends Application {
 
     public static void main(String[] args) {
@@ -190,6 +193,7 @@ public class ProfileMenuGUI extends Application {
         vBox.getChildren().add(sloganShowed);
 
         Button changePassword = new Button("Change Password");
+        changePassword.setOnAction(actionEvent -> changePassword());
         Button back = new Button("Back");
         Button scoreboard = new Button("Scoreboard");
         changePassword.setMinWidth(220);
@@ -217,4 +221,172 @@ public class ProfileMenuGUI extends Application {
         details += "Slogan: "+ user.getSlogan();
         return details;
     }
+
+    public void changePassword(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Change Password");
+
+        DialogPane dialogPane = alert.getDialogPane();
+        VBox vBox = new VBox();
+
+        dialogPane.setMinWidth(450);
+        dialogPane.setMinHeight(300);
+        BorderPane oldPasswordView = new BorderPane();
+        Text oldPasswordText = new Text("Old password:");
+        Text oldPasswordError = new Text("");
+        oldPasswordError.setFill(Color.RED);
+        oldPasswordView.setLeft(oldPasswordText);
+        oldPasswordView.setRight(oldPasswordError);
+        oldPasswordView.setMaxWidth(450);
+
+        PasswordField oldPasswordPrompt = new PasswordField();
+        oldPasswordPrompt.setMaxWidth(450);
+        oldPasswordPrompt.setPromptText("old password");
+
+
+        BorderPane passwordView = new BorderPane();
+        Text passwordText = new Text("New password:");
+        Text passwordError = new Text("");
+        passwordError.setFill(Color.RED);
+        passwordView.setLeft(passwordText);
+        passwordView.setRight(passwordError);
+        passwordView.setMaxWidth(450);
+
+        PasswordField passwordPrompt = new PasswordField();
+        PasswordField passwordConfirmationPrompt = new PasswordField();
+        passwordPrompt.setMaxWidth(450);
+        passwordConfirmationPrompt.setMaxWidth(450);
+        passwordPrompt.setPromptText("password");
+        passwordConfirmationPrompt.setPromptText("confirm password");
+        passwordPrompt.textProperty().addListener(observable -> passwordPrompt.setStyle("-fx-background-color: #FFFFFF;"));
+        passwordConfirmationPrompt.textProperty().addListener(observable -> passwordConfirmationPrompt.setStyle("-fx-background-color: #FFFFFF;"));
+
+        TextField passwordShownPrompt = new TextField();
+        TextField passwordConfirmationShownPrompt = new TextField();
+        passwordShownPrompt.setVisible(false);
+        passwordConfirmationShownPrompt.setVisible(false);
+        passwordShownPrompt.setMaxWidth(450);
+        passwordConfirmationShownPrompt.setMaxWidth(450);
+        passwordShownPrompt.setPromptText("password");
+        passwordConfirmationShownPrompt.setPromptText("confirm password");
+        passwordShownPrompt.textProperty().addListener(observable -> passwordShownPrompt.setStyle("-fx-background-color: #FFFFFF;"));
+        passwordConfirmationShownPrompt.textProperty().addListener(observable -> passwordConfirmationShownPrompt.setStyle("-fx-background-color: #FFFFFF;"));
+
+        AtomicBoolean passwordHidden = new AtomicBoolean(true);
+        Button showPasswordButton = new Button("Show Password");
+        showPasswordButton.setOnAction(event -> {
+            passwordHidden.set(!passwordHidden.get());
+            if (showPasswordButton.getText().equals("Show Password")) {
+                showPasswordButton.setText("Hide Password");
+                passwordPrompt.setVisible(false);
+                passwordConfirmationPrompt.setVisible(false);
+                passwordShownPrompt.setVisible(true);
+                passwordShownPrompt.setText(passwordPrompt.getText());
+                passwordConfirmationShownPrompt.setVisible(true);
+                passwordConfirmationShownPrompt.setText(passwordConfirmationPrompt.getText());
+                vBox.getChildren().set(vBox.getChildren().indexOf(passwordPrompt),passwordShownPrompt);
+                vBox.getChildren().set(vBox.getChildren().indexOf(passwordConfirmationPrompt),passwordConfirmationShownPrompt);
+            }
+            else {
+                showPasswordButton.setText("Show Password");
+                passwordShownPrompt.setVisible(false);
+                passwordConfirmationShownPrompt.setVisible(false);
+                passwordPrompt.setVisible(true);
+                passwordPrompt.setText(passwordShownPrompt.getText());
+                passwordConfirmationPrompt.setVisible(true);
+                passwordConfirmationPrompt.setText(passwordConfirmationShownPrompt.getText());
+                vBox.getChildren().set(vBox.getChildren().indexOf(passwordShownPrompt),passwordPrompt);
+                vBox.getChildren().set(vBox.getChildren().indexOf(passwordConfirmationShownPrompt),passwordConfirmationPrompt);
+            }
+        });
+
+        showPasswordButton.setMinWidth(vBox.widthProperty().get());
+        showPasswordButton.setMinWidth(450);
+        vBox.setSpacing(5);
+        vBox.getChildren().addAll(oldPasswordView,oldPasswordPrompt,passwordView,passwordPrompt,passwordConfirmationPrompt,showPasswordButton);
+        dialogPane.setContent(vBox);
+
+
+        ButtonType buttonTypeYes = new ButtonType("Confirm");
+        ButtonType buttonTypeNo = new ButtonType("Cancel");
+        alert.getButtonTypes().setAll(buttonTypeNo, buttonTypeYes);
+
+
+        AtomicBoolean errorCheck = new AtomicBoolean(true);
+        Thread errorCheckThread = new Thread(() -> {
+            while (errorCheck.get()) {
+                try {
+                    String result;
+
+                    if (passwordHidden.get()) {
+                        result = RegisterMenuController.checkPasswordError(passwordPrompt.getText(),passwordConfirmationPrompt.getText());
+                    } else {
+                        result = RegisterMenuController.checkPasswordError(passwordShownPrompt.getText(),passwordConfirmationShownPrompt.getText());
+                    }
+                    if (result.equals("Success")) {
+                        passwordError.setText("");
+                    } else passwordError.setText(result);
+
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        errorCheckThread.start();
+
+        AtomicBoolean deleteConfirmed = new AtomicBoolean(false);
+        while (!deleteConfirmed.get()) {
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == buttonTypeYes) {
+                    boolean emptyField = false;
+                    if (oldPasswordPrompt.getText().trim().equals("")) {
+                        oldPasswordPrompt.setStyle("-fx-background-color: #FFCCCC;");
+                        emptyField = true;
+                    }
+
+                    if (passwordHidden.get() && passwordPrompt.getText().trim().equals("")) {
+                        passwordPrompt.setStyle("-fx-background-color: #FFCCCC;");
+                        emptyField = true;
+                    }
+
+                    if (passwordHidden.get() && passwordConfirmationPrompt.getText().trim().equals("")) {
+                        passwordConfirmationPrompt.setStyle("-fx-background-color: #FFCCCC;");
+                        emptyField = true;
+                    }
+
+                    if (!passwordHidden.get() && passwordShownPrompt.getText().trim().equals("")) {
+                        passwordShownPrompt.setStyle("-fx-background-color: #FFCCCC;");
+                        emptyField = true;
+                    }
+
+                    if (!passwordHidden.get() && passwordConfirmationShownPrompt.getText().trim().equals("")) {
+                        passwordConfirmationShownPrompt.setStyle("-fx-background-color: #FFCCCC;");
+                        emptyField = true;
+                    }
+
+                    if (!Controller.currentUser.getPassword().equals(oldPasswordPrompt.getText())) {
+                        oldPasswordError.setText("Wrong Password!");
+                    }
+
+                    else if (oldPasswordError.getText().equals("") && passwordError.getText().equals("") && !emptyField) {
+                        String password;
+                        if (passwordHidden.get()) password = passwordPrompt.getText();
+                        else password = passwordShownPrompt.getText();
+                        Controller.currentUser.setPassword(ManageData.encrypt(password));
+                        ManageData.saveUsers();
+                        deleteConfirmed.set(true);
+                        errorCheck.set(false);
+                    }
+
+                } else if (buttonType == buttonTypeNo){
+                    deleteConfirmed.set(true);
+                    errorCheck.set(false);
+                }
+            });
+
+        }
+    }
 }
+
