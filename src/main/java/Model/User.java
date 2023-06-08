@@ -16,6 +16,15 @@ public class User {
     String answer;
     int questionNumber;
     int highScore;
+    private String imageUrl = Game.class.getResource("/Images/Avatars/1.png").toString();
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public User(String username, String password, String nickname, String email, String slogan, String answer, int questionNumber) {
         this.username = username;

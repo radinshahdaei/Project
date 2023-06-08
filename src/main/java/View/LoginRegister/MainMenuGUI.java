@@ -26,7 +26,7 @@ public class MainMenuGUI extends Application {
         stage.setTitle("Stronghold Crusader");
         stage.show();
 
-        Image image =  new Image(Main.class.getResource("/Images/backgrounds/01.jpg").toString());
+        Image image = new Image(Main.class.getResource("/Images/backgrounds/01.jpg").toString());
 
         BackgroundImage backgroundImage = new BackgroundImage(
                 image,

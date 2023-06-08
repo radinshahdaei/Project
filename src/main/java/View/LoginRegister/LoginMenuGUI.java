@@ -27,7 +27,7 @@ public class LoginMenuGUI extends Application {
     @Override
     public void start(Stage stage) {
         BorderPane root = new BorderPane();
-        Scene scene = new Scene(root, 500, 200);
+        Scene scene = new Scene(root, 400, 200);
         stage.setScene(scene);
         stage.setTitle("Login");
         stage.show();
@@ -44,10 +44,10 @@ public class LoginMenuGUI extends Application {
         usernameError.setFill(Color.RED);
         usernameView.setLeft(usernameText);
         usernameView.setRight(usernameError);
-        usernameView.setMaxWidth(450);
+        usernameView.setMaxWidth(350);
 
         TextField usernamePrompt = new TextField();
-        usernamePrompt.setMaxWidth(450);
+        usernamePrompt.setMaxWidth(350);
         usernamePrompt.setPromptText("username");
 
 
@@ -57,10 +57,10 @@ public class LoginMenuGUI extends Application {
         passwordError.setFill(Color.RED);
         passwordView.setLeft(passwordText);
         passwordView.setRight(passwordError);
-        passwordView.setMaxWidth(450);
+        passwordView.setMaxWidth(350);
 
         PasswordField passwordPrompt = new PasswordField();
-        passwordPrompt.setMaxWidth(450);
+        passwordPrompt.setMaxWidth(350);
         passwordPrompt.setPromptText("password");
         passwordPrompt.textProperty().addListener(observable -> {
             passwordPrompt.setStyle("-fx-background-color: #FFFFFF;");
@@ -69,7 +69,7 @@ public class LoginMenuGUI extends Application {
 
         TextField passwordShownPrompt = new TextField();
         passwordShownPrompt.setVisible(false);
-        passwordShownPrompt.setMaxWidth(450);
+        passwordShownPrompt.setMaxWidth(350);
         passwordShownPrompt.setPromptText("password");
         passwordShownPrompt.textProperty().addListener(observable -> {
             passwordShownPrompt.setStyle("-fx-background-color: #FFFFFF;");
