@@ -52,6 +52,7 @@ public class Controller {
 
     public static void addUser(User user) {
         users.add(user);
+        ManageData.saveUsers();
     }
 
     public static void setCurrentUser(User user) {

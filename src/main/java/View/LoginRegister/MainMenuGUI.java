@@ -1,15 +1,16 @@
 package View.LoginRegister;
 
 import Controller.Controller;
+import View.Main;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class MainMenuGUI extends Application {
@@ -18,12 +19,28 @@ public class MainMenuGUI extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         BorderPane root = new BorderPane();
-        Scene scene = new Scene(root, 200, 150);
+        Scene scene = new Scene(root, 1020, 700);
         stage.setScene(scene);
-        stage.setTitle("Crusader");
+        stage.setTitle("Stronghold Crusader");
         stage.show();
+
+        Image image =  new Image(Main.class.getResource("/Images/backgrounds/01.jpg").toString());
+
+        BackgroundImage backgroundImage = new BackgroundImage(
+                image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT
+        );
+
+        // Create a background
+        Background background = new Background(backgroundImage);
+
+        // Set the background on the root pane
+        root.setBackground(background);
 
         Controller.setStage(stage);
 

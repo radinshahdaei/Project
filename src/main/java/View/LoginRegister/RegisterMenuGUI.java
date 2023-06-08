@@ -2,10 +2,15 @@ package View.LoginRegister;
 
 import Controller.Controller;
 import Model.User;
+import View.Main;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -14,6 +19,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -21,12 +31,13 @@ import java.util.concurrent.atomic.AtomicReference;
 import Controller.RegisterMenuController;
 
 public class RegisterMenuGUI extends Application {
-    public static void main(String[] args) {
-        launch(args);
-    }
+    private static int number;
+//    public static void main(String[] args) {
+//        launch(args);
+//    }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, 500, 500);
         stage.setScene(scene);
@@ -50,9 +61,7 @@ public class RegisterMenuGUI extends Application {
         TextField usernamePrompt = new TextField();
         usernamePrompt.setMaxWidth(450);
         usernamePrompt.setPromptText("username");
-        usernamePrompt.textProperty().addListener(observable -> {
-            usernamePrompt.setStyle("-fx-background-color: #FFFFFF;");
-        });
+        usernamePrompt.textProperty().addListener(observable -> usernamePrompt.setStyle("-fx-background-color: #FFFFFF;"));
 
         BorderPane passwordView = new BorderPane();
         Text passwordText = new Text("Password:");
@@ -68,12 +77,8 @@ public class RegisterMenuGUI extends Application {
         passwordConfirmationPrompt.setMaxWidth(450);
         passwordPrompt.setPromptText("password");
         passwordConfirmationPrompt.setPromptText("confirm password");
-        passwordPrompt.textProperty().addListener(observable -> {
-            passwordPrompt.setStyle("-fx-background-color: #FFFFFF;");
-        });
-        passwordConfirmationPrompt.textProperty().addListener(observable -> {
-            passwordConfirmationPrompt.setStyle("-fx-background-color: #FFFFFF;");
-        });
+        passwordPrompt.textProperty().addListener(observable -> passwordPrompt.setStyle("-fx-background-color: #FFFFFF;"));
+        passwordConfirmationPrompt.textProperty().addListener(observable -> passwordConfirmationPrompt.setStyle("-fx-background-color: #FFFFFF;"));
 
         TextField passwordShownPrompt = new TextField();
         TextField passwordConfirmationShownPrompt = new TextField();
@@ -83,12 +88,8 @@ public class RegisterMenuGUI extends Application {
         passwordConfirmationShownPrompt.setMaxWidth(450);
         passwordShownPrompt.setPromptText("password");
         passwordConfirmationShownPrompt.setPromptText("confirm password");
-        passwordShownPrompt.textProperty().addListener(observable -> {
-            passwordShownPrompt.setStyle("-fx-background-color: #FFFFFF;");
-        });
-        passwordConfirmationShownPrompt.textProperty().addListener(observable -> {
-            passwordConfirmationShownPrompt.setStyle("-fx-background-color: #FFFFFF;");
-        });
+        passwordShownPrompt.textProperty().addListener(observable -> passwordShownPrompt.setStyle("-fx-background-color: #FFFFFF;"));
+        passwordConfirmationShownPrompt.textProperty().addListener(observable -> passwordConfirmationShownPrompt.setStyle("-fx-background-color: #FFFFFF;"));
 
         AtomicBoolean passwordHidden = new AtomicBoolean(true);
         Button showPasswordButton = new Button("Show Password");
@@ -129,9 +130,7 @@ public class RegisterMenuGUI extends Application {
         TextField emailPrompt = new TextField();
         emailPrompt.setMaxWidth(450);
         emailPrompt.setPromptText("email");
-        emailPrompt.textProperty().addListener(observable -> {
-            emailPrompt.setStyle("-fx-background-color: #FFFFFF;");
-        });
+        emailPrompt.textProperty().addListener(observable -> emailPrompt.setStyle("-fx-background-color: #FFFFFF;"));
 
         BorderPane nicknameView = new BorderPane();
         Text nicknameText = new Text("Nickname:");
@@ -141,20 +140,56 @@ public class RegisterMenuGUI extends Application {
         TextField nicknamePrompt = new TextField();
         nicknamePrompt.setMaxWidth(450);
         nicknamePrompt.setPromptText("nickname");
-        nicknamePrompt.textProperty().addListener(observable -> {
-            nicknamePrompt.setStyle("-fx-background-color: #FFFFFF;");
-        });
+        nicknamePrompt.textProperty().addListener(observable -> nicknamePrompt.setStyle("-fx-background-color: #FFFFFF;"));
 
         BorderPane sloganView = new BorderPane();
         Text sloganText = new Text("Slogan");
-        Text sloganNeeded = new Text("(Can be empty)");
+        // Text sloganNeeded = new Text("(Can be empty)");
+        CheckBox sloganBox = new CheckBox("Show Slogan");
         sloganView.setLeft(sloganText);
-        sloganView.setRight(sloganNeeded);
+        sloganView.setRight(sloganBox);
         sloganView.setMaxWidth(450);
+
+        HBox sloganShowed = new HBox();
+
+        sloganBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            sloganShowed.setVisible(newValue);
+        });
+
 
         TextField sloganPrompt = new TextField();
         sloganPrompt.setMaxWidth(450);
         sloganPrompt.setPromptText("slogan");
+
+        Button randomSloganButton = new Button("Random Slogan");
+        randomSloganButton.setOnAction(actionEvent -> {
+            String randomSloganText = RegisterMenuController.randomSlogan();
+            sloganPrompt.setText(randomSloganText);
+        });
+
+        ComboBox<String> comboBox = new ComboBox<>();
+        comboBox.setItems(FXCollections.observableArrayList(
+                "Answer the call of the Holy Land and join the Crusade.",
+                "Experience the thrill of medieval warfare as a Crusader.",
+                "Fight for faith and glory in the name of the Cross.",
+                "Become a legend in a battle for Jerusalem and beyond.",
+                "Join the ranks of the brave and the faithful on a journey to the Holy Land."));
+
+        comboBox.setMaxWidth(200);
+        comboBox.setPromptText("Famous Slogans");
+
+        comboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            sloganPrompt.setText(newValue);
+        });
+
+        sloganShowed.getChildren().addAll(sloganPrompt,comboBox,randomSloganButton);
+        sloganShowed.setSpacing(5);
+
+        sloganShowed.setMaxWidth(450);
+        sloganShowed.setVisible(false);
+
+
+        AtomicBoolean errorCheck = new AtomicBoolean(true);
 
         Button randomPasswordButton = new Button("Random Password");
         randomPasswordButton.setOnAction(actionEvent -> {
@@ -173,15 +208,12 @@ public class RegisterMenuGUI extends Application {
             passwordConfirmationShownPrompt.setText("");
         });
 
-        Button randomSloganButton = new Button("Random Slogan");
-        randomSloganButton.setOnAction(actionEvent -> {
-            String randomSloganText = RegisterMenuController.randomSlogan();
-            sloganPrompt.setText(randomSloganText);
-        });
+
 
         Button back = new Button("Back");
         back.setOnAction(actionEvent -> {
             try {
+                errorCheck.set(false);
                 new MainMenuGUI().start(stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -229,19 +261,32 @@ public class RegisterMenuGUI extends Application {
             if (!hasError && !emptyField) {
                 System.out.println("Hooray");
                 AtomicReference<String> answerText = new AtomicReference<>();
-                int answerNumber = startSecurityQuestion(answerText);
-                String username = usernamePrompt.getText();
-                String password;
-                if (passwordHidden.get()) password = passwordPrompt.getText();
-                else password = passwordShownPrompt.getText();
-                String email = emailPrompt.getText();
-                String nickname = nicknamePrompt.getText();
-                String slogan;
-                if (sloganPrompt.getText() == null) slogan = "";
-                slogan = sloganPrompt.getText();
-                User.createUser(username,password,nickname,email,slogan,answerText.get(),answerNumber);
 
-                //TODO add captcha
+
+                int answerNumber = startSecurityQuestion(answerText);
+                if (answerNumber != 0){
+                    String username = usernamePrompt.getText();
+                    String password;
+                    if (passwordHidden.get()) password = passwordPrompt.getText();
+                    else password = passwordShownPrompt.getText();
+                    String email = emailPrompt.getText();
+                    String nickname = nicknamePrompt.getText();
+                    String slogan;
+                    if (sloganPrompt.getText() == null) slogan = "";
+                    else slogan = sloganPrompt.getText();
+                    if (showCaptcha()) {
+                        User.createUser(username,password,nickname,email,slogan,answerText.get(),answerNumber);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Register Successful!");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Welcome to the game!");
+                        alert.showAndWait();
+                        errorCheck.set(false);
+                        MainMenuGUI mainMenuGUI = new MainMenuGUI();
+                        mainMenuGUI.start(stage);
+                    }
+                }
+
                 //TODO go to game menu
             }
         });
@@ -249,18 +294,21 @@ public class RegisterMenuGUI extends Application {
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(5);
-        hBox.getChildren().addAll(confirmButton,back,randomSloganButton,randomPasswordButton,showPasswordButton);
+        hBox.getChildren().addAll(confirmButton,back,randomPasswordButton,showPasswordButton);
+        confirmButton.setMinWidth(105);
+        back.setMinWidth(105);
+        randomPasswordButton.setMinWidth(105);
+        showPasswordButton.setMinWidth(105);
         vBox.getChildren().addAll(usernameView,usernamePrompt,
                 passwordView,passwordPrompt,passwordConfirmationPrompt,
                 emailView,emailPrompt,
                 nicknameView,nicknamePrompt,
-                sloganView,sloganPrompt,
+                sloganView,sloganShowed,
                 hBox);
         root.setCenter(vBox);
 
 
 
-        AtomicBoolean errorCheck = new AtomicBoolean(true);
         Thread errorCheckThread = new Thread(() -> {
             while (errorCheck.get()) {
                 try {
@@ -345,7 +393,7 @@ public class RegisterMenuGUI extends Application {
                         answerText.set(answer.getText());
                     }
                 } else if (buttonType == buttonTypeNo) {
-                    // System.out.println("Deletion canceled");
+                    answerNumber.set(0);
                     deleteConfirmed.set(true);
                 }
             });
@@ -353,5 +401,64 @@ public class RegisterMenuGUI extends Application {
         }
         return answerNumber.get();
         // System.out.println(answerFound);
+    }
+
+    public static boolean showCaptcha(){
+        TextField answer = new TextField();
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setSpacing(5);
+        AtomicReference<ImageView> captchaView = new AtomicReference<>();
+        captchaView.set(getRandomImage());
+        vBox.getChildren().addAll(captchaView.get(),answer);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Captcha");
+        alert.setHeaderText("Enter the number!");
+        alert.getDialogPane().setContent(vBox);
+
+        AtomicBoolean correctAnswer = new AtomicBoolean(false);
+
+        ButtonType buttonTypeYes = new ButtonType("Confirm");
+        ButtonType buttonTypeNo = new ButtonType("Cancel");
+        alert.getButtonTypes().setAll(buttonTypeNo, buttonTypeYes);
+
+        AtomicBoolean returnAnswer = new AtomicBoolean(false);
+
+        while (!correctAnswer.get()) {
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == buttonTypeYes) {
+                    if (answer.getText().matches("\\d+") && Integer.parseInt(answer.getText()) == number) {
+                        correctAnswer.set(true);
+                        returnAnswer.set(true);
+                    }
+                    else {
+                        ImageView newImage = getRandomImage();
+                        vBox.getChildren().set(vBox.getChildren().indexOf(captchaView.get()),newImage);
+                        captchaView.set(newImage);
+                    }
+                }
+                else if (buttonType == buttonTypeNo){
+                    correctAnswer.set(true);
+                }
+            });
+        }
+        return returnAnswer.get();
+    }
+
+    public static ImageView getRandomImage(){
+        String directoryPath = "src/main/resources/Images/Captcha";
+        File directory = new File(directoryPath);
+        File[] files = directory.listFiles();
+        List<File> fileList = new ArrayList<>(Arrays.asList(files));
+        Random random = new Random();
+        int randomNumber = random.nextInt(fileList.size());
+        String fileName = fileList.get(randomNumber).getName();
+        number = Integer.parseInt(fileName.replace(".png",""));
+
+
+        Image image =  new Image(Main.class.getResource("/Images/Captcha/"+fileName).toString());
+        ImageView captchaView = new ImageView(image);
+        return captchaView;
     }
 }

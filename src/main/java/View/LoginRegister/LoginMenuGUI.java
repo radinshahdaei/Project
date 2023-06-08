@@ -127,11 +127,12 @@ public class LoginMenuGUI extends Application {
             if (result.equals("Success")) {
                 passwordError.setText("");
                 if (usernameError.getText().equals("") && !emptyField) {
-                    Controller.setCurrentUser(Controller.findUserByUsername(usernamePrompt.getText()));
-                    ManageData.saveCurrentUser();
-                    System.out.println("Hooray");
+                    if (RegisterMenuGUI.showCaptcha()){
+                        Controller.setCurrentUser(Controller.findUserByUsername(usernamePrompt.getText()));
+                        ManageData.saveCurrentUser();
+                        System.out.println("Hooray");
+                    }
 
-                    //TODO add captcha
                     //TODO go to game menu
                 }
             }
@@ -168,9 +169,12 @@ public class LoginMenuGUI extends Application {
             }
         });
 
+        AtomicBoolean errorCheck = new AtomicBoolean(true);
+
         Button back = new Button("back");
         back.setOnAction(actionEvent -> {
             try {
+                errorCheck.set(false);
                 new MainMenuGUI().start(stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -191,7 +195,6 @@ public class LoginMenuGUI extends Application {
                 hBox);
         root.setCenter(vBox);
 
-        AtomicBoolean errorCheck = new AtomicBoolean(true);
         Thread errorCheckThread = new Thread(() -> {
             while (errorCheck.get()) {
                 String result = LoginMenuController.checkUsername(usernamePrompt.getText());
