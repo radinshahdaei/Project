@@ -1,7 +1,11 @@
 package Model;
 
 import Model.Building.Building;
+import Model.Person.Military.MilitaryUnit;
 import Model.Person.Person;
+import javafx.application.Platform;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -14,6 +18,8 @@ public class Tile {
     private boolean hasKillingPit = false;
     private ArrayList<Person> people = new ArrayList<>();
     private Building building = null;
+    private Pane mainPane = new Pane();
+    private Pane dataPane = new Pane();
 
     public int getX() {
         return x;
@@ -85,5 +91,61 @@ public class Tile {
 
     public boolean isHasKillingPit() {
         return hasKillingPit;
+    }
+
+    public Pane getMainPane() {
+        return mainPane;
+    }
+
+    public void setMainPane(Pane mainPane) {
+        this.mainPane = mainPane;
+    }
+
+    public Pane getDataPane() {
+        return dataPane;
+    }
+
+    public void setDataPane(Pane dataPane) {
+        this.dataPane = dataPane;
+    }
+
+    public void updateDataPane() {
+        if (dataPane.getChildren().size() != 0) dataPane.getChildren().clear();
+        int firstY = 20;
+        int firstX = 10;
+        Text coordinate = new Text("Tile coordinate: " + String.valueOf(x) + ", " + String.valueOf(y));
+        coordinate.setLayoutX(firstX);
+        coordinate.setLayoutY(firstY);
+        dataPane.getChildren().add(coordinate);
+        firstY += 15;
+        Text textureDate = new Text("Texture: " + texture);
+        textureDate.setLayoutX(firstX);
+        textureDate.setLayoutY(firstY);
+        dataPane.getChildren().add(textureDate);
+        if (building != null) {
+            firstY += 15;
+            Text buildingData = new Text(building.getName() + ": Health-> " + String.valueOf(building.getHp()) +
+                    " Owner-> " + building.getOwner().getUsername());
+            buildingData.setLayoutX(firstX);
+            buildingData.setLayoutY(firstY);
+            dataPane.getChildren().add(buildingData);
+        }
+        if (people.size() != 0) {
+            for (Person person: people) {
+                firstY += 15;
+                MilitaryUnit militaryUnit = (MilitaryUnit) person;
+                Text soldierData = new Text(militaryUnit.getName() + ": Health-> " + militaryUnit.getDefence() +
+                        " Owner-> " + militaryUnit.getOwner().getUsername());
+                soldierData.setLayoutX(firstX);
+                soldierData.setLayoutY(firstY);
+                firstY += 15;
+                dataPane.getChildren().add(soldierData);
+                Text soldierData1 = new Text("  Damage-> " + militaryUnit.getAttack() + " Status-> " +
+                        militaryUnit.getStatus());
+                soldierData1.setLayoutX(firstX);
+                soldierData1.setLayoutY(firstY);
+                dataPane.getChildren().add(soldierData1);
+            }
+        }
     }
 }

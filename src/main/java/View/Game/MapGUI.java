@@ -1,5 +1,13 @@
 package View.Game;
 
+import Controller.*;
+import Model.Building.Building;
+import Model.Building.BuildingType;
+import Model.Game;
+import Model.Government;
+import Model.Map;
+import Model.Person.Military.MilitaryUnit;
+import Model.Tile;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -21,24 +29,38 @@ public class MapGUI extends Application {
     private static double yStamp = 0;
     private static int mapSize = 200;
     private static Pane[][] map = new Pane[mapSize][mapSize];
+    private static Pane[][] dataPanes = new Pane[mapSize][mapSize];
+    private static Pane menuPane;
+    private static Pane tileDataPane;
+    private static TileDataThread tileDataThread;
     private static ArrayList<Pane> selectedTiles = new ArrayList<>();
     private static int scale = 160;
-    public static HashMap<Node, Double> firstX = new HashMap<>();
-    public static HashMap<Node, Double> firstY = new HashMap<>();
     public static void main(String[] args) {
         launch(args);
     }
     @Override
     public void start(Stage stage) throws Exception {
+        GameMenuController.game = new Game();
+        GameMenuController.game.setMap(new Map());
+        MapMenuController.initializeMap(mapSize);
+//        GameMenu gameMenu = new GameMenu();
+//        gameMenu.run();
+//        MilitaryUnit militaryUnit = MilitaryUnit.createUnits("slave", "soldier", 1, 1, Controller.currentUser);
+//        GameMenuController.game.getMap().getTiles()[1][1].getPeople().add(militaryUnit);
         Pane gamePane = new Pane();
         gamePane.setPrefSize(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
         Scene scene = new Scene(gamePane);
-        Pane menuPane = new Pane();
-        menuPane.setPrefSize(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight() / 4);
+        menuPane = new Pane();
+        menuPane.setPrefSize(4 * Screen.getPrimary().getBounds().getWidth() / 5, Screen.getPrimary().getBounds().getHeight() / 4);
         menuPane.setLayoutX(0);
         menuPane.setLayoutY(3 * Screen.getPrimary().getBounds().getHeight() / 4);
         menuPane.setStyle("-fx-background-color: white");
-        createMap();
+        tileDataPane = new Pane();
+        tileDataPane.setPrefSize(Screen.getPrimary().getBounds().getWidth() / 5, Screen.getPrimary().getBounds().getHeight() / 4);
+        tileDataPane.setLayoutX(4 * Screen.getPrimary().getBounds().getWidth() / 5);
+        tileDataPane.setLayoutY(3 * Screen.getPrimary().getBounds().getHeight() / 4);
+        tileDataPane.setStyle("-fx-background-color: wheat");
+        createMap(gamePane);
 
         drawMap(startingX, startingY, gamePane, menuPane);
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -113,10 +135,10 @@ public class MapGUI extends Application {
         stage.show();
     }
 
-    private void createMap() {
+    private void createMap(Pane gamePane) {
         for (int i = 0 ; i < mapSize ; i++) {
             for (int j = 0 ; j < mapSize ; j++) {
-                map[i][j] = new Pane();
+                map[i][j] = GameMenuController.game.getMap().getTiles()[i][j].getMainPane();
                 map[i][j].setPrefSize(170, 170);
                 Rectangle backGroundRectangle = new Rectangle(0, 0, 170, 170);
                 backGroundRectangle.setFill(Color.TRANSPARENT);
@@ -124,16 +146,44 @@ public class MapGUI extends Application {
                 rect.setFill(Color.BLUE);
                 map[i][j].getChildren().add(backGroundRectangle);
                 map[i][j].getChildren().add(rect);
-                firstX.put(backGroundRectangle, (double) 0);
-                firstY.put(backGroundRectangle, (double) 0);
-                firstX.put(rect, (double) 10);
-                firstY.put(rect, (double) 10);
+                dataPanes[i][j] = GameMenuController.game.getMap().getTiles()[i][j].getDataPane();
+                dataPanes[i][j].setPrefSize(Screen.getPrimary().getBounds().getWidth() / 5,
+                        Screen.getPrimary().getBounds().getHeight() / 4);
+                dataPanes[i][j].setLayoutX(0);
+                dataPanes[i][j].setLayoutY(0);
+                Rectangle dataBackGround = new Rectangle(0, 0,
+                        Screen.getPrimary().getBounds().getWidth() / 5,
+                        Screen.getPrimary().getBounds().getHeight() / 4);
+                dataBackGround.setFill(Color.WHEAT);
+                dataPanes[i][j].getChildren().add(dataBackGround);
                 int I = i;
                 int J = j;
                 map[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        selectedTile(map[I][J]);
+                        selectedTile(map[I][J], GameMenuController.game.getMap().getTiles()[I][J]);
+                    }
+                });
+
+                map[i][j].setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (selectedTiles.size() != 0) return;
+                        tileDataThread = new TileDataThread(GameMenuController.game.getMap().getTiles()[I][J]);
+                        if (!tileDataPane.getChildren().contains(dataPanes[I][J])) {
+                            tileDataPane.getChildren().add(dataPanes[I][J]);
+                            tileDataThread.play();
+                        }
+                    }
+                });
+
+                map[i][j].setOnMouseExited(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (selectedTiles.size() != 0) return;
+                        tileDataThread.setRunner(false);
+                        tileDataThread.stop();
+                        tileDataPane.getChildren().remove(dataPanes[I][J]);
                     }
                 });
 
@@ -141,15 +191,27 @@ public class MapGUI extends Application {
         }
     }
 
-    private void selectedTile(Pane tile){
-        Rectangle rectangle = (Rectangle) tile.getChildren().get(0);
+    private void selectedTile(Pane pane, Tile tile){
+        Rectangle rectangle = (Rectangle) pane.getChildren().get(0);
         if (rectangle.getFill() == Color.RED) {
-            selectedTiles.remove(tile);
+            if (selectedTiles.size() == 1 && tileDataThread.getTile().equals(tile)) {
+                tileDataThread.setRunner(false);
+                tileDataThread.stop();
+                tileDataPane.getChildren().remove(dataPanes[tile.getX()][tile.getY()]);
+            }
+            selectedTiles.remove(pane);
             rectangle.setFill(Color.TRANSPARENT);
         }
         else {
-            selectedTiles.add(tile);
+            selectedTiles.add(pane);
             rectangle.setFill(Color.RED);
+            if (selectedTiles.size() == 1) {
+                tileDataThread.stop();
+                tileDataThread = new TileDataThread(tile);
+                tileDataPane.getChildren().clear();
+                tileDataPane.getChildren().add(dataPanes[tile.getX()][tile.getY()]);
+                tileDataThread.play();
+            }
         }
     }
 
@@ -170,5 +232,6 @@ public class MapGUI extends Application {
             }
         }
         gamePane.getChildren().add(menuPane);
+        gamePane.getChildren().add(tileDataPane);
     }
 }
