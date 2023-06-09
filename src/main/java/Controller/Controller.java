@@ -18,6 +18,9 @@ public class Controller {
 
     static {
         if (users == null) users = new ArrayList<>();
+        if (currentUser != null) {
+            currentUser = findUserByUsername(currentUser.getUsername());
+        }
     }
 
     public static Stage getStage() {
