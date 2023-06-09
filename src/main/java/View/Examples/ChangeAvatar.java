@@ -28,6 +28,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
+import Controller.ManageData;
+
 public class ChangeAvatar extends Application {
 
     @Override
@@ -69,7 +71,6 @@ public class ChangeAvatar extends Application {
                 File file = dragboard.getFiles().get(0);
                 image.set(new Image(file.toURI().toString()));
                 url.set(file.toURI().toString());
-                Controller.currentUser.setImageUrl(url.toString());
                 setAvatar(image,hBox);
                 success = true;
             }
@@ -91,7 +92,7 @@ public class ChangeAvatar extends Application {
                 image.set(new Image(selectedFile.toURI().toString()));
                 url.set(selectedFile.toURI().toString());
                 setAvatar(image,hBox);
-                Controller.currentUser.setImageUrl(url.toString());
+
             }
         });
         optionalAvatar.setMinWidth(200);
@@ -108,7 +109,7 @@ public class ChangeAvatar extends Application {
             image.set(new Image(Game.class.getResource(buffer).toString()));
             url.set(Game.class.getResource(buffer).toString());
             setAvatar(image,hBox);
-            Controller.currentUser.setImageUrl(url.toString());
+
         });
 
         vbox.getChildren().add(choices);
@@ -119,7 +120,7 @@ public class ChangeAvatar extends Application {
         hBox.setSpacing(10);
         hBox.getChildren().add(vbox);
 
-        image.set(new Image(Game.class.getResource("/Images/Avatars/1.png").toString())); //TODO change to user avatar
+        image.set(new Image(Controller.currentUser.getImageUrl()));
         setAvatar(image,hBox);
 
         root.setCenter(hBox);
@@ -134,9 +135,27 @@ public class ChangeAvatar extends Application {
             }
         });
 
-        back.setMinWidth(200);
+        Button confirm = new Button("Confirm");
+        confirm.setOnAction(actionEvent -> {
+            Controller.currentUser.setImageUrl(url.toString());
+            ManageData.saveCurrentUser();
+            ManageData.saveUsers();
+            ProfileMenuGUI profileMenuGUI = new ProfileMenuGUI();
+            try {
+                profileMenuGUI.start(stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
 
-        vbox.getChildren().add(back);
+        back.setMinWidth(95);
+        confirm.setMinWidth(95);
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(back,confirm);
+        buttons.setSpacing(10);
+        buttons.setMinWidth(200);
+
+        vbox.getChildren().add(buttons);
     }
 
 

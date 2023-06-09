@@ -218,6 +218,7 @@ public class RegisterMenuController {
     }
 
     public static String checkEmailError(String email){
+        if (email == null) return "Success";
         if (Controller.findUserByEmail(email) != null) {
             return "A user with this email already exists!";
 

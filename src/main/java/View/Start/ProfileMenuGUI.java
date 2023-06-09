@@ -20,8 +20,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import Controller.RegisterMenuController;
+import Controller.ProfileMenuController;
 import Controller.ManageData;
+import Controller.Controller;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -49,7 +52,7 @@ public class ProfileMenuGUI extends Application {
         BorderPane showDetails = new BorderPane();
         VBox avatarView = new VBox();
         ImageView avatar = new ImageView();
-        avatar.setImage(new Image(Game.class.getResource("/Images/Avatars/1.png").toString())); //TODO change to user avatar
+        avatar.setImage(new Image(user.getImageUrl()));
         Button changeAvatar = new Button("Change Avatar");
         changeAvatar.setOnAction(actionEvent -> {
             ChangeAvatar changeAvatar1 = new ChangeAvatar();
@@ -63,7 +66,8 @@ public class ProfileMenuGUI extends Application {
         avatarView.getChildren().addAll(avatar,changeAvatar);
         String details = "Username: "+ user.getUsername() + " (" + user.getNickname()+")\n\n";
         details += "Email: " + user.getEmail() +"\n\n";
-        details += "Slogan: "+ user.getSlogan();
+        if (user.getSlogan().equals("")) details+= "Slogan is empty";
+        else details += "Slogan: "+ user.getSlogan();
         Label text = new Label(details);
         text.setFont(new Font(13));
         showDetails.setLeft(avatarView);
@@ -81,9 +85,9 @@ public class ProfileMenuGUI extends Application {
 
         changeUsername.setOnAction(actionEvent -> {
             if (usernameError.getText().equals("")){
-                user.setUsername(usernamePrompt.getText());
-                ManageData.saveUsers();
+                user.setUsername(usernamePrompt.getText()); //TODO bug fix
                 ManageData.saveCurrentUser();
+                ManageData.saveUsers();
                 setAlert("Success","username changed successfully!","");
                 String newDetails = updateDetails(user);
                 text.setText(newDetails);
@@ -111,8 +115,8 @@ public class ProfileMenuGUI extends Application {
 
         changeNickname.setOnAction(actionEvent -> {
             user.setNickname(nicknamePrompt.getText());
-            ManageData.saveUsers();
             ManageData.saveCurrentUser();
+            ManageData.saveUsers();
             setAlert("Success","nickname changed successfully!","");
             String newDetails = updateDetails(user);
             text.setText(newDetails);
@@ -136,8 +140,8 @@ public class ProfileMenuGUI extends Application {
         changeEmail.setOnAction(actionEvent -> {
             if (emailError.getText().equals("")){
                 user.setEmail(emailPrompt.getText());
-                ManageData.saveUsers();
                 ManageData.saveCurrentUser();
+                ManageData.saveUsers();
                 setAlert("Success","email changed successfully!","");
                 String newDetails = updateDetails(user);
                 text.setText(newDetails);
@@ -163,8 +167,8 @@ public class ProfileMenuGUI extends Application {
         Button changeSlogan = new Button("Change");
         changeSlogan.setOnAction(actionEvent -> {
             user.setSlogan(sloganPrompt.getText());
-            ManageData.saveUsers();
             ManageData.saveCurrentUser();
+            ManageData.saveUsers();
             setAlert("Success","slogan changed successfully!","");
             String newDetails = updateDetails(user);
             text.setText(newDetails);
@@ -196,6 +200,7 @@ public class ProfileMenuGUI extends Application {
         changePassword.setOnAction(actionEvent -> changePassword());
         Button back = new Button("Back");
         Button scoreboard = new Button("Scoreboard");
+        scoreboard.setOnAction(actionEvent -> showScoreboard());
         changePassword.setMinWidth(220);
         back.setMinWidth(60);
         scoreboard.setMinWidth(155);
@@ -204,6 +209,8 @@ public class ProfileMenuGUI extends Application {
         hBox.setMinWidth(450);
         hBox.setSpacing(7);
         vBox.getChildren().add(hBox);
+
+        //TODO add scoreboard
 
     }
 
@@ -218,7 +225,8 @@ public class ProfileMenuGUI extends Application {
     public String updateDetails(User user){
         String details = "Username: "+ user.getUsername() + " (" + user.getNickname()+")\n\n";
         details += "Email: " + user.getEmail() +"\n\n";
-        details += "Slogan: "+ user.getSlogan();
+        if (user.getSlogan().equals("")) details+= "Slogan is empty";
+        else details += "Slogan: "+ user.getSlogan();
         return details;
     }
 
@@ -407,6 +415,40 @@ public class ProfileMenuGUI extends Application {
             });
 
         }
+    }
+
+    public static void showScoreboard(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        DialogPane dialogPane = alert.getDialogPane();
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+
+        alert.setTitle("Scoreboard");
+
+        ArrayList<User> users = ProfileMenuController.sortUsers();
+        int index = 1;
+        for (User user:users){
+            BorderPane borderPane = new BorderPane();
+            ImageView imageView = new ImageView(new Image(user.getImageUrl()));
+            imageView.setFitHeight(20);
+            imageView.setFitWidth(20);
+            Label label = new Label();
+            label.setText(index+") Username: "+user.getUsername()+", HighScore: "+user.getHighScore());
+            borderPane.setLeft(label);
+            borderPane.setRight(imageView);
+            vbox.getChildren().add(borderPane);
+            index++;
+        }
+
+        vbox.setAlignment(Pos.CENTER);
+        ScrollPane scrollPane = new ScrollPane(vbox);
+        scrollPane.setFitToWidth(true);
+
+        dialogPane.setMaxHeight(400);
+        dialogPane.setMinWidth(300);
+
+        dialogPane.setContent(scrollPane);
+        alert.showAndWait();
     }
 }
 

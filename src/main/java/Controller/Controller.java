@@ -16,6 +16,10 @@ public class Controller {
 
     public static Stage stage;
 
+    static {
+        if (users == null) users = new ArrayList<>();
+    }
+
     public static Stage getStage() {
         return stage;
     }

@@ -156,7 +156,7 @@ public class ProfileMenuController {
         output(Controller.currentUser.getSlogan());
     }
 
-    private static ArrayList<User> sortUsers() {
+    public static ArrayList<User> sortUsers() {
         ArrayList<User> newUsers = new ArrayList<>();
         boolean flag = false;
         for (int i = 0 ; i < Controller.users.size() ; i++) {
