@@ -1,5 +1,9 @@
 package View;
 
+import View.Game.MapGUI;
+import javafx.scene.control.Alert;
+import javafx.stage.Modality;
+
 import java.util.Scanner;
 
 public class InputOutput {
@@ -15,5 +19,16 @@ public class InputOutput {
 
     public static void output(String output, int checkNextLine) {
         System.out.print(output);
+    }
+
+    public static void output(String output, char checkAlert) {
+        switch (checkAlert){
+            case 'e':
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText(output);
+                alert.setTitle("Error in building drop");
+                alert.showAndWait();
+        }
+
     }
 }

@@ -32,6 +32,7 @@ public class MapGUI extends Application {
     private static Tile[][] tiles;
     private static ArrayList<Tile> selectedTiles = new ArrayList<>();
     private static int scale = 160;
+    public static Stage owner;
     public static void main(String[] args) {
         launch(args);
     }
@@ -40,6 +41,7 @@ public class MapGUI extends Application {
 //        GameMenuController.game = new Game();
 //        GameMenuController.game.setMap(new Map());
 //        MapMenuController.initializeMap(mapSize);
+        owner = stage;
         GameMenu gameMenu = new GameMenu();
         gameMenu.run();
         MilitaryUnit militaryUnit = MilitaryUnit.createUnits("slave", "soldier", 1, 1, Controller.currentUser);

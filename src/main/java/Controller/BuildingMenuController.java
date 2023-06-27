@@ -12,13 +12,24 @@ import Model.Resources.ResourceType;
 import Model.Tile;
 import View.Game.GameMenu;
 import View.Game.GovernmentMenu;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static View.InputOutput.output;
 
 public class BuildingMenuController {
     public static void dropBuilding(int x, int y, String type) {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setContentText("Are you sure you want to drop a " + type + " in " + x + " " + y);
+        confirm.setTitle("Building drop");
+        Optional<ButtonType> result = confirm.showAndWait();
+        if (result.isEmpty() || result.get() == ButtonType.CANCEL) {
+            return;
+        }
         if (checkSimpleErrorsOfDropBuilding(x, y)) return;
         if (checkNeededTexture(x, y, type)) return;
         if (type.equalsIgnoreCase("killing pit")) {
@@ -33,7 +44,7 @@ public class BuildingMenuController {
         }
         BuildingType buildingType = Building.ALL_BUILDINGS.get(type);
         if (buildingType == null) {
-            output("This building does not exists!");
+            output("This building does not exists!", 'e');
             return;
         }
         Building building = Building.createBuildings(type, x, y, buildingType, Game.currentGovernment.getUser());
@@ -51,21 +62,21 @@ public class BuildingMenuController {
     public static void dropStairs(int x, int y) {
         int mapSize = GameMenuController.mapSize;
         if (x < 0 || y < 0 || x >= mapSize || y >= mapSize) {
-            output("Invalid coordinates!");
+            output("Invalid coordinates!", 'e');
             return;
         }
         Tile tile = GameMenuController.game.getMap().getTiles()[x][y];
         if (tile.getBuilding() == null || !(tile.getBuilding() instanceof Wall)) {
-            output("There is no wall here!");
+            output("There is no wall here!", 'e');
             return;
         }
         if (!(tile.getBuilding().getOwner().equals(Game.currentGovernment.getUser()))) {
-            output("This isn't your wall!");
+            output("This isn't your wall!", 'e');
             return;
         }
         Storage stockpile = (Storage) Game.currentGovernment.findBuildingByName("stockpile");
         if (!stockpile.removeFromStorage(Resource.createResource(ResourceType.STONE, 10))) {
-            output("You don't have enough stone");
+            output("You don't have enough stone", 'e');
             return;
         }
         ((Wall) tile.getBuilding()).setHasStairs(true);
@@ -75,23 +86,23 @@ public class BuildingMenuController {
     private static boolean checkNeededTexture(int x, int y, String type) {
         Tile tile = GameMenuController.game.getMap().getTiles()[x][y];
         if (type.equals("wheat farmer") && !tile.getTexture().equals("Grass")) {
-            output("Wheat farmer has to be built on top of Grass");
+            output("Wheat farmer has to be built on top of Grass", 'e');
             return true;
         }
         if (type.equals("iron mine") && !tile.getTexture().equals("Iron")) {
-            output("Iron mine needs to be built on top of Iron");
+            output("Iron mine needs to be built on top of Iron", 'e');
             return true;
         }
         if (type.equals("quarry") && !tile.getTexture().equals("Boulder")) {
-            output("Quarry needs to be built on top of Boulder");
+            output("Quarry needs to be built on top of Boulder", 'e');
             return true;
         }
         if (type.equals("pitch rig") && !tile.getTexture().equals("Oil")) {
-            output("Pitch rig needs to be built on top of Oil");
+            output("Pitch rig needs to be built on top of Oil", 'e');
             return true;
         }
         if (tile.isHasKillingPit() || tile.isHasOil() || tile.getTexture().equals("Lake") || tile.getTexture().equals("Stone")) {
-            output("Can't build on a tile which is Lake or stone or has a killing pit or has oil on it");
+            output("Can't build on a tile which is Lake or stone or has a killing pit or has oil on it", 'e');
             return true;
         }
         return false;
@@ -139,7 +150,7 @@ public class BuildingMenuController {
                 }
             }
             if (amount < resource.getCount()) {
-                output("Not enough resources to buy this building");
+                output("Not enough resources to buy this building", 'e');
                 return true;
             }
         }
@@ -148,7 +159,7 @@ public class BuildingMenuController {
         System.out.println("population " + Game.currentGovernment.getPopulation());
         System.out.println("peasants " + Game.currentGovernment.getPeasants().size());
         if (building.getWorkers() > Game.currentGovernment.getPeasants().size()) {
-            output("Not enough workers to create this building!");
+            output("Not enough workers to create this building!", 'e');
             return true;
         }
         return false;
@@ -156,15 +167,15 @@ public class BuildingMenuController {
 
     private static boolean checkSimpleErrorsOfDropBuilding(int x, int y) {
         if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
-            output("Invalid coordinates");
+            output("Invalid coordinates", 'e');
             return true;
         }
         if (GameMenuController.game.getMap().getTiles()[x][y].getBuilding() != null) {
-            output("A building already exists on this tile");
+            output("A building already exists on this tile", 'e');
             return true;
         }
         if (GameMenuController.game.getMap().getTiles()[x][y].getPeople().size() > 0) {
-            output("You cannot build on top of people!");
+            output("You cannot build on top of people!", 'e');
             return true;
         }
         return false;
