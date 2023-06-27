@@ -3,19 +3,63 @@ package View.Game;
 import Controller.BuildingMenuController;
 import Model.Tile;
 import javafx.event.EventHandler;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class BuildingMenuGUI {
     private Pane menuPane;
     private Pane dataPane;
     private String selected;
+    public static HashMap<String, String> nameToBuildings;
+    static {
+        nameToBuildings = new HashMap<>();
+
+        nameToBuildings.put("Stock pile", "stockpile");
+        nameToBuildings.put("Armoury", "armoury");
+        nameToBuildings.put("Granary", "granary");
+        nameToBuildings.put("Stable", "stable");
+
+        nameToBuildings.put("Barracks", "barracks");
+        nameToBuildings.put("Mercenary post", "mercenary post");
+        nameToBuildings.put("Engineer guild", "engineer guild");
+        nameToBuildings.put("Tunneler guild", "tunneler guild");
+
+        nameToBuildings.put("Lookout tower", "lookout tower");
+        nameToBuildings.put("Perimeter tower", "perimeter tower");
+        nameToBuildings.put("Defence turret", "defence turret");
+        nameToBuildings.put("Square tower", "square tower");
+        nameToBuildings.put("Round tower", "Round tower");
+
+        nameToBuildings.put("Armourer", "armourer");
+        nameToBuildings.put("Tanner", "tanner");
+        nameToBuildings.put("Fletcher", "fletcher");
+        nameToBuildings.put("Pole turner", "poleturner");
+        nameToBuildings.put("Black smith", "blacksmith");
+
+        nameToBuildings.put("Iron Mine", "iron mine");
+        nameToBuildings.put("Quarry", "quarry");
+        nameToBuildings.put("Wood Cutter", "wood cutter");
+        nameToBuildings.put("Pitch Rig", "pitch rig");
+        nameToBuildings.put("Apple orchard", "apple orchard");
+        nameToBuildings.put("Hops farmer", "hops farmer");
+        nameToBuildings.put("Hunter post", "hunter post");
+        nameToBuildings.put("Diary farmer", "diary farmer");
+        nameToBuildings.put("Wheat farmer", "wheat farmer");
+        nameToBuildings.put("Mill", "mill");
+        nameToBuildings.put("Bakery", "bakery");
+        nameToBuildings.put("Brewer", "brewer");
+        nameToBuildings.put("Inn", "inn");
+    }
 
     public BuildingMenuGUI(Pane menuPane) {
         this.menuPane = menuPane;
@@ -137,6 +181,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            ironMine.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = ironMine.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(ironMine.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(ironMine);
 
             Text quarry = new Text();
@@ -149,6 +207,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "quarry");
+                    }
+                }
+            });
+            quarry.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = quarry.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(quarry.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -167,6 +239,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            woodCutter.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = woodCutter.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(woodCutter.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(woodCutter);
 
             Text pitchRig = new Text();
@@ -179,6 +265,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "pitch rig");
+                    }
+                }
+            });
+            pitchRig.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = pitchRig.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(pitchRig.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -197,6 +297,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            appleOrchard.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = appleOrchard.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(appleOrchard.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(appleOrchard);
 
             Text hopsFarmer = new Text();
@@ -209,6 +323,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "hops farmer");
+                    }
+                }
+            });
+            hopsFarmer.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = hopsFarmer.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(hopsFarmer.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -227,6 +355,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            hunterPost.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = hunterPost.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(hunterPost.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(hunterPost);
 
             Text diaryFarmer = new Text();
@@ -239,6 +381,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "diary farmer");
+                    }
+                }
+            });
+            diaryFarmer.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = diaryFarmer.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(diaryFarmer.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -257,6 +413,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            wheatFarmer.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = wheatFarmer.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(wheatFarmer.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(wheatFarmer);
 
             Text mill = new Text();
@@ -269,6 +439,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "mill");
+                    }
+                }
+            });
+            mill.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = mill.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(mill.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -287,6 +471,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            bakery.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = bakery.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(bakery.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(bakery);
 
             Text brewer = new Text();
@@ -302,6 +500,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            brewer.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = brewer.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(brewer.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(brewer);
 
             Text inn = new Text();
@@ -314,6 +526,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "inn");
+                    }
+                }
+            });
+            inn.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = inn.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(inn.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -333,6 +559,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            armourer.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = armourer.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(armourer.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(armourer);
 
             Text tanner = new Text();
@@ -345,6 +585,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "tanner");
+                    }
+                }
+            });
+            tanner.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = tanner.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(tanner.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -363,6 +617,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            fletcher.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = fletcher.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(fletcher.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(fletcher);
 
             Text poleTurner = new Text();
@@ -378,6 +646,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            poleTurner.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = poleTurner.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(poleTurner.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(poleTurner);
 
             Text blackSmith = new Text();
@@ -390,6 +672,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "blacksmith");
+                    }
+                }
+            });
+            blackSmith.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = blackSmith.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(blackSmith.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -409,6 +705,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            lookoutTower.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = lookoutTower.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(lookoutTower.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(lookoutTower);
 
             Text perimeterTower = new Text();
@@ -421,6 +731,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "perimeter tower");
+                    }
+                }
+            });
+            perimeterTower.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = perimeterTower.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(perimeterTower.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -439,6 +763,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            defenceTurret.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = defenceTurret.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(defenceTurret.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(defenceTurret);
 
             Text squareTower = new Text();
@@ -454,6 +792,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            squareTower.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = squareTower.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(squareTower.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(squareTower);
 
             Text roundTower = new Text();
@@ -466,6 +818,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "round tower");
+                    }
+                }
+            });
+            roundTower.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = roundTower.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(roundTower.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -485,6 +851,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            stockPile.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = stockPile.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(stockPile.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(stockPile);
 
             Text armoury = new Text();
@@ -497,6 +877,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "armoury");
+                    }
+                }
+            });
+            armoury.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = armoury.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(armoury.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -515,6 +909,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            granary.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = granary.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(granary.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(granary);
 
             Text stable = new Text();
@@ -527,6 +935,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "stable");
+                    }
+                }
+            });
+            stable.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = stable.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(stable.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -546,6 +968,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            barracks.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = barracks.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(barracks.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(barracks);
 
             Text mercenaryPost = new Text();
@@ -558,6 +994,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "mercenary post");
+                    }
+                }
+            });
+            mercenaryPost.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = mercenaryPost.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(mercenaryPost.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
@@ -576,6 +1026,20 @@ public class BuildingMenuGUI {
                     }
                 }
             });
+            engineerGuild.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = engineerGuild.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(engineerGuild.getText());
+                        db.setContent(content);
+
+                        event.consume();
+                    }
+                }
+            });
             dataPane.getChildren().add(engineerGuild);
 
             Text tunnelerGuild = new Text();
@@ -588,6 +1052,20 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "tunneler guild");
+                    }
+                }
+            });
+            tunnelerGuild.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isControlDown()){
+                        Dragboard db = tunnelerGuild.startDragAndDrop(TransferMode.ANY);
+
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(tunnelerGuild.getText());
+                        db.setContent(content);
+
+                        event.consume();
                     }
                 }
             });
