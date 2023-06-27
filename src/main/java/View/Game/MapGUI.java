@@ -1,11 +1,6 @@
 package View.Game;
 
 import Controller.*;
-import Model.Building.Building;
-import Model.Building.BuildingType;
-import Model.Game;
-import Model.Government;
-import Model.Map;
 import Model.Person.Military.MilitaryUnit;
 import Model.Tile;
 import javafx.application.Application;
@@ -20,7 +15,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MapGUI extends Application {
     private static double startingX = 0;
@@ -31,22 +25,26 @@ public class MapGUI extends Application {
     private static Pane[][] map = new Pane[mapSize][mapSize];
     private static Pane[][] dataPanes = new Pane[mapSize][mapSize];
     private static Pane menuPane;
+    public static MenusGUI menusGUI;
+    public static BuildingMenuGUI buildingMenuGUI;
     private static Pane tileDataPane;
     private static TileDataThread tileDataThread;
-    private static ArrayList<Pane> selectedTiles = new ArrayList<>();
+    private static Tile[][] tiles;
+    private static ArrayList<Tile> selectedTiles = new ArrayList<>();
     private static int scale = 160;
     public static void main(String[] args) {
         launch(args);
     }
     @Override
     public void start(Stage stage) throws Exception {
-        GameMenuController.game = new Game();
-        GameMenuController.game.setMap(new Map());
-        MapMenuController.initializeMap(mapSize);
-//        GameMenu gameMenu = new GameMenu();
-//        gameMenu.run();
-//        MilitaryUnit militaryUnit = MilitaryUnit.createUnits("slave", "soldier", 1, 1, Controller.currentUser);
-//        GameMenuController.game.getMap().getTiles()[1][1].getPeople().add(militaryUnit);
+//        GameMenuController.game = new Game();
+//        GameMenuController.game.setMap(new Map());
+//        MapMenuController.initializeMap(mapSize);
+        GameMenu gameMenu = new GameMenu();
+        gameMenu.run();
+        MilitaryUnit militaryUnit = MilitaryUnit.createUnits("slave", "soldier", 1, 1, Controller.currentUser);
+        GameMenuController.game.getMap().getTiles()[1][1].getPeople().add(militaryUnit);
+        tiles = GameMenuController.game.getMap().getTiles();
         Pane gamePane = new Pane();
         gamePane.setPrefSize(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
         Scene scene = new Scene(gamePane);
@@ -60,7 +58,10 @@ public class MapGUI extends Application {
         tileDataPane.setLayoutX(4 * Screen.getPrimary().getBounds().getWidth() / 5);
         tileDataPane.setLayoutY(3 * Screen.getPrimary().getBounds().getHeight() / 4);
         tileDataPane.setStyle("-fx-background-color: wheat");
-        createMap(gamePane);
+        menusGUI = new MenusGUI(menuPane);
+        buildingMenuGUI = new BuildingMenuGUI(menuPane);
+        menusGUI.runMenu();
+        createMap();
 
         drawMap(startingX, startingY, gamePane, menuPane);
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -135,7 +136,7 @@ public class MapGUI extends Application {
         stage.show();
     }
 
-    private void createMap(Pane gamePane) {
+    private void createMap() {
         for (int i = 0 ; i < mapSize ; i++) {
             for (int j = 0 ; j < mapSize ; j++) {
                 map[i][j] = GameMenuController.game.getMap().getTiles()[i][j].getMainPane();
@@ -194,16 +195,16 @@ public class MapGUI extends Application {
     private void selectedTile(Pane pane, Tile tile){
         Rectangle rectangle = (Rectangle) pane.getChildren().get(0);
         if (rectangle.getFill() == Color.RED) {
-            if (selectedTiles.size() == 1 && tileDataThread.getTile().equals(tile)) {
+            if (tileDataThread.getTile().equals(tile)) {
                 tileDataThread.setRunner(false);
                 tileDataThread.stop();
                 tileDataPane.getChildren().remove(dataPanes[tile.getX()][tile.getY()]);
             }
-            selectedTiles.remove(pane);
+            selectedTiles.remove(tile);
             rectangle.setFill(Color.TRANSPARENT);
         }
         else {
-            selectedTiles.add(pane);
+            selectedTiles.add(tile);
             rectangle.setFill(Color.RED);
             if (selectedTiles.size() == 1) {
                 tileDataThread.stop();
@@ -233,5 +234,13 @@ public class MapGUI extends Application {
         }
         gamePane.getChildren().add(menuPane);
         gamePane.getChildren().add(tileDataPane);
+    }
+
+    public static Tile[][] getTiles() {
+        return tiles;
+    }
+
+    public static ArrayList<Tile> getSelectedTiles() {
+        return selectedTiles;
     }
 }
