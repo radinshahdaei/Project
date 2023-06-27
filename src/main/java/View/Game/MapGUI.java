@@ -188,6 +188,32 @@ public class MapGUI extends Application {
                     }
                 });
 
+                map[i][j].setOnDragOver(new EventHandler<DragEvent>() {
+                    public void handle(DragEvent event) {
+                        if (event.getGestureSource() != map[I][J] &&
+                                event.getDragboard().hasString()) {
+                            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                        }
+
+                        event.consume();
+                    }
+                });
+
+                map[i][j].setOnDragDropped(new EventHandler<DragEvent>() {
+                    public void handle(DragEvent event) {
+                        Dragboard db = event.getDragboard();
+                        boolean success = false;
+                        if (db.hasString()) {
+                            BuildingMenuController.dropBuilding(I, J, BuildingMenuGUI.nameToBuildings.get(db.getString()));
+                            success = true;
+                        }
+                        event.setDropCompleted(success);
+
+                        event.consume();
+                    }
+                });
+
+
             }
         }
     }
