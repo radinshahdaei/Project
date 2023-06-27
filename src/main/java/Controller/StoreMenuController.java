@@ -22,18 +22,18 @@ public class StoreMenuController {
         }
     }
 
-    public static void buy(String name , int amount) {
+    public static boolean buy(String name , int amount) {
         Commodity commodity = Store.getCommodityByName(name);
         if (commodity == null) {
-            output("there is no such commodity");
-            return;
+            // output("there is no such commodity");
+            return false;
         }
         int price = commodity.buyPrice * amount;
         if(price > currentGovernment.getResource(ResourceType.GOLD).getCount()) {
-            System.out.println("Not enough gold!");
-            return ;
+            // System.out.println("Not enough gold!");
+            return false;
         }
-        RegisterMenuController.captcha();
+        // RegisterMenuController.captcha();
         String storageName = Factory.getStorageName(commodity.resourceType.resourceModel);
         for (Building building:currentGovernment.getBuildings()) {
             if (building.getName().equals(storageName)) {
@@ -47,19 +47,20 @@ public class StoreMenuController {
                 break;
             }
         }
+        return true;
     }
 
-    public static void sell(String name , int amount) {
+    public static boolean sell(String name , int amount) {
         Commodity commodity = Store.getCommodityByName(name);
         if (commodity == null) {
             output("there is no such commodity");
-            return;
+            return false;
         }
         if(currentGovernment.getResource(commodity.resourceType).getCount() < amount) {
             System.out.println("Not enough resource!");
-            return ;
+            return false;
         }
-        RegisterMenuController.captcha();
+        // RegisterMenuController.captcha();
         int price = commodity.sellPrice * amount;
         String storageName = Factory.getStorageName(commodity.resourceType.resourceModel);
         for (Building building:currentGovernment.getBuildings()) {
@@ -74,5 +75,6 @@ public class StoreMenuController {
                 break;
             }
         }
+        return true;
     }
 }

@@ -1,6 +1,9 @@
 package Model;
 
+import Model.Building.Storage.Storage;
+import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;
+import static Model.Game.currentGovernment;
 
 import java.util.ArrayList;
 
@@ -10,8 +13,28 @@ public class Store {
     public static void initializeCommodities() {
         commodities = new ArrayList<>();
         for (ResourceType resourceType : ResourceType.values()) {
-            Commodity commodity = new Commodity(1 , 1 , resourceType);
-            commodities.add(commodity);
+            if (!(resourceType.equals(ResourceType.GOLD) || resourceType.equals(ResourceType.HORSE) || resourceType.equals(ResourceType.COW))) {
+                Commodity commodity = new Commodity(2 , 4 , resourceType);
+                // setStock(commodity);
+                commodities.add(commodity);
+            }
+        }
+    }
+
+    public static void setStock(Commodity commodity){
+        if (currentGovernment == null) return;
+        if (commodity.resourceType.resourceModel.equals(ResourceModel.FOOD)) {
+            Storage granary = (Storage) currentGovernment.findBuildingByName("granary");
+            if (granary == null) return;
+            commodity.setStock(granary.getStoredResourceByType(commodity.resourceType).getCount());
+        } else if (commodity.resourceType.resourceModel.equals(ResourceModel.WEAPON)) {
+            Storage armoury = (Storage) currentGovernment.findBuildingByName("armoury");
+            if (armoury == null) return;
+            commodity.setStock(armoury.getStoredResourceByType(commodity.resourceType).getCount());
+        } else if (commodity.resourceType.resourceModel.equals(ResourceModel.OTHER)) {
+            Storage stockpile = (Storage) currentGovernment.findBuildingByName("stockpile");
+            if (stockpile == null) return;
+            commodity.setStock(stockpile.getStoredResourceByType(commodity.resourceType).getCount());
         }
     }
 

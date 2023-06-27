@@ -64,10 +64,10 @@ public class ProfileMenuGUI extends Application {
         avatar.setFitHeight(100);
         avatar.setFitWidth(100);
         avatarView.getChildren().addAll(avatar,changeAvatar);
-        String details = "Username: "+ user.getUsername() + " (" + user.getNickname()+")\n\n";
-        details += "Email: " + user.getEmail() +"\n\n";
-        if (user.getSlogan().equals("")) details+= "Slogan is empty";
-        else details += "Slogan: "+ user.getSlogan();
+        String details = "\tUsername: "+ user.getUsername() + " (" + user.getNickname()+")\n\n";
+        details += "\tEmail: " + user.getEmail() +"\n\n";
+        if (user.getSlogan().equals("")) details+= "\tSlogan is empty";
+        else details += "\tSlogan: "+ user.getSlogan();
         Label text = new Label(details);
         text.setFont(new Font(13));
         showDetails.setLeft(avatarView);
@@ -223,10 +223,10 @@ public class ProfileMenuGUI extends Application {
     }
 
     public String updateDetails(User user){
-        String details = "Username: "+ user.getUsername() + " (" + user.getNickname()+")\n\n";
-        details += "Email: " + user.getEmail() +"\n\n";
-        if (user.getSlogan().equals("")) details+= "Slogan is empty";
-        else details += "Slogan: "+ user.getSlogan();
+        String details = "\tUsername: "+ user.getUsername() + " (" + user.getNickname()+")\n\n";
+        details += "\tEmail: " + user.getEmail() +"\n\n";
+        if (user.getSlogan().equals("")) details+= "\tSlogan is empty";
+        else details += "\tSlogan: "+ user.getSlogan();
         return details;
     }
 
