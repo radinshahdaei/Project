@@ -1,13 +1,16 @@
 package View.Game;
 
-import Model.Game;
+import Controller.GovernmentMenuController;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+
 
 import static Model.Game.currentGovernment;
 
@@ -40,7 +43,6 @@ public class GovernmentMenuGUI {
         menuPane.getChildren().add(back);
 
         Text popularity = new Text();
-        currentGovernment.updatePopularity();
         popularity.setText("Popularity: " + String.valueOf(currentGovernment.getPopularity()));
         popularity.setLayoutX(350);
         popularity.setLayoutY(70);
@@ -177,7 +179,7 @@ public class GovernmentMenuGUI {
         menuPane.getChildren().add(imageViewFearEffect);
 
         Text innEffect = new Text();
-        innEffect.setText("Fear effect: " +  String.valueOf(currentGovernment.getInnEffect()));
+        innEffect.setText("Inn effect: " +  String.valueOf(currentGovernment.getInnEffect()));
         innEffect.setLayoutX(550);
         innEffect.setLayoutY(130);
         ImageView imageViewInnEffect;
@@ -206,6 +208,113 @@ public class GovernmentMenuGUI {
         }
         menuPane.getChildren().add(innEffect);
         menuPane.getChildren().add(imageViewInnEffect);
+
+        Text changeRates = new Text();
+        changeRates.setText("Change rates!");
+        changeRates.setLayoutX(750);
+        changeRates.setLayoutY(70);
+        changeRates.setScaleX(1.3);
+        changeRates.setScaleY(1.3);
+        changeRates.setFill(Color.BLUE);
+        changeRates.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                changeGUI();
+            }
+        });
+        menuPane.getChildren().add(changeRates);
+    }
+
+    public void changeGUI() {
+        menuPane.getChildren().clear();
+        ImageView background = new ImageView(new Image(GovernmentMenuGUI.class.getResource("/MenuImages/menu.png").toExternalForm()));
+        background.setFitWidth(menuPane.getWidth());
+        background.setFitHeight(menuPane.getHeight());
+        background.setLayoutY(-80);
+        background.setLayoutX(5);
+        menuPane.getChildren().add(background);
+
+        ImageView back = new ImageView(new Image(GovernmentMenuGUI.class.getResource("/MenuImages/back.png").toExternalForm()));
+        back.setLayoutX(-200);
+        back.setLayoutY(-200);
+        back.setScaleX(0.1);
+        back.setScaleY(0.1);
+        back.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                runMenu();
+            }
+        });
+        menuPane.getChildren().add(back);
+
+        Text foodRateText = new Text();
+        foodRateText.setText("Food Rate");
+        foodRateText.setLayoutX(375);
+        foodRateText.setLayoutY(70);
+        foodRateText.setScaleX(1.2);
+        foodRateText.setScaleY(1.2);
+        ChoiceBox<Integer> foodRate = new ChoiceBox<>();
+        for (int i = -2 ; i <=2 ; i++) {
+            foodRate.getItems().add(i);
+        }
+        foodRate.getSelectionModel().select(currentGovernment.getFoodRate() + 2);
+        foodRate.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) ->
+                fixFoodRate(newValue, foodRate));
+        foodRate.setLayoutX(455);
+        foodRate.setLayoutY(53);
+        menuPane.getChildren().add(foodRateText);
+        menuPane.getChildren().add(foodRate);
+
+        Text fearRateText = new Text();
+        fearRateText.setText("Fear Rate");
+        fearRateText.setLayoutX(375);
+        fearRateText.setLayoutY(100);
+        fearRateText.setScaleX(1.2);
+        fearRateText.setScaleY(1.2);
+        ChoiceBox<Integer> fearRate = new ChoiceBox<>();
+        for (int i = -5 ; i <=5 ; i++) {
+            fearRate.getItems().add(i);
+        }
+        fearRate.getSelectionModel().select(currentGovernment.getFearRate() + 5);
+        fearRate.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) ->
+                fixFearRate(newValue, fearRate));
+        fearRate.setLayoutX(455);
+        fearRate.setLayoutY(83);
+        menuPane.getChildren().add(fearRateText);
+        menuPane.getChildren().add(fearRate);
+
+        Text taxRateText = new Text();
+        taxRateText.setText("Tax Rate");
+        taxRateText.setLayoutX(375);
+        taxRateText.setLayoutY(130);
+        taxRateText.setScaleX(1.2);
+        taxRateText.setScaleY(1.2);
+        ChoiceBox<Integer> taxRate = new ChoiceBox<>();
+        for (int i = -3 ; i <=8 ; i++) {
+            taxRate.getItems().add(i);
+        }
+        taxRate.getSelectionModel().select(currentGovernment.getTaxRate() + 3);
+        taxRate.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) ->
+                fixTaxRate(newValue, taxRate));
+        taxRate.setLayoutX(455);
+        taxRate.setLayoutY(113);
+        menuPane.getChildren().add(taxRateText);
+        menuPane.getChildren().add(taxRate);
+    }
+
+    private void fixTaxRate(Integer newValue, ChoiceBox<Integer> taxRate) {
+        GovernmentMenuController.setTaxRate(newValue);
+        taxRate.getSelectionModel().select(currentGovernment.getTaxRate() + 3);
+    }
+
+    private void fixFearRate(Integer newValue, ChoiceBox<Integer> fearRate) {
+        GovernmentMenuController.setFearRate(newValue);
+        fearRate.getSelectionModel().select(currentGovernment.getFearRate() + 5);
+    }
+
+    private static void fixFoodRate(Integer newValue, ChoiceBox<Integer> foodRate) {
+        GovernmentMenuController.setFoodRate(newValue);
+        foodRate.getSelectionModel().select(currentGovernment.getFoodRate() + 2);
     }
 
     public void runMenu() {

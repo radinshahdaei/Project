@@ -22,13 +22,17 @@ public class InputOutput {
     }
 
     public static void output(String output, char checkAlert) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(output);
         switch (checkAlert){
             case 'e':
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText(output);
                 alert.setTitle("Error in building drop");
                 alert.showAndWait();
+            case 'a':
+                alert.setTitle("Error in changing government rates");
+                alert.showAndWait();
         }
+
 
     }
 }

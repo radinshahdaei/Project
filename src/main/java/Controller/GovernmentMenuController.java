@@ -39,7 +39,7 @@ public class GovernmentMenuController {
 
     public static void setFoodRate(int rate) {
         if (!checkFoodRate(rate)) {
-            output("Not enough food!");
+            output("Not enough food!", 'a');
             return;
         }
         currentGovernment.setFoodRate(rate);
@@ -59,7 +59,7 @@ public class GovernmentMenuController {
 
     public static void setTaxRate(int rate) {
         if (!checkTaxRate(rate)) {
-            output("Not enough gold!");
+            output("Not enough gold!", 'a');
             return;
         }
         currentGovernment.setTaxRate(rate);
