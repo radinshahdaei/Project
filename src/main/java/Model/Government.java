@@ -172,7 +172,7 @@ public class Government {
     }
 
     public int getPopulation() {
-        return this.population;
+        return this.population + people.size();
     }
 
     public void setPopulation(int population) {

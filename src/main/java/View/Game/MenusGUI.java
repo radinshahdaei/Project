@@ -26,6 +26,18 @@ public class MenusGUI {
             }
         });
         menuPane.getChildren().add(goToBuildingMenu);
+
+        Button goToGovernmentMenu = new Button();
+        goToGovernmentMenu.setLayoutX(10);
+        goToGovernmentMenu.setLayoutY(50);
+        goToGovernmentMenu.setText("Government Menu");
+        goToGovernmentMenu.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                MapGUI.governmentMenuGUI.runMenu();
+            }
+        });
+        menuPane.getChildren().add(goToGovernmentMenu);
     }
 
     public void runMenu() {

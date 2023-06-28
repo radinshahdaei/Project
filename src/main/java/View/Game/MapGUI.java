@@ -1,6 +1,7 @@
 package View.Game;
 
 import Controller.*;
+import Model.Game;
 import Model.Person.Military.MilitaryUnit;
 import Model.Tile;
 import javafx.application.Application;
@@ -27,6 +28,7 @@ public class MapGUI extends Application {
     private static Pane menuPane;
     public static MenusGUI menusGUI;
     public static BuildingMenuGUI buildingMenuGUI;
+    public static GovernmentMenuGUI governmentMenuGUI;
     private static Pane tileDataPane;
     private static TileDataThread tileDataThread;
     private static Tile[][] tiles;
@@ -46,6 +48,7 @@ public class MapGUI extends Application {
         gameMenu.run();
         MilitaryUnit militaryUnit = MilitaryUnit.createUnits("slave", "soldier", 1, 1, Controller.currentUser);
         GameMenuController.game.getMap().getTiles()[1][1].getPeople().add(militaryUnit);
+        Game.currentGovernment.getPeople().add(militaryUnit);
         tiles = GameMenuController.game.getMap().getTiles();
         Pane gamePane = new Pane();
         gamePane.setPrefSize(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
@@ -62,6 +65,7 @@ public class MapGUI extends Application {
         tileDataPane.setStyle("-fx-background-color: wheat");
         menusGUI = new MenusGUI(menuPane);
         buildingMenuGUI = new BuildingMenuGUI(menuPane);
+        governmentMenuGUI = new GovernmentMenuGUI(menuPane);
         menusGUI.runMenu();
         createMap();
 
