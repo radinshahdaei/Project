@@ -25,7 +25,7 @@ import Controller.MapMenuController;
 
 import static View.Game.GameMenu.giveDefaultBuildings;
 import static View.Game.GameMenu.giveDefaultResources;
-import static java.lang.Thread.sleep;
+
 
 public class StartGameGUI extends Application {
     ArrayList<AtomicReference<User>> selectedUsers = new ArrayList<>();

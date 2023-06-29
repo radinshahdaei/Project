@@ -28,12 +28,13 @@ public class GameMenu {
 
 
     public void run() {
-        GameMenuController.game = new Game();
-        createMap();
-        selectUsers();
+        //GameMenuController.game = new Game();
+        //createMap();
+        //selectUsers();
         numberOfTurns = 0;
         String command;
         Matcher matcher;
+        boolean startManually = false;
         while (true) {
             for (Government government : GameMenuController.game.getGovernments()) {
                 if (GameMenuController.checkAllGovernmentsDead()) {
@@ -44,7 +45,7 @@ public class GameMenu {
                 numberOfTurns++;
                 Game.currentGovernment = government;
                 output("Currently " + government.getUser().getUsername() + " is playing");
-                while (true) {
+                while (startManually) {
                     command = input();
                     if(command.matches("\\s*show\\s+related\\s+commands\\s*")) {
                         output("end\ndone\nadd <username>\ndropbuilding -x <X> -y <Y> -t <type>\nclear -x <X> -y <Y>\n" +
@@ -105,6 +106,7 @@ public class GameMenu {
                         output("Invalid command!");
                     }
                 }
+                if (!startManually) return;
             }
         }
     }

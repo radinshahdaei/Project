@@ -143,6 +143,7 @@ public class MapGUI extends Application {
     }
 
     private void createMap() {
+        System.out.println("Time for guiguigui!");
         for (int i = 0 ; i < mapSize ; i++) {
             for (int j = 0 ; j < mapSize ; j++) {
                 map[i][j] = GameMenuController.game.getMap().getTiles()[i][j].getMainPane();
