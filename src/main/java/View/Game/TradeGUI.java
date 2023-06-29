@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -46,6 +47,7 @@ public class TradeGUI extends Application {
         for (User user: Controller.users){
             BorderPane borderPane = new BorderPane();
             Text text1 = new Text("\t" + user.getUsername());
+            text1.setFont(Font.font(15));
             javafx.scene.control.Button button = new javafx.scene.control.Button("Select");
             button.setOnAction(actionEvent -> {
                 startTrade.setText("Trade with user: "+user.getUsername());
@@ -54,13 +56,14 @@ public class TradeGUI extends Application {
             borderPane.setLeft(text1);
             borderPane.setRight(button);
             borderPane.setMinWidth(280);
-            borderPane.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
+            borderPane.setStyle("-fx-border-color: black; -fx-border-width: 0.5px;");
             vBox.getChildren().add(borderPane);
         }
 
         vBox.setAlignment(Pos.CENTER);
         javafx.scene.control.ScrollPane scrollPane = new javafx.scene.control.ScrollPane();
         scrollPane.setContent(vBox);
+        scrollPane.setMinWidth(300);
         scrollPane.setMinWidth(300);
 
         root.getChildren().add(scrollPane);

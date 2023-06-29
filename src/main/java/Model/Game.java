@@ -10,6 +10,7 @@ public class Game {
     public static int currentY;
     public static Government currentGovernment;
 
+
     public static Government getGovernmentByUser(User owner) {
         for (Government government : governments) {
             if (government.getUser().equals(owner)) return government;
