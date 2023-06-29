@@ -28,9 +28,11 @@ public class InputOutput {
             case 'e':
                 alert.setTitle("Error in building drop");
                 alert.showAndWait();
+                return;
             case 'a':
                 alert.setTitle("Error in changing government rates");
                 alert.showAndWait();
+                return;
         }
 
 

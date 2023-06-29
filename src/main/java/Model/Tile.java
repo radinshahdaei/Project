@@ -1,10 +1,16 @@
 package Model;
 
+import Controller.GameMenuController;
 import Model.Building.Building;
 import Model.Person.Military.MilitaryUnit;
 import Model.Person.Person;
+import View.Game.GovernmentMenuGUI;
 import javafx.application.Platform;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -146,6 +152,28 @@ public class Tile {
                 soldierData1.setLayoutY(firstY);
                 dataPane.getChildren().add(soldierData1);
             }
+        }
+    }
+
+    public void showOnPane() {
+        mainPane.getChildren().clear();
+        mainPane.setPrefSize(170, 170);
+        Rectangle backGroundRectangle = new Rectangle(0, 0, 170, 170);
+        backGroundRectangle.setFill(Color.TRANSPARENT);
+        Rectangle rect = new Rectangle(10, 10, 150, 150);
+        rect.setFill(Color.BLUE);
+        mainPane.getChildren().add(backGroundRectangle);
+        mainPane.getChildren().add(rect);
+        if (building != null) {
+            if (building.getName().equals("campfire")) {
+                return;
+            }
+            ImageView buildingImage = new ImageView(new Image(building.getImageUrl()));
+            buildingImage.setLayoutX(50);
+            buildingImage.setLayoutY(50);
+            buildingImage.setFitWidth(70);
+            buildingImage.setFitHeight(70);
+            mainPane.getChildren().add(buildingImage);
         }
     }
 }

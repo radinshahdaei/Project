@@ -38,7 +38,7 @@ public class BuildingMenuGUI {
         nameToBuildings.put("Perimeter tower", "perimeter tower");
         nameToBuildings.put("Defence turret", "defence turret");
         nameToBuildings.put("Square tower", "square tower");
-        nameToBuildings.put("Round tower", "Round tower");
+        nameToBuildings.put("Round tower", "round tower");
 
         nameToBuildings.put("Armourer", "armourer");
         nameToBuildings.put("Tanner", "tanner");
@@ -178,6 +178,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "iron mine");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -207,6 +208,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "quarry");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -236,6 +238,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "wood cutter");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -265,6 +268,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "pitch rig");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -294,6 +298,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "apple orchard");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -323,6 +328,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "hops farmer");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -352,6 +358,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "hunter post");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -381,6 +388,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "diary farmer");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -410,6 +418,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "wheat farmer");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -439,6 +448,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "mill");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -468,6 +478,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "bakery");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -497,6 +508,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "brewer");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -526,6 +538,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "inn");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -556,6 +569,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "armourer");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -585,6 +599,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "tanner");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -614,6 +629,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "fletcher");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -643,6 +659,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "poleturner");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -672,6 +689,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "blacksmith");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -702,6 +720,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "lookout tower");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -731,6 +750,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "perimeter tower");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -760,6 +780,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "defence turret");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -789,6 +810,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "square tower");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -818,6 +840,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "round tower");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -848,6 +871,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "stockpile");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -877,6 +901,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "armoury");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -906,6 +931,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "granary");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -935,6 +961,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "stable");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -965,6 +992,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "barracks");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -994,6 +1022,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "mercenary post");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -1023,6 +1052,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "engineer guild");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });
@@ -1052,6 +1082,7 @@ public class BuildingMenuGUI {
                 public void handle(MouseEvent event) {
                     for (Tile tile: selectedTiles) {
                         BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), "tunneler guild");
+                        tile.showOnPane();  MapGUI.fixMap();
                     }
                 }
             });

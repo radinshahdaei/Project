@@ -25,6 +25,7 @@ public class MapGUI extends Application {
     private static int mapSize = 200;
     private static Pane[][] map = new Pane[mapSize][mapSize];
     private static Pane[][] dataPanes = new Pane[mapSize][mapSize];
+    private static Pane gamePane;
     private static Pane menuPane;
     public static MenusGUI menusGUI;
     public static BuildingMenuGUI buildingMenuGUI;
@@ -50,7 +51,7 @@ public class MapGUI extends Application {
         GameMenuController.game.getMap().getTiles()[1][1].getPeople().add(militaryUnit);
         Game.currentGovernment.getPeople().add(militaryUnit);
         tiles = GameMenuController.game.getMap().getTiles();
-        Pane gamePane = new Pane();
+        gamePane = new Pane();
         gamePane.setPrefSize(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
         Scene scene = new Scene(gamePane);
         menuPane = new Pane();
@@ -146,13 +147,7 @@ public class MapGUI extends Application {
         for (int i = 0 ; i < mapSize ; i++) {
             for (int j = 0 ; j < mapSize ; j++) {
                 map[i][j] = GameMenuController.game.getMap().getTiles()[i][j].getMainPane();
-                map[i][j].setPrefSize(170, 170);
-                Rectangle backGroundRectangle = new Rectangle(0, 0, 170, 170);
-                backGroundRectangle.setFill(Color.TRANSPARENT);
-                Rectangle rect = new Rectangle(10, 10, 150, 150);
-                rect.setFill(Color.BLUE);
-                map[i][j].getChildren().add(backGroundRectangle);
-                map[i][j].getChildren().add(rect);
+                tiles[i][j].showOnPane();
                 dataPanes[i][j] = GameMenuController.game.getMap().getTiles()[i][j].getDataPane();
                 dataPanes[i][j].setPrefSize(Screen.getPrimary().getBounds().getWidth() / 5,
                         Screen.getPrimary().getBounds().getHeight() / 4);
@@ -211,6 +206,9 @@ public class MapGUI extends Application {
                         boolean success = false;
                         if (db.hasString()) {
                             BuildingMenuController.dropBuilding(I, J, BuildingMenuGUI.nameToBuildings.get(db.getString()));
+                            tiles[I][J].showOnPane();
+                            gamePane.getChildren().clear();
+                            drawMap(startingX, startingY, gamePane, menuPane);
                             success = true;
                         }
                         event.setDropCompleted(success);
@@ -247,8 +245,11 @@ public class MapGUI extends Application {
             }
         }
     }
-
-    private void drawMap(double startingX, double startingY, Pane gamePane, Pane menuPane) {
+    public static void fixMap() {
+        gamePane.getChildren().clear();
+        drawMap(startingX, startingY, gamePane, menuPane);
+    }
+    private static void drawMap(double startingX, double startingY, Pane gamePane, Pane menuPane) {
         int x = (int) (startingX / scale);
         int y = (int) (startingY / scale);
         for (int i = 0; i < 16 * 160 / scale; i++) {
