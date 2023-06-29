@@ -6,6 +6,7 @@ import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 
 public class MenusGUI {
     private Pane menuPane;
@@ -38,6 +39,26 @@ public class MenusGUI {
             }
         });
         menuPane.getChildren().add(goToGovernmentMenu);
+
+        Button goToStore = new Button();
+        goToStore.setLayoutX(10);
+        goToStore.setLayoutY(90);
+        goToStore.setText("Store");
+        goToStore.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (StoreGUI.instance == null){
+                    StoreGUI storeGUI = new StoreGUI();
+                    StoreGUI.instance = storeGUI;
+                    try {
+                        storeGUI.start(new Stage());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+        menuPane.getChildren().add(goToStore);
     }
 
     public void runMenu() {

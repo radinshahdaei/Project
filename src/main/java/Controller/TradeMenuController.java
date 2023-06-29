@@ -22,15 +22,17 @@ public class TradeMenuController {
         trade.fromGovernment.addTrade(trade);
     }
 
-    public static void showList() {
+    public static String showList() {
         int id = 0;
+        String list = "";
         for (Trade trade : currentGovernment.tradeList) {
             if (!trade.isAccepted) {
-                System.out.println("ID: " + id + ")" + " Resource Type: " + trade.resourceType + " Resource Amount: " + trade.resourceAmount +
+                list += ("ID: " + id + ")" + " Resource Type: " + trade.resourceType + " Resource Amount: " + trade.resourceAmount +
                         " Price: " + trade.price + "\n" + "Message: " + trade.message + " Is from:" + trade.fromGovernment.getUser().getUsername() + "\n");
             }
             id++;
         }
+        return list;
     }
 
     public static void acceptTrade(int id) {

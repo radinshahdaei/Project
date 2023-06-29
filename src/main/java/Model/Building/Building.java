@@ -77,6 +77,15 @@ public class Building {
     private int workers;
     private ArrayList<Resource> price = new ArrayList<>();
 
+    private String imageUrl;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     private User owner;
 
     public Building(String name, int hp, int x, int y, int workers, ArrayList<Resource> price, User owner) {
@@ -88,6 +97,12 @@ public class Building {
         this.workers = workers;
         this.price = price;
         this.owner = owner;
+        this.imageUrl = imageUrl(name);
+    }
+
+    public String imageUrl(String name){
+        String buildingName = name.replaceAll("\\s+","").toLowerCase();
+        return Game.class.getResource("/Images/Building/"+buildingName+".png").toString();
     }
 
     public static Building createBuildings(String name, int x, int y, BuildingType buildingType, User owner) {

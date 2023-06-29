@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import Controller.TradeMenuController;
+
 public class TradeGUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
@@ -64,7 +66,12 @@ public class TradeGUI extends Application {
         root.getChildren().add(scrollPane);
         root.getChildren().add(startTrade);
 
-        HBox hBox = new HBox();
+        Button showList = new Button("Show Trade List");
+        showList.setMinWidth(280);
+        root.getChildren().add(showList);
+        showList.setOnAction(actionEvent -> {
+            System.out.println(TradeMenuController.showList());
+        });
 
     }
 }

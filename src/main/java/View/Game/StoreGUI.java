@@ -23,8 +23,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class StoreGUI extends Application {
+    public static StoreGUI instance = null;
     @Override
     public void start(Stage stage) throws Exception {
+        stage.setOnCloseRequest(event -> instance = null);
         VBox root = new VBox();
         root.setSpacing(5);
         root.setAlignment(Pos.CENTER);
