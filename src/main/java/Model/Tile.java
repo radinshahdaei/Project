@@ -1,12 +1,14 @@
 package Model;
 
 import Model.Person.Military.MilitaryUnit;
+import Model.Person.Military.Soldier.Soldier;
 import Model.Person.Person;
 import Model.Building.Building;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -158,7 +160,8 @@ public class Tile {
         Rectangle backGroundRectangle = new Rectangle(0, 0, 170, 170);
         backGroundRectangle.setFill(Color.TRANSPARENT);
         Rectangle rect = new Rectangle(10, 10, 150, 150);
-        rect.setFill(Color.GREEN);
+        rect.setFill(new ImagePattern(new Image(Tile.class.getResource("/Images/Textures/" +
+                texture.toLowerCase() + ".png").toString())));
         mainPane.getChildren().add(backGroundRectangle);
         mainPane.getChildren().add(rect);
         if (building != null) {
@@ -168,6 +171,19 @@ public class Tile {
             buildingImage.setFitWidth(70);
             buildingImage.setFitHeight(70);
             mainPane.getChildren().add(buildingImage);
+        }
+        if (people.size() != 0) {
+            for (Person person: people) {
+                if (person instanceof Soldier) {
+                    Soldier soldier = (Soldier) person;
+                    ImageView soldierImage = new ImageView(new Image(soldier.getImageUrl()));
+                    soldierImage.setLayoutX(50);
+                    soldierImage.setLayoutY(50);
+                    soldierImage.setFitWidth(70);
+                    soldierImage.setFitHeight(70);
+                    mainPane.getChildren().add(soldierImage);
+                }
+            }
         }
     }
 }

@@ -25,10 +25,6 @@ public class InputOutput {
         Alert inform = new Alert(Alert.AlertType.INFORMATION);
         inform.setContentText(output);
         switch (checkAlert){
-            case 'e':
-                error.setTitle("Error in building drop");
-                error.showAndWait();
-                return;
             case 'a':
                 error.setTitle("Error in changing government rates");
                 error.showAndWait();
@@ -40,6 +36,15 @@ public class InputOutput {
             case 'c':
                 inform.setTitle("Government addition");
                 inform.showAndWait();
+                return;
+            case 'd':
+                error.setTitle("Error in unit drop");
+                error.showAndWait();
+                return;
+            case 'e':
+                error.setTitle("Error in building drop");
+                error.showAndWait();
+                return;
         }
 
 

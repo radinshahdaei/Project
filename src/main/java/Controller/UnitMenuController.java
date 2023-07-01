@@ -21,6 +21,7 @@ public class UnitMenuController {
         String militaryType = MilitaryUnit.AllMilitaryUnits.get(type);
         if (militaryType == null) {
             InputOutput.output("This type of unit does not exists");
+            InputOutput.output("This type of unit does not exists", 'd');
             return;
         }
         MilitaryUnit militaryUnit = MilitaryUnit.createUnits(type, militaryType, x, y, Game.currentGovernment.getUser());
@@ -42,6 +43,11 @@ public class UnitMenuController {
         }
         if (GameMenuController.game.getMap().getTiles()[x][y].getBuilding() != null) {
             InputOutput.output("You cannot place units on top of buildings!");
+            InputOutput.output("Invalid coordinates", 'd');
+            return true;
+        }
+        if (GameMenuController.game.getMap().getTiles()[x][y].getBuilding() != null) {
+            InputOutput.output("You cannot place units on top of buildings!", 'd');
             return true;
         }
         return false;
@@ -69,7 +75,10 @@ public class UnitMenuController {
                 }
             }
             if (amount < resource.getCount() * count) {
+
                 InputOutput.output("Not enough resources to buy this unit");
+
+                InputOutput.output("Not enough resources to buy this unit", 'd');
                 return true;
             }
         }

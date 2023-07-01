@@ -1,7 +1,13 @@
 package View.Start;
 
+<<<<<<< HEAD
 import View.Chatroom.CreateChat;
 import View.Game.StartGameGUI;
+=======
+import Controller.Controller;
+import View.Game.StartGameGUI;
+import View.LoginRegister.LoginMenuGUI;
+>>>>>>> e799c5d26ea98cb8f3ef79d76df2d4ed834ef308
 import View.LoginRegister.MainMenuGUI;
 import View.Main;
 import Controller.Controller;

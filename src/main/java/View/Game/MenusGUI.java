@@ -1,5 +1,6 @@
 package View.Game;
 
+import Model.Map;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -73,6 +74,18 @@ public class MenusGUI {
             }
         });
         menuPane.getChildren().add(endGame);
+
+        Button goToDropUnitMenu = new Button();
+        goToDropUnitMenu.setText("DropUnit Menu");
+        goToDropUnitMenu.setLayoutX(150);
+        goToDropUnitMenu.setLayoutY(10);
+        goToDropUnitMenu.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                MapGUI.dropUnitMenuGUI.run();
+            }
+        });
+        menuPane.getChildren().add(goToDropUnitMenu);
     }
 
     public void runMenu() {
