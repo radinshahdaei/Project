@@ -15,7 +15,7 @@ public enum SoldierType {
     MACEMAN("maceman", 12, 35, 50, 0, true, getResources("mace", "1", "leather armor", "1", "gold", "20"), SoldierGuild.EUROPEAN),
     SWORDSMAN("swordsman", 5, 45, 80, 0, false, getResources("sword", "1", "metal armor", "1", "gold", "40"), SoldierGuild.EUROPEAN),
     KNIGHT("knight", 25, 45, 100, 0, false, getResources("sword", "1", "metal armor", "1", "horse", "1", "gold", "40"), SoldierGuild.EUROPEAN),
-    MONK("monk", 10, 15, 30, 0, false, getResources("gold", "10"), null),
+    // MONK("monk", 10, 15, 30, 0, false, getResources("gold", "10"), null),
 
     ARABIAN_ARCHER("arabian archer", 15, 15, 30, 10, false, getResources("gold", "75"), SoldierGuild.ARABIAN),
     SLAVE("slave", 15, 10, 5, 0, true, getResources("gold", "5"), SoldierGuild.ARABIAN),

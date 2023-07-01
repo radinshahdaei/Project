@@ -1,5 +1,6 @@
 package Model.Person.Military.Soldier;
 
+import Model.Game;
 import Model.Person.Military.MilitaryUnit;
 import Model.Resources.Resource;
 import Model.User;
@@ -9,11 +10,18 @@ import java.util.ArrayList;
 public class Soldier extends MilitaryUnit {
     SoldierGuild soldierGuild;
     Boolean canUseLadder;
+    String imageUrl;
+
+    public String imageUrl(String name){
+        String unitName = name.replaceAll("\\s+","").toLowerCase();
+        return Game.class.getResource("/Images/Units/"+unitName+".png").toString();
+    }
 
     public Soldier(String name, int x, int y, int speed, int attack, int defence, int range, User owner, ArrayList<Resource> price, SoldierGuild soldierGuild, Boolean canUseLadder) {
         super(name, x, y, speed, attack, defence, range, price, owner);
         this.soldierGuild = soldierGuild;
         this.canUseLadder = canUseLadder;
+        this.imageUrl = imageUrl(name);
     }
 
     public static MilitaryUnit createUnit(String name, int x, int y, User owner) {

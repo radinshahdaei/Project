@@ -27,15 +27,18 @@ public class GameMenu {
     public static int numberOfTurns;
 
 
+    boolean startManually = false;
     public void run() {
-        //GameMenuController.game = new Game();
-        //createMap();
-        //selectUsers();
+
+        if (startManually) {
+            GameMenuController.game = new Game();
+            createMap();
+            selectUsers();
+        }
         numberOfTurns = 0;
         String command;
         Matcher matcher;
-        boolean startManually = false;
-        while (true) {
+        while (startManually) {
             for (Government government : GameMenuController.game.getGovernments()) {
                 if (GameMenuController.checkAllGovernmentsDead()) {
                     GameMenuController.countScores();

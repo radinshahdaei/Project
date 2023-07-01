@@ -5,6 +5,7 @@ import Controller.ManageData;
 import Model.Resources.Resource;
 import Model.Resources.ResourceType;
 
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class User {
@@ -17,6 +18,12 @@ public class User {
     int questionNumber;
     int highScore;
     private String imageUrl = Game.class.getResource("/Images/Avatars/1.png").toString();
+
+//    Socket socket;
+//
+//    public void setSocket(Socket socket) {
+//        this.socket = socket;
+//    }
 
     public String getImageUrl() {
         return imageUrl;

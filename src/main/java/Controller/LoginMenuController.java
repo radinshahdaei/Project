@@ -2,6 +2,10 @@ package Controller;
 
 import Model.User;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.regex.Matcher;
 
 import static Controller.RegisterMenuController.captcha;
@@ -103,5 +107,10 @@ public class LoginMenuController {
 
     public static int getTimer() {
         return timer;
+    }
+
+    public static void connectToServer() throws IOException {
+//        Socket socket = new Socket("local host",8000);
+//        Controller.currentUser.setSocket(socket);
     }
 }

@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -130,6 +131,11 @@ public class LoginMenuGUI extends Application {
                     if (RegisterMenuGUI.showCaptcha()){
                         Controller.setCurrentUser(Controller.findUserByUsername(usernamePrompt.getText()));
                         ManageData.saveCurrentUser();
+                        try {
+                            LoginMenuController.connectToServer();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         System.out.println("Hooray");
                     }
 
