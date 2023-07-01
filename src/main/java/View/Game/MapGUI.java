@@ -44,6 +44,7 @@ public class MapGUI extends Application {
     public void start(Stage stage) throws Exception {
         myStage = stage;
         tiles = GameMenuController.game.getMap().getTiles();
+        UnitMenuController.dropUnit(2, 2, 1, "slave");
         gamePane = new Pane();
         gamePane.setPrefSize(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
         Scene scene = new Scene(gamePane);

@@ -44,4 +44,8 @@ public class Soldier extends MilitaryUnit {
     public Boolean getCanUseLadder() {
         return canUseLadder;
     }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
 }

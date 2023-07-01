@@ -3,6 +3,7 @@ package Model;
 import Controller.GameMenuController;
 import Model.Building.Building;
 import Model.Person.Military.MilitaryUnit;
+import Model.Person.Military.Soldier.Soldier;
 import Model.Person.Person;
 import View.Game.GovernmentMenuGUI;
 import javafx.application.Platform;
@@ -171,6 +172,19 @@ public class Tile {
             buildingImage.setFitWidth(70);
             buildingImage.setFitHeight(70);
             mainPane.getChildren().add(buildingImage);
+        }
+        if (people.size() != 0) {
+            for (Person person: people) {
+                if (person instanceof Soldier) {
+                    Soldier soldier = (Soldier) person;
+                    ImageView soldierImage = new ImageView(new Image(soldier.getImageUrl()));
+                    soldierImage.setLayoutX(50);
+                    soldierImage.setLayoutY(50);
+                    soldierImage.setFitWidth(70);
+                    soldierImage.setFitHeight(70);
+                    mainPane.getChildren().add(soldierImage);
+                }
+            }
         }
     }
 }
