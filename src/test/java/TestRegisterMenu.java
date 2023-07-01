@@ -1,4 +1,4 @@
-import Controller.RegisterMenuController;
+import Client.Controller.RegisterMenuController;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 

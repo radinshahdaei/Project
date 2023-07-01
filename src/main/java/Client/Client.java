@@ -1,6 +1,6 @@
 package Client;
 
-import Controller.Controller;
+import Client.Controller.Controller;
 
 import java.io.IOException;
 import java.io.OutputStream;

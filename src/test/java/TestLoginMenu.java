@@ -1,4 +1,4 @@
-import Controller.LoginMenuController;
+import Client.Controller.LoginMenuController;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 

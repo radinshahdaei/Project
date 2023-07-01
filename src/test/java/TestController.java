@@ -1,5 +1,5 @@
-import Controller.Controller;
-import Model.User;
+import Client.Controller.Controller;
+import Client.Model.User;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 

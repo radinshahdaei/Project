@@ -11,26 +11,26 @@ module Project {
     opens Client to jakarta.xml.bind;
     opens Server to jakarta.xml.bind;
 
-    opens View.LoginRegister to javafx.fxml;
-    opens View.Chatroom to javafx.graphics;
-    exports View.Chatroom;
-    exports View.LoginRegister;
-    exports View.Start;
+    opens Client.View.LoginRegister to javafx.fxml;
+    opens Client.View.Chatroom to javafx.graphics;
+    exports Client.View.Chatroom;
+    exports Client.View.LoginRegister;
+    exports Client.View.Start;
 
-    opens View.Game to javafx.fxml;
-    exports View.Game;
+    opens Client.View.Game to javafx.fxml;
+    exports Client.View.Game;
     
-    opens View to javafx.graphics;
-    exports View;
+    opens Client.View to javafx.graphics;
+    exports Client.View;
 
-    opens Model to com.google.gson;
-    exports Model;
+    opens Client.Model to com.google.gson;
+    exports Client.Model;
 
-    opens Controller to com.google.gson;
-    exports Controller;
-    exports View.Examples;
-    opens View.Examples to javafx.fxml;
-    exports Model.Chat;
-    opens Model.Chat to com.google.gson;
+    opens Client.Controller to com.google.gson;
+    exports Client.Controller;
+    exports Client.View.Examples;
+    opens Client.View.Examples to javafx.fxml;
+    exports Client.Model.Chat;
+    opens Client.Model.Chat to com.google.gson;
 
 }
