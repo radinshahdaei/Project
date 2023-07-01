@@ -28,9 +28,6 @@ public class Client {
         };
         Thread thread = new Thread(runnable);
         thread.start();
-
-
-
     }
 
     public void runClient(Client client) throws IOException, JAXBException {
