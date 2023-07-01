@@ -23,6 +23,9 @@ public class User {
         this.imageUrl = imageUrl;
     }
 
+    public User() {
+    }
+
     public User(String username, String password, String nickname, String email, String slogan, String answer, int questionNumber) {
         this.username = username;
         this.password = password;

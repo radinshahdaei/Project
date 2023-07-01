@@ -3,14 +3,11 @@ package Client.Controller;
 import Client.Model.User;
 import Client.View.InputOutput;
 
-import java.io.IOException;
-
 import static Client.Controller.RegisterMenuController.captcha;
 import static Client.Controller.RegisterMenuController.checkPassword;
-import static Client.View.InputOutput.output;
 
 public class LoginMenuController {
-    static int timer = 1;
+    static int timer = 0;
 
     public static boolean login(String username , String password , String stayLoggedIn) throws InterruptedException {
         if (!checkEmptyField(username, password)) return false;
@@ -105,8 +102,4 @@ public class LoginMenuController {
         return timer;
     }
 
-    public static void connectToServer() throws IOException {
-//        Socket socket = new Socket("local host",8001);
-//        Controller.setSocket(socket);
-    }
 }

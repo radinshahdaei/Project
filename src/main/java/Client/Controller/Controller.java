@@ -20,8 +20,7 @@ public class Controller {
     public static Client client;
 
     public static void setClient(Client client) {
-        client = client;
-    }
+        Controller.client = client;}
 
     static {
         if (users == null) users = new ArrayList<>();

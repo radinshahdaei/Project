@@ -1,10 +1,12 @@
 package Client.View.LoginRegister;
 
+import Client.Client;
 import Client.Controller.Controller;
 import Client.Controller.LoginMenuController;
 import Client.Controller.ManageData;
 import Client.Controller.RegisterMenuController;
 import Client.View.Start.StartMenuGUI;
+import jakarta.xml.bind.JAXBException;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -133,20 +135,14 @@ public class LoginMenuGUI extends Application {
                         Controller.setCurrentUser(Controller.findUserByUsername(usernamePrompt.getText()));
                         ManageData.saveCurrentUser();
                         try {
-                            LoginMenuController.connectToServer();
-                        } catch (IOException e) {
+                            Client client = new Client();
+                        } catch (JAXBException | IOException e) {
                             throw new RuntimeException(e);
                         }
                         System.out.println("Hooray");
+                        StartMenuGUI startMenuGUI = new StartMenuGUI();
+                        startMenuGUI.start(stage);
                     }
-
-                    try {
-                        LoginMenuController.connectToServer();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    StartMenuGUI startMenuGUI = new StartMenuGUI();
-                    startMenuGUI.start(stage);
                 }
             }
 
@@ -225,7 +221,7 @@ public class LoginMenuGUI extends Application {
             }
         });
 
-        // Client client = new Client();
+
 
         errorCheckThread.start();
         stage.setOnCloseRequest(event -> errorCheck.set(false));

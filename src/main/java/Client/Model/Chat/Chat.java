@@ -1,14 +1,25 @@
 package Client.Model.Chat;
 
-import Client.Model.User;
 import Client.Controller.Controller;
+import Client.Model.User;
+import jakarta.xml.bind.annotation.XmlElement;
 
 import java.util.ArrayList;
 
 public class Chat {
     public String name;
+    private int id;
     ArrayList<Message> messages = new ArrayList<>();
     ArrayList<User> users  = new ArrayList<>();
+
+    @XmlElement
+    public void setId(int setterId) {
+        this.id = setterId;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public static ArrayList<Chat> allChats = new ArrayList<>();
 
@@ -19,8 +30,7 @@ public class Chat {
         allChats.add(publicChat);
     }
 
-
-
+    public Chat() {}
 
     public ArrayList<Message> getMessages() {
         return messages;
