@@ -3,11 +3,14 @@ package View.Chatroom;
 import Controller.Controller;
 import Model.Chat.Chat;
 import Model.User;
+import View.Start.StartMenuGUI;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -29,11 +32,13 @@ public class CreateChat extends Application {
         stage.setTitle("Create Chat");
         stage.show();
 
+        selectedUsers.add(new AtomicReference<>(Controller.currentUser));
 
-        javafx.scene.control.Button startChat = new Button("Create chat with users: ");
+        javafx.scene.control.Button startChat = new Button("Create chat with users: "+Controller.currentUser.getUsername());
 
         VBox vBox = new VBox();
         for (User user: Controller.users){
+            if (user.equals(Controller.currentUser)) continue;
             BorderPane borderPane = new BorderPane();
             Text text1 = new Text("\t" + user.getUsername());
             text1.setFont(Font.font(15));
@@ -41,7 +46,7 @@ public class CreateChat extends Application {
             button.setOnAction(actionEvent -> {
                 if (!hasShit(user)) {
                     selectedUsers.add(new AtomicReference<>(user));
-                    startChat.setText(startChat.getText()+user.getUsername()+" + ");
+                    startChat.setText(startChat.getText()+" + "+user.getUsername());
                 }
             });
             borderPane.setLeft(text1);
@@ -65,15 +70,57 @@ public class CreateChat extends Application {
             for (AtomicReference<User> atomicReference:selectedUsers){
                 chat.getUsers().add(atomicReference.get());
             }
+            if (chat.getUsers().size() == 2){
+                chat.name = "private chat with "+chat.getUsers().get(1).getUsername();
+            } else {
+                String name = "room with ";
+                for (User user : chat.getUsers()) {
+                    if (user.equals(Controller.currentUser)) continue;
+                    else name+=user.getUsername()+"/ ";
+                }
+                chat.name = name;
+            }
             Chat.allChats.add(chat);
             Chatroom chatroom = new Chatroom();
             chatroom.setChat(chat);
             try {
                 chatroom.start(new Stage());
+                // Chat.debugKonesh();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
+
+        Button showAllChats = new Button("Show your chats");
+        showAllChats.setOnAction(actionEvent -> {
+            for (Chat chat : Chat.allChats){
+                if (chat.getUsers().contains(Controller.currentUser)) {
+                    Chatroom chatroom = new Chatroom();
+                    chatroom.setChat(chat);
+                    try {
+                        chatroom.start(new Stage());
+                        // Chat.debugKonesh();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+
+        showAllChats.setMinWidth(170);
+        startChat.setMinWidth(350);
+        Button back = new Button("back");
+        back.setMinWidth(170);
+        back.setOnAction(actionEvent -> {
+            StartMenuGUI startMenuGUI = new StartMenuGUI();
+            startMenuGUI.start(stage);
+        });
+
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(showAllChats,back);
+        hBox.setSpacing(5);
+        hBox.setAlignment(Pos.CENTER);
+        root.getChildren().add(hBox);
 
     }
 

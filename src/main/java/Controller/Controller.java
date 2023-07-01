@@ -1,5 +1,6 @@
 package Controller;
 
+import Client.Client;
 import Model.Store;
 import Model.User;
 import View.LoginRegister.MainMenu;
@@ -17,10 +18,10 @@ public class Controller {
 
     public static Stage stage;
 
-    public Socket socket;
+    public static Client client;
 
-    public static void setSocket(Socket socket) {
-        socket = socket;
+    public static void setClient(Client client) {
+        client = client;
     }
 
     static {

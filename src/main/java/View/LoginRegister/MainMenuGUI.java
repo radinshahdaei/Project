@@ -20,7 +20,6 @@ import java.io.IOException;
 public class MainMenuGUI extends Application {
     public static void main(String[] args) {
         launch(args);
-
     }
 
     @Override

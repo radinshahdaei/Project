@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class Server {
     public static void main(String[] args) {
-        Server server = new Server(8001);
+        Server server = new Server(8000);
     }
     public Server(int port) {
         System.out.println("Starting server...");

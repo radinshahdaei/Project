@@ -1,5 +1,6 @@
 package View.LoginRegister;
 
+import Client.Client;
 import Controller.Controller;
 import Controller.LoginMenuController;
 import Controller.ManageData;
@@ -27,7 +28,7 @@ public class LoginMenuGUI extends Application {
         launch(args);
     }
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException {
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, 400, 200);
         stage.setScene(scene);
@@ -224,6 +225,8 @@ public class LoginMenuGUI extends Application {
                 }
             }
         });
+
+        Client client = new Client();
 
         errorCheckThread.start();
         stage.setOnCloseRequest(event -> errorCheck.set(false));

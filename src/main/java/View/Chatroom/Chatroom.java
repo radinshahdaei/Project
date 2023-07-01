@@ -36,7 +36,7 @@ public class Chatroom extends Application {
         Pane root = new Pane();
         Scene scene = new Scene(root, 400, 600);
         stage.setScene(scene);
-        stage.setTitle("Chatroom");
+        stage.setTitle(chat.name);
         stage.show();
 
         TextField typeMessage = new TextField();
@@ -60,6 +60,7 @@ public class Chatroom extends Application {
                 typeMessage.setText("");
             }
         });
+        showMessages(root);
 
 
     }
