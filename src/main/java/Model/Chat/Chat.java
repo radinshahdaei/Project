@@ -1,7 +1,7 @@
 package Model.Chat;
 
-import Controller.Controller;
 import Model.User;
+import Controller.Controller;
 
 import java.util.ArrayList;
 

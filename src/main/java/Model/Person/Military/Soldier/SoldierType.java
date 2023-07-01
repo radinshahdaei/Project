@@ -1,6 +1,5 @@
 package Model.Person.Military.Soldier;
 
-import Model.Person.Military.Siege.SiegeType;
 import Model.Resources.Resource;
 
 import java.util.ArrayList;

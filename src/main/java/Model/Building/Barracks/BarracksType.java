@@ -4,13 +4,11 @@ import Model.Resources.Resource;
 
 import java.util.ArrayList;
 
-import static Model.Resources.Resource.getResources;
-
 public enum BarracksType {
-    BARRACKS("barracks", 100, getResources("wood", "15")),
-    MERCENARY_POST("mercenary post", 100, getResources("wood", "10")),
-    ENGINEER_GUILD("engineer guild", 100, getResources("wood", "10", "gold", "100")),
-    TUNNELER_GUILD("tunneler guild", 100, getResources("wood", "10", "gold", "100"));
+    BARRACKS("barracks", 100, Resource.getResources("wood", "15")),
+    MERCENARY_POST("mercenary post", 100, Resource.getResources("wood", "10")),
+    ENGINEER_GUILD("engineer guild", 100, Resource.getResources("wood", "10", "gold", "100")),
+    TUNNELER_GUILD("tunneler guild", 100, Resource.getResources("wood", "10", "gold", "100"));
 
     String name;
     int hp;

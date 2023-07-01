@@ -1,8 +1,7 @@
 package View.Start;
 
-import Controller.Controller;
-import Model.Game;
 import Model.User;
+import Controller.Controller;
 import View.Examples.ChangeAvatar;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -22,10 +21,8 @@ import javafx.stage.Stage;
 import Controller.RegisterMenuController;
 import Controller.ProfileMenuController;
 import Controller.ManageData;
-import Controller.Controller;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ProfileMenuGUI extends Application {

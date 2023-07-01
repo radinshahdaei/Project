@@ -3,7 +3,6 @@ package Model;
 import Model.Building.Storage.Storage;
 import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;
-import static Model.Game.currentGovernment;
 
 import java.util.ArrayList;
 
@@ -22,17 +21,17 @@ public class Store {
     }
 
     public static void setStock(Commodity commodity){
-        if (currentGovernment == null) return;
+        if (Game.currentGovernment == null) return;
         if (commodity.resourceType.resourceModel.equals(ResourceModel.FOOD)) {
-            Storage granary = (Storage) currentGovernment.findBuildingByName("granary");
+            Storage granary = (Storage) Game.currentGovernment.findBuildingByName("granary");
             if (granary == null) return;
             commodity.setStock(granary.getStoredResourceByType(commodity.resourceType).getCount());
         } else if (commodity.resourceType.resourceModel.equals(ResourceModel.WEAPON)) {
-            Storage armoury = (Storage) currentGovernment.findBuildingByName("armoury");
+            Storage armoury = (Storage) Game.currentGovernment.findBuildingByName("armoury");
             if (armoury == null) return;
             commodity.setStock(armoury.getStoredResourceByType(commodity.resourceType).getCount());
         } else if (commodity.resourceType.resourceModel.equals(ResourceModel.OTHER)) {
-            Storage stockpile = (Storage) currentGovernment.findBuildingByName("stockpile");
+            Storage stockpile = (Storage) Game.currentGovernment.findBuildingByName("stockpile");
             if (stockpile == null) return;
             commodity.setStock(stockpile.getStoredResourceByType(commodity.resourceType).getCount());
         }

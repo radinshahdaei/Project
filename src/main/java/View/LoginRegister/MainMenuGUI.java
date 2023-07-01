@@ -1,21 +1,16 @@
 package View.LoginRegister;
 
-import Controller.Controller;
 import View.Main;
+import Controller.Controller;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import Controller.LoginMenuController;
-
-import java.io.IOException;
 
 public class MainMenuGUI extends Application {
     public static void main(String[] args) {

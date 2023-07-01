@@ -1,30 +1,26 @@
 package Controller;
 
 
-import Model.*;
 import Model.Building.Building;
 import Model.Building.Campfire;
 import Model.Building.Storage.Storage;
+import Model.*;
 import Model.Person.Military.MilitaryUnit;
 import Model.Person.Military.Special.Engineer;
 import Model.Person.Military.Special.Tunneler;
 import Model.Person.Person;
 import Model.Resources.Resource;
-import View.Game.GameMenu;
 import View.Game.UnitMenu;
-
-
+import View.InputOutput;
 
 import java.util.ArrayList;
-
-import static View.InputOutput.output;
 
 public class UnitMenuController {
     public static void dropUnit(int x, int y, int count, String type) {
         if (checkSimpleErrorsOfDropUnit(x, y)) return;
         String militaryType = MilitaryUnit.AllMilitaryUnits.get(type);
         if (militaryType == null) {
-            output("This type of unit does not exists");
+            InputOutput.output("This type of unit does not exists");
             return;
         }
         MilitaryUnit militaryUnit = MilitaryUnit.createUnits(type, militaryType, x, y, Game.currentGovernment.getUser());
@@ -36,16 +32,16 @@ public class UnitMenuController {
             Game.currentGovernment.getPeople().add(militaryUnit);
             GameMenuController.game.getMap().getTiles()[x][y].getPeople().add(militaryUnit);
         }
-        output("units successfully dropped");
+        InputOutput.output("units successfully dropped");
     }
 
     private static boolean checkSimpleErrorsOfDropUnit(int x, int y) {
         if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
-            output("Invalid coordinates");
+            InputOutput.output("Invalid coordinates");
             return true;
         }
         if (GameMenuController.game.getMap().getTiles()[x][y].getBuilding() != null) {
-            output("You cannot place units on top of buildings!");
+            InputOutput.output("You cannot place units on top of buildings!");
             return true;
         }
         return false;
@@ -73,7 +69,7 @@ public class UnitMenuController {
                 }
             }
             if (amount < resource.getCount() * count) {
-                output("Not enough resources to buy this unit");
+                InputOutput.output("Not enough resources to buy this unit");
                 return true;
             }
         }
@@ -82,7 +78,7 @@ public class UnitMenuController {
 
     public static void showHealth() {
         for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
-            output("1) " + militaryUnit.getName() + ": " + militaryUnit.getDefence() + " hp");
+            InputOutput.output("1) " + militaryUnit.getName() + ": " + militaryUnit.getDefence() + " hp");
         }
     }
 
@@ -121,7 +117,7 @@ public class UnitMenuController {
         if (checkSimpleErrorsOfSelectUnit(x, y, type)) return;
         UnitMenu.userUnitInTile = getUserUnitInTile(GameMenuController.game.getMap().getTiles()[x][y].getPeople(), type);
         if (UnitMenu.userUnitInTile.size() == 0) {
-            output("There are no units that you can select(They may be on Patrol)");
+            InputOutput.output("There are no units that you can select(They may be on Patrol)");
             return;
         }
         UnitMenu unitMenu = new UnitMenu();
@@ -141,12 +137,12 @@ public class UnitMenuController {
 
     private static boolean checkSimpleErrorsOfSelectUnit(int x, int y, String type) {
         if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
-            output("Invalid coordinates");
+            InputOutput.output("Invalid coordinates");
             return true;
         }
         ArrayList<MilitaryUnit> units = getUserUnitInTile(GameMenuController.game.getMap().getTiles()[x][y].getPeople(), type);
         if (units.size() == 0) {
-            output("You do not have any units of this type in this tile");
+            InputOutput.output("You do not have any units of this type in this tile");
             return true;
         }
         return false;
@@ -206,7 +202,7 @@ public class UnitMenuController {
 
     public static void moveUnit(int x, int y) {
         if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
-            output("Invalid coordinates");
+            InputOutput.output("Invalid coordinates");
             return;
         }
         for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
@@ -223,16 +219,16 @@ public class UnitMenuController {
 
     public static void attackEnemy(int x, int y) {
         if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
-            output("Invalid coordinates");
+            InputOutput.output("Invalid coordinates");
             return;
         }
         moveUnit(x, y);
-        output("Your troop are moving towards the enemy");
+        InputOutput.output("Your troop are moving towards the enemy");
     }
 
     public static void digTunnel(int x, int y) {
         if (!(UnitMenu.userUnitInTile.get(0) instanceof Tunneler)) {
-            output("Your selected units are not tunnelers!");
+            InputOutput.output("Your selected units are not tunnelers!");
             return;
         }
         for (Person person : UnitMenu.userUnitInTile) {
@@ -244,7 +240,7 @@ public class UnitMenuController {
 
     public static void attackArcher(int x, int y) {
         if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
-            output("Invalid coordinates");
+            InputOutput.output("Invalid coordinates");
             return;
         }
         ArrayList<Person> peopleInTile = GameMenuController.game.getMap().getTiles()[x][y].getPeople();
@@ -265,7 +261,7 @@ public class UnitMenuController {
                 }
             }
         }
-        output("Archers who have the possible range attacked the enemies and buildings");
+        InputOutput.output("Archers who have the possible range attacked the enemies and buildings");
     }
 
     private static boolean checkInRange(MilitaryUnit militaryUnit, int x, int y) {
@@ -286,11 +282,11 @@ public class UnitMenuController {
 
     public static boolean patrolUnit(int x1, int x2, int y1, int y2) {
         if (x1 >= GameMenuController.mapSize || y1 >= GameMenuController.mapSize) {
-            output("Invalid coordinates");
+            InputOutput.output("Invalid coordinates");
             return false;
         }
         if (x2 >= GameMenuController.mapSize || y2 >= GameMenuController.mapSize) {
-            output("Invalid coordinates");
+            InputOutput.output("Invalid coordinates");
             return false;
         }
         for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
@@ -299,13 +295,13 @@ public class UnitMenuController {
             militaryUnit.setEndPatrol(new Pair(x2, y2));
         }
         moveUnit(x2, y2);
-        output("units in this unit started Patrolling");
+        InputOutput.output("units in this unit started Patrolling");
         return true;
     }
 
     public static void cancelPatrol(int x, int y) {
         if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
-            output("Invalid coordinates");
+            InputOutput.output("Invalid coordinates");
             return;
         }
         for (Person person : GameMenuController.game.getMap().getTiles()[x][y].getPeople()) {
@@ -318,16 +314,16 @@ public class UnitMenuController {
                 }
             }
         }
-        output("Canceled Patrol for all units in this tile");
+        InputOutput.output("Canceled Patrol for all units in this tile");
     }
 
     public static void pourOil(char direction) {
         if (direction != 'n' && direction != 's' && direction != 'w' && direction != 'e') {
-            output("Invalid direction!");
+            InputOutput.output("Invalid direction!");
             return;
         }
         if (!(UnitMenu.userUnitInTile.get(0) instanceof Engineer)) {
-            output("Your selected units are not engineers!");
+            InputOutput.output("Your selected units are not engineers!");
             return;
         }
         for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
@@ -337,7 +333,7 @@ public class UnitMenuController {
 
     public static void buildEquipment() {
         if (!(UnitMenu.userUnitInTile.get(0) instanceof Engineer)) {
-            output("Your selected units are not engineers!");
+            InputOutput.output("Your selected units are not engineers!");
         }
         int x = UnitMenu.userUnitInTile.get(0).getX();
         int y = UnitMenu.userUnitInTile.get(0).getY();

@@ -1,8 +1,8 @@
 package Model.Building.DeffensiveBuilding;
 
-import Model.Building.Building;
 import Model.Resources.Resource;
 import Model.User;
+import Model.Building.Building;
 
 import java.util.ArrayList;
 

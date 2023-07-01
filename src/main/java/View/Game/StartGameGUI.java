@@ -1,14 +1,14 @@
 package View.Game;
 
-import Controller.Controller;
-import Controller.GameMenuController;
-import Controller.MapMenuController;
-import Model.Building.Storage.Storage;
 import Model.Game;
 import Model.Government;
 import Model.Map;
 import Model.User;
-import View.Commands.GameMenuCommands;
+import View.InputOutput;
+import Controller.Controller;
+import Controller.GameMenuController;
+import Controller.MapMenuController;
+import Model.Building.Storage.Storage;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -16,22 +16,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-import java.util.regex.Matcher;
-
 import static Controller.GameMenuController.mapSize;
-import static View.InputOutput.input;
 import static View.InputOutput.output;
 
 public class StartGameGUI extends Application {
@@ -152,7 +147,7 @@ public class StartGameGUI extends Application {
             @Override
             public void handle(MouseEvent event) {
                 if (GameMenuController.game.getGovernments().size() == 1) {
-                    output("Add other users", 'b');
+                    InputOutput.output("Add other users", 'b');
                     return;
                 }
                 MapGUI mapGUI = new MapGUI();
@@ -183,13 +178,13 @@ public class StartGameGUI extends Application {
     private static void addGovernment(String username) {
         User user = Controller.findUserByUsername(username);
         if (user == null) {
-            output("User " + username + " not found", 'b');
+            InputOutput.output("User " + username + " not found", 'b');
             return;
         }
         boolean checkFlag = false;
         for (Government addedGovernment : GameMenuController.game.getGovernments()) {
             if (addedGovernment.getUser().getUsername().equals(username)) {
-                output("User " + username + " has already been added", 'b');
+                InputOutput.output("User " + username + " has already been added", 'b');
                 checkFlag = true;
                 break;
             }
@@ -200,7 +195,7 @@ public class StartGameGUI extends Application {
         GameMenu.giveDefaultBuildings(government, counter);
         GameMenu.giveDefaultResources(government, (Storage) government.getBuildings().get(0));
         counter++;
-        output("User " + username + " added", 'c');
+        InputOutput.output("User " + username + " added", 'c');
     }
 
     private static String findError(String username) {

@@ -1,7 +1,7 @@
 package View.Game;
 
-import Controller.BuildingMenuController;
 import Model.Tile;
+import Controller.BuildingMenuController;
 import javafx.event.EventHandler;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
@@ -10,11 +10,9 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.Screen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class BuildingMenuGUI {
     private Pane menuPane;

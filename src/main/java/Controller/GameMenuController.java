@@ -1,26 +1,25 @@
 package Controller;
 
+import Model.Game;
+import Model.Government;
+import Model.Person.Military.MilitaryUnit;
+import Model.Person.Military.Siege.Siege;
+import Model.Person.Military.Special.Ladderman;
+import Model.Person.Military.Special.Tunneler;
+import Model.Person.Person;
+import View.Game.GameMenu;
+import View.InputOutput;
 import Model.Building.Building;
 import Model.Building.Factory.Factory;
 import Model.Building.Keep;
 import Model.Building.Storage.Storage;
 import Model.Building.Wall;
-import Model.Game;
-import Model.Government;
-import Model.Person.Military.MilitaryUnit;
-import Model.Person.Military.Siege.Siege;
-import Model.Person.Military.Special.Engineer;
-import Model.Person.Military.Special.Ladderman;
-import Model.Person.Military.Special.Tunneler;
-import Model.Person.Person;
 import Model.Resources.Resource;
 import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;
-import View.Game.GameMenu;
 
 import java.util.ArrayList;
 
-import static Model.Game.currentGovernment;
 import static View.InputOutput.output;
 
 public class GameMenuController {
@@ -83,7 +82,7 @@ public class GameMenuController {
         int valuePerPerson = (government.getFoodRate() + 2) / 2;
         Storage Granary = (Storage) government.findBuildingByName("granary");
         if (Granary == null) {
-            output("You do not have a Granary to feed your fucking people you stupid bitch!");
+            InputOutput.output("You do not have a Granary to feed your fucking people you stupid bitch!");
             return;
         }
         for (int i = 0; i < government.getPopulation(); ++i) {
@@ -103,25 +102,25 @@ public class GameMenuController {
         Storage stockpile = (Storage) government.findBuildingByName("stockpile");
         if (government.getTaxRate() < 0) {
             int valuePerPerson = 10 - (government.getTaxRate() + 3) * 2;
-            int totalGoldNeeded = (valuePerPerson * currentGovernment.getPopulation()) / 10;
+            int totalGoldNeeded = (valuePerPerson * Game.currentGovernment.getPopulation()) / 10;
             Resource needToDeleted = new Resource(ResourceType.GOLD, totalGoldNeeded);
             stockpile.removeFromStorage(needToDeleted);
         } else {
             int valuePerPerson = 20 - (government.getTaxRate() - 8) * 2;
-            int totalGoldReceived = (valuePerPerson * currentGovernment.getPopulation()) / 10;
+            int totalGoldReceived = (valuePerPerson * Game.currentGovernment.getPopulation()) / 10;
             Resource needToAdded = new Resource(ResourceType.GOLD, totalGoldReceived);
             stockpile.addToStorage(needToAdded);
         }
     }
 
     public static void onFire() {
-        for (Person person : currentGovernment.getPeople()) {
+        for (Person person : Game.currentGovernment.getPeople()) {
             if (person instanceof MilitaryUnit &&
                     game.getMap().getTiles()[((MilitaryUnit) person).getX()][((MilitaryUnit) person).getY()].isOnFire()) {
                 ((MilitaryUnit) person).reduceDefence(20);
             }
         }
-        for (Building building : currentGovernment.getBuildings()) {
+        for (Building building : Game.currentGovernment.getBuildings()) {
             if (game.getMap().getTiles()[building.getX()][building.getY()].isOnFire()) {
                 building.reduceHP(20);
             }
@@ -133,9 +132,9 @@ public class GameMenuController {
         for (Building building : Game.currentGovernment.getBuildings()) {
             if (building.getName().equals("stockpile")) {
                 Storage storage = (Storage) building;
-                output("stockpile " + counter + ":");
+                InputOutput.output("stockpile " + counter + ":");
                 for (Resource resource : storage.getStorage()) {
-                    output(resource.getResourceType().name + ": " + resource.getCount());
+                    InputOutput.output(resource.getResourceType().name + ": " + resource.getCount());
                 }
                 counter++;
             }
@@ -198,7 +197,7 @@ public class GameMenuController {
                     if (building instanceof Keep) score += building.getHp();
                 }
                 government.getUser().addHighScore(score);
-                output("User " + government.getUser().getUsername() + " is the winner");
+                InputOutput.output("User " + government.getUser().getUsername() + " is the winner");
             }
         }
     }

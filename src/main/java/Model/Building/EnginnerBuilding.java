@@ -6,10 +6,10 @@ import Model.Person.Military.Special.Engineer;
 import Model.Person.Person;
 import Model.Resources.Resource;
 import Model.User;
+import View.InputOutput;
 
 import java.util.ArrayList;
 
-import static Model.Resources.Resource.getResources;
 import static View.InputOutput.output;
 
 public class EnginnerBuilding extends Building {
@@ -32,13 +32,13 @@ public class EnginnerBuilding extends Building {
             }
         }
         if (engineer == null) {
-            output("You don't have an engineer");
+            InputOutput.output("You don't have an engineer");
             return null;
         }
         if (name.equalsIgnoreCase("siege tent")) {
-            return new EnginnerBuilding("siege tent", 100, x, y, getResources(), owner, engineer);
+            return new EnginnerBuilding("siege tent", 100, x, y, Resource.getResources(), owner, engineer);
         } else if (name.equalsIgnoreCase("oil smelter")) {
-            return new EnginnerBuilding("oil smelter", 100, x, y, getResources(), owner, engineer);
+            return new EnginnerBuilding("oil smelter", 100, x, y, Resource.getResources(), owner, engineer);
         }
         return null;
     }

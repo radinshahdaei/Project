@@ -1,8 +1,7 @@
 package View.Game;
 
+import View.Commands.GovernmentMenuCommands;
 import Controller.GovernmentMenuController;
-import View.Commands.GovernmentMenuCommands;
-import View.Commands.GovernmentMenuCommands;
 
 import java.util.regex.Matcher;
 

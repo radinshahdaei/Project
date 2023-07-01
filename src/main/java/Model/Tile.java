@@ -1,11 +1,8 @@
 package Model;
 
-import Controller.GameMenuController;
-import Model.Building.Building;
 import Model.Person.Military.MilitaryUnit;
 import Model.Person.Person;
-import View.Game.GovernmentMenuGUI;
-import javafx.application.Platform;
+import Model.Building.Building;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;

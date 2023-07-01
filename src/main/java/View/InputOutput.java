@@ -1,8 +1,6 @@
 package View;
 
-import View.Game.MapGUI;
 import javafx.scene.control.Alert;
-import javafx.stage.Modality;
 
 import java.util.Scanner;
 

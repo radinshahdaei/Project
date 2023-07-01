@@ -1,14 +1,13 @@
 package Controller;
 
 import Model.User;
+import View.InputOutput;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-import static Controller.RegisterMenuController.captcha;
-import static View.InputOutput.input;
 import static View.InputOutput.output;
 
 public class ProfileMenuController {
@@ -18,24 +17,24 @@ public class ProfileMenuController {
     public static void changeUserName(String newUsername) {
         if (!checkUsername(newUsername)) return;
         Controller.currentUser.setUsername(finalUsername);
-        output("New username set!");
+        InputOutput.output("New username set!");
     }
     private static boolean checkUsername(String username) {
         if (!checkUsernameFormat(username)) {
-            output("Invalid username format");
+            InputOutput.output("Invalid username format");
             return false;
         }
 
         if (Controller.findUserByUsername(username) != null) {
             String newUsername = newUsername(username);
-            output("Username already exists, you can use " + newUsername + " instead!\n" +
+            InputOutput.output("Username already exists, you can use " + newUsername + " instead!\n" +
                     "chose an option: 1) confirm    2) decline");
-            String input = input();
+            String input = InputOutput.input();
             if (input.equals("1")) {
-                output("Confirmed!");
+                InputOutput.output("Confirmed!");
                 username = newUsername;
             } else {
-                output("Declined!");
+                InputOutput.output("Declined!");
                 return false;
             }
         }
@@ -62,37 +61,37 @@ public class ProfileMenuController {
 
     public static void changeNickname(String newNickname) {
         Controller.currentUser.setNickname(newNickname);
-        output("New nickname set!");
+        InputOutput.output("New nickname set!");
     }
 
 
     public static void changePassword(String oldPassword , String newPassword) {
         String passwordConfirmation;
-        output("Please enter your new password again");
-        passwordConfirmation = input();
+        InputOutput.output("Please enter your new password again");
+        passwordConfirmation = InputOutput.input();
         if (!ManageData.decrypt(Controller.currentUser.getPassword(), oldPassword)) {
-            output("Current Password in incorrect!");
+            InputOutput.output("Current Password in incorrect!");
             return;
         }
         if (ManageData.encrypt(newPassword).equals(Controller.currentUser.getPassword())) {
-            output("Please enter a new Password");
+            InputOutput.output("Please enter a new Password");
             return;
         }
         if (checkPassword(newPassword, passwordConfirmation)) {
-            captcha();
+            RegisterMenuController.captcha();
             Controller.currentUser.setPassword(ManageData.encrypt(finalPassword));
-            output("New Password set!");
+            InputOutput.output("New Password set!");
         }
 
     }
     public static boolean checkPassword(String password, String passwordConfirmation) {
         String passwordStrength = checkPasswordStrength(password);
         if (!passwordStrength.equals("success")) {
-            output(passwordStrength);
+            InputOutput.output(passwordStrength);
             return false;
         }
         if (!password.equals(passwordConfirmation)) {
-            output("Password and it's confirmation do not match!");
+            InputOutput.output("Password and it's confirmation do not match!");
             return false;
         }
         finalPassword = password;
@@ -117,16 +116,16 @@ public class ProfileMenuController {
     public static void changeEmail(String newEmail) {
         if (checkEmail(newEmail)) {
             Controller.currentUser.setEmail(finalEmail);
-            output("New email set!");
+            InputOutput.output("New email set!");
         }
     }
     private static boolean checkEmail(String email) {
         if (Controller.findUserByEmail(email) != null) {
-            output("A user with this email already exists!");
+            InputOutput.output("A user with this email already exists!");
             return false;
         }
         if (!checkEmailFormat(email)) {
-            output("Invalid email!");
+            InputOutput.output("Invalid email!");
             return false;
         }
         finalEmail = email;
@@ -139,21 +138,21 @@ public class ProfileMenuController {
 
     public static void changeSlogan(String newSlogan) {
         Controller.currentUser.setSlogan(newSlogan);
-        output("New Slogan set");
+        InputOutput.output("New Slogan set");
     }
     public static void removeSlogan() {
         Controller.currentUser.setSlogan(null);
-        output("Slogan removed");
+        InputOutput.output("Slogan removed");
     }
 
     public static void displayHighScore() {
         int highscore = Controller.currentUser.getHighScore();
-        output(String.valueOf(highscore));
+        InputOutput.output(String.valueOf(highscore));
     }
 
     public static void displaySlogan() {
-        if (Controller.currentUser.getSlogan() == null) output("Slogan is empty");
-        output(Controller.currentUser.getSlogan());
+        if (Controller.currentUser.getSlogan() == null) InputOutput.output("Slogan is empty");
+        InputOutput.output(Controller.currentUser.getSlogan());
     }
 
     public static ArrayList<User> sortUsers() {
@@ -186,19 +185,19 @@ public class ProfileMenuController {
         ArrayList<User> sorted = sortUsers();
         for (User user : sorted) {
             if (user.equals(Controller.currentUser)) {
-                output(String.valueOf(index));
+                InputOutput.output(String.valueOf(index));
             }
             index++;
         }
-        output("There was an error! ");
+        InputOutput.output("There was an error! ");
     }
 
     public static void display() {
-        output("username: " + Controller.currentUser.getUsername());
-        output("nickname: " + Controller.currentUser.getNickname());
-        if (Controller.currentUser.getSlogan() != null) output("slogan: " + Controller.currentUser.getSlogan());
-        output("email: " + Controller.currentUser.getEmail());
-        output("highscore: " + String.valueOf(Controller.currentUser.getHighScore()));
+        InputOutput.output("username: " + Controller.currentUser.getUsername());
+        InputOutput.output("nickname: " + Controller.currentUser.getNickname());
+        if (Controller.currentUser.getSlogan() != null) InputOutput.output("slogan: " + Controller.currentUser.getSlogan());
+        InputOutput.output("email: " + Controller.currentUser.getEmail());
+        InputOutput.output("highscore: " + String.valueOf(Controller.currentUser.getHighScore()));
     }
     public static void exit() {
         if (!Controller.stayLoggedIn) Controller.currentUser = null;

@@ -1,7 +1,5 @@
 package View.Commands;
 
-import View.Game.TradeMenu;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

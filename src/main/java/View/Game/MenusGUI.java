@@ -2,10 +2,8 @@ package View.Game;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class MenusGUI {

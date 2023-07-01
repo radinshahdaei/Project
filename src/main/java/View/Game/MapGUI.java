@@ -1,8 +1,8 @@
 package View.Game;
 
-import Controller.*;
-import Model.Game;
-import Model.Person.Military.MilitaryUnit;
+import Controller.BuildingMenuController;
+import Controller.GameMenuController;
+import Controller.TileDataThread;
 import Model.Tile;
 import View.Start.StartMenuGUI;
 import javafx.application.Application;

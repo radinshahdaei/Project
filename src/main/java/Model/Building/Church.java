@@ -7,12 +7,10 @@ import Model.Person.Military.MilitaryUnit;
 import Model.Resources.Resource;
 import Model.Resources.ResourceType;
 import Model.User;
+import View.InputOutput;
 
 import java.util.ArrayList;
 
-import static Model.Resources.Resource.createResource;
-import static Model.Resources.Resource.getResources;
-import static View.InputOutput.input;
 import static View.InputOutput.output;
 
 public class Church extends Building {
@@ -22,9 +20,9 @@ public class Church extends Building {
 
     public static Building createBuilding(String name, int x, int y, User owner) {
         if (name.equalsIgnoreCase("church")) {
-            return new Church("church", 200, x, y, getResources("gold", "500"), owner);
+            return new Church("church", 200, x, y, Resource.getResources("gold", "500"), owner);
         } else if (name.equalsIgnoreCase("cathedral")) {
-            return new Church("cathedral", 300, x, y, getResources("gold", "1000"), owner);
+            return new Church("cathedral", 300, x, y, Resource.getResources("gold", "1000"), owner);
         }
         return null;
     }
@@ -32,27 +30,27 @@ public class Church extends Building {
     public void buyMonk() {
         String troop;
         while (true) {
-            output("Which troop do you want to buy? type it's name!\n" +
+            InputOutput.output("Which troop do you want to buy? type it's name!\n" +
                     "1) monk");
-            troop = input();
+            troop = InputOutput.input();
             if (!troop.equals("monk")) {
-                output("You can't buy this troop!");
+                InputOutput.output("You can't buy this troop!");
             } else {
                 break;
             }
         }
         String countString;
         int count;
-        output("How many of this troop do you want to buy?");
+        InputOutput.output("How many of this troop do you want to buy?");
         while (true) {
-            countString = input();
+            countString = InputOutput.input();
             count = Integer.parseInt(countString);
             if (count > 0) break;
         }
-        Resource resource = createResource(ResourceType.GOLD, 10 * count);
+        Resource resource = Resource.createResource(ResourceType.GOLD, 10 * count);
         Storage stockpile = (Storage) Game.currentGovernment.findBuildingByName("stockpile");
         if (!stockpile.removeFromStorage(resource)) {
-            output("You don't have enough gold!");
+            InputOutput.output("You don't have enough gold!");
             return;
         }
         Campfire campfire = (Campfire) Game.currentGovernment.findBuildingByName("campfire");
@@ -65,6 +63,6 @@ public class Church extends Building {
             Game.currentGovernment.getPeople().add(militaryUnit);
             GameMenuController.game.getMap().getTiles()[x][y].getPeople().add(militaryUnit);
         }
-        output("Troops successfully bought!");
+        InputOutput.output("Troops successfully bought!");
     }
 }

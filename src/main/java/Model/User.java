@@ -2,11 +2,6 @@ package Model;
 
 import Controller.Controller;
 import Controller.ManageData;
-import Model.Resources.Resource;
-import Model.Resources.ResourceType;
-
-import java.net.Socket;
-import java.util.ArrayList;
 
 public class User {
     String username;

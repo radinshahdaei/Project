@@ -1,12 +1,12 @@
 package Model.Building.Factory;
 
-import Model.Building.Building;
-import Model.Building.Storage.Storage;
 import Model.Game;
 import Model.Resources.Resource;
 import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;
 import Model.User;
+import Model.Building.Building;
+import Model.Building.Storage.Storage;
 
 import java.util.ArrayList;
 

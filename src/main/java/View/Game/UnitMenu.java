@@ -1,9 +1,8 @@
 package View.Game;
 
-import Controller.UnitMenuController;
 import Model.Person.Military.MilitaryUnit;
-import Model.Person.Person;
 import View.Commands.UnitMenuCommands;
+import Controller.UnitMenuController;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

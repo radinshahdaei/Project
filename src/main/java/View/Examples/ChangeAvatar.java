@@ -5,7 +5,6 @@ import Model.Game;
 import View.Start.ProfileMenuGUI;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,8 +23,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
 import Controller.ManageData;

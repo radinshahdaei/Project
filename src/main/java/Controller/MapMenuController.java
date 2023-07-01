@@ -1,19 +1,15 @@
 package Controller;
 
-import Model.Building.*;
-import Model.Building.Nature.Rock;
-import Model.Building.Nature.Tree;
-import Model.Game;
-import Model.Government;
-import Model.Person.Military.MilitaryUnit;
+import Model.Building.Building;
 import Model.Person.Military.Special.Tunneler;
 import Model.Person.Person;
-import Model.Resources.Resource;
 import Model.Tile;
+import View.InputOutput;
+import Model.Building.Nature.Rock;
+import Model.Building.Nature.Tree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Matcher;
 
 import static View.InputOutput.output;
 
@@ -55,17 +51,17 @@ public class MapMenuController {
 
     public static void DrawMap(int topX, int topY) {
         HashMap<String, String> COLORS = changeColor();
-        output(new String(new char[50]).replace("\0", "\r\n"));
+        InputOutput.output(new String(new char[50]).replace("\0", "\r\n"));
         drawSeparators(SIZEX * 6);
         for (int y = 0; y < SIZEY; y++) {
-            output("|", 1);
+            InputOutput.output("|", 1);
             for (int x = 0; x < SIZEX; x++) {
                 int mapX = topX + x;
                 int mapY = topY + y;
                 drawAnEmptyLine(COLORS.get(GameMenuController.game.getMap().getTiles()[mapX][mapY].getTexture()),
                         COLORS.get("Reset"));
             }
-            output("\n|", 1);
+            InputOutput.output("\n|", 1);
             for (int x = 0; x < SIZEX; x++) {
                 int mapX = topX + x;
                 int mapY = topY + y;
@@ -76,16 +72,16 @@ public class MapMenuController {
                 else c = "#####";
                 c = COLORS.get(GameMenuController.game.getMap().getTiles()[mapX][mapY].getTexture()) + c +
                         COLORS.get("Reset") + "|";
-                output(c, 1);
+                InputOutput.output(c, 1);
             }
-            output("\n|", 1);
+            InputOutput.output("\n|", 1);
             for (int x = 0; x < SIZEX; x++) {
                 int mapX = topX + x;
                 int mapY = topY + y;
                 drawAnEmptyLine(COLORS.get(GameMenuController.game.getMap().getTiles()[mapX][mapY].getTexture()),
                         COLORS.get("Reset"));
             }
-            output("");
+            InputOutput.output("");
             drawSeparators(SIZEX * 6);
         }
 
@@ -114,26 +110,26 @@ public class MapMenuController {
     }
 
     private static void drawAnEmptyLine(String color, String reset) {
-        output(color + "#####" + reset + "|", 1);
+        InputOutput.output(color + "#####" + reset + "|", 1);
     }
 
     private static void drawSeparators(int times) {
-        for (int i = 0; i < times; i++) output("-", 1);
-        output("");
+        for (int i = 0; i < times; i++) InputOutput.output("-", 1);
+        InputOutput.output("");
     }
 
     public static void showDetails(int x, int y) {
         Tile tile = GameMenuController.game.getMap().getTiles()[x][y];
-        output("x: " + tile.getX() + " , y: " + tile.getY());
-        output("texture: " + tile.getTexture());
+        InputOutput.output("x: " + tile.getX() + " , y: " + tile.getY());
+        InputOutput.output("texture: " + tile.getTexture());
         if (tile.getBuilding() != null)
-            output("Building: " + tile.getBuilding().getName() + ", owner: " + tile.getBuilding().getOwner().getUsername());
+            InputOutput.output("Building: " + tile.getBuilding().getName() + ", owner: " + tile.getBuilding().getOwner().getUsername());
         if (tile.getPeople().size() > 0) {
             int counter = 1;
             for (Person person : tile.getPeople()) {
                 if (person instanceof Tunneler) System.out.println(((Tunneler) person).isUnderTunnel());
                 if (person instanceof Tunneler && ((Tunneler) person).isUnderTunnel()) continue;
-                output("Person " + counter + ": " + person.getName() + ", owner: " + person.getOwner().getUsername());
+                InputOutput.output("Person " + counter + ": " + person.getName() + ", owner: " + person.getOwner().getUsername());
                 counter++;
             }
         }
@@ -141,7 +137,7 @@ public class MapMenuController {
 
     public static void dropRock(int x, int y, char direction) {
         if (GameMenuController.game.getMap().getTiles()[x][y].getBuilding() != null) {
-            output("There is already a building in this tile");
+            InputOutput.output("There is already a building in this tile");
         }
         Building building = Rock.createRock(direction, x, y);
         GameMenuController.game.getMap().getTiles()[x][y].setBuilding(building);
@@ -149,7 +145,7 @@ public class MapMenuController {
 
     public static void dropTree(int x, int y, String type) {
         if (GameMenuController.game.getMap().getTiles()[x][y].getBuilding() != null) {
-            output("There is already a building in this tile");
+            InputOutput.output("There is already a building in this tile");
         }
         Building building = Tree.createTree(type, x, y);
         GameMenuController.game.getMap().getTiles()[x][y].setBuilding(building);

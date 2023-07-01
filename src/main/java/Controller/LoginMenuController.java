@@ -1,16 +1,12 @@
 package Controller;
 
 import Model.User;
+import View.InputOutput;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
-import java.util.regex.Matcher;
 
 import static Controller.RegisterMenuController.captcha;
 import static Controller.RegisterMenuController.checkPassword;
-import static View.InputOutput.input;
 import static View.InputOutput.output;
 
 public class LoginMenuController {
@@ -25,43 +21,43 @@ public class LoginMenuController {
     public static void changePassword(User user) {
         String password;
         String passwordConfirmation;
-        output("Enter your new password:");
-        password = input();
-        output("Enter password confirmation:");
-        passwordConfirmation = input();
+        InputOutput.output("Enter your new password:");
+        password = InputOutput.input();
+        InputOutput.output("Enter password confirmation:");
+        passwordConfirmation = InputOutput.input();
         if (checkPassword(password, passwordConfirmation, null)) {
             captcha();
             user.setPassword(ManageData.encrypt(password));
-            output("New Password set!");
+            InputOutput.output("New Password set!");
         }
 
     }
 
     public static void forgotPassword() {
-        output("Enter your username:");
+        InputOutput.output("Enter your username:");
         String username;
         String answer;
-        username = input();
+        username = InputOutput.input();
         if (Controller.findUserByUsername(username) == null) {
-            output("No user with this username found!");
+            InputOutput.output("No user with this username found!");
             return;
         }
         User user = Controller.findUserByUsername(username);
         int questionNumber = user.getQuestionNumber();
         if (questionNumber == 1) {
-            output("What is my father’s name?");
+            InputOutput.output("What is my father’s name?");
         } else if (questionNumber == 2) {
-            output("What was my first pet’s name?");
+            InputOutput.output("What was my first pet’s name?");
         } else if (questionNumber == 3) {
-            output("What is my mother’s last name?");
+            InputOutput.output("What is my mother’s last name?");
         }
-        if (user.getAnswer().equals(input())) changePassword(user);
-        else output("Wrong answer!");
+        if (user.getAnswer().equals(InputOutput.input())) changePassword(user);
+        else InputOutput.output("Wrong answer!");
     }
 
     public static boolean checkEmptyField(String username, String password) {
         if (username == null || password == null) {
-            output("Empty Field!");
+            InputOutput.output("Empty Field!");
             return false;
         }
         return true;
@@ -70,10 +66,10 @@ public class LoginMenuController {
     public static boolean checkUserPass(String username, String password, String stayLoggedIn) throws InterruptedException {
         User user = Controller.findUserByUsername(username);
         if (user == null) {
-            output("Username does not exists");
+            InputOutput.output("Username does not exists");
             return false;
         } else if (!ManageData.decrypt(user.getPassword(), password)) {
-            output("Username and password didn't match!");
+            InputOutput.output("Username and password didn't match!");
             waitForLogin();
             return false;
         }
@@ -81,7 +77,7 @@ public class LoginMenuController {
         if (stayLoggedIn != null) Controller.stayLoggedIn();
         timer = 1;
         Controller.setCurrentUser(user);
-        output("User logged in successfully!");
+        InputOutput.output("User logged in successfully!");
         return true;
     }
 
@@ -101,7 +97,7 @@ public class LoginMenuController {
 
     public static void waitForLogin() throws InterruptedException {
         timer++;
-        output("You cannot login for " + timer * 5 + " seconds!");
+        InputOutput.output("You cannot login for " + timer * 5 + " seconds!");
         Thread.sleep(5000L * timer);
     }
 

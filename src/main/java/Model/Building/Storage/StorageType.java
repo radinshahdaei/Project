@@ -5,15 +5,12 @@ import Model.Resources.ResourceModel;
 
 import java.util.ArrayList;
 
-import static Model.Resources.Resource.getResources;
-import static Model.Resources.Resource.getResourcesByType;
-
 public enum StorageType {
 
-    GRANARY("granary", 300, 0, getResources("wood", "5"), getResourcesByType(ResourceModel.FOOD, 0), 1000),
-    ARMOURY("armoury", 300, 0, getResources("wood", "5"), getResourcesByType(ResourceModel.WEAPON, 0), 100),
-    STOCKPILE("stockpile", 300, 0, getResources(), getResourcesByType(ResourceModel.OTHER, 0), 10000),
-    STABLE("stable", 300, 0, getResources("wood", "20", "gold", "400"), getResourcesByType(ResourceModel.HORSE, 4), 4);
+    GRANARY("granary", 300, 0, Resource.getResources("wood", "5"), Resource.getResourcesByType(ResourceModel.FOOD, 0), 1000),
+    ARMOURY("armoury", 300, 0, Resource.getResources("wood", "5"), Resource.getResourcesByType(ResourceModel.WEAPON, 0), 100),
+    STOCKPILE("stockpile", 300, 0, Resource.getResources(), Resource.getResourcesByType(ResourceModel.OTHER, 0), 10000),
+    STABLE("stable", 300, 0, Resource.getResources("wood", "20", "gold", "400"), Resource.getResourcesByType(ResourceModel.HORSE, 4), 4);
 
     String name;
     int hp;

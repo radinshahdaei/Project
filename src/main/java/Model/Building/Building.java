@@ -9,6 +9,7 @@ import Model.Game;
 import Model.Resources.Resource;
 import Model.Resources.ResourceType;
 import Model.User;
+import View.InputOutput;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -137,7 +138,7 @@ public class Building {
         Storage stockpile = (Storage) Game.currentGovernment.findBuildingByName("stockpile");
         Resource stone = stockpile.getStoredResourceByType(ResourceType.STONE);
         if (stone.getCount() < 20) {
-            output("You don't have enough stone!");
+            InputOutput.output("You don't have enough stone!");
             return;
         }
         this.setHp(maxHP);

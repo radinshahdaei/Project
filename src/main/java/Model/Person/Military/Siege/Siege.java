@@ -1,7 +1,7 @@
 package Model.Person.Military.Siege;
 
-import Model.Person.Military.MilitaryUnit;
 import Model.Person.Military.Special.Engineer;
+import Model.Person.Military.MilitaryUnit;
 import Model.Resources.Resource;
 import Model.User;
 

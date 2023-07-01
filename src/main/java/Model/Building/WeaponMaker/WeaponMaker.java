@@ -1,15 +1,15 @@
 package Model.Building.WeaponMaker;
 
-import Model.Building.Building;
-import Model.Building.Storage.Storage;
 import Model.Game;
 import Model.Resources.Resource;
 import Model.User;
+import View.InputOutput;
+import Model.Building.Building;
+import Model.Building.Storage.Storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static View.InputOutput.input;
 import static View.InputOutput.output;
 
 public class WeaponMaker extends Building {
@@ -35,7 +35,7 @@ public class WeaponMaker extends Building {
         while (true) {
             weapon = printWeapons();
             if (weapon == null) {
-                output("You can't buy this weapon!");
+                InputOutput.output("You can't buy this weapon!");
             } else {
                 break;
             }
@@ -44,25 +44,25 @@ public class WeaponMaker extends Building {
         Storage stockpile = (Storage) Game.currentGovernment.findBuildingByName("stockpile");
         Storage armoury = (Storage) Game.currentGovernment.findBuildingByName("armoury");
         if (armoury == null) {
-            output("You don't have an armoury!");
+            InputOutput.output("You don't have an armoury!");
             return;
         }
         if (!stockpile.removeFromStorage(price)) {
-            output("You don't have enough resources!");
+            InputOutput.output("You don't have enough resources!");
             return;
         }
         armoury.addToStorage(weapon);
-        output("Weapon bought successfully!");
+        InputOutput.output("Weapon bought successfully!");
     }
 
     public Resource printWeapons() {
-        output("What weapon do you want to buy? type it's name!");
+        InputOutput.output("What weapon do you want to buy? type it's name!");
         int counter = 1;
         for (Resource weapon : weapons.keySet()) {
-            output(counter + ") " + weapon.getResourceType().name);
+            InputOutput.output(counter + ") " + weapon.getResourceType().name);
             counter++;
         }
-        String input = input();
+        String input = InputOutput.input();
         for (Resource weapon : weapons.keySet()) {
             if (weapon.getResourceType().name.equals(input)) {
                 return weapon;

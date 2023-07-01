@@ -1,22 +1,19 @@
 package Controller;
 
-import Model.Building.Storage.Storage;
 import Model.Game;
+import Model.Trade;
+import View.InputOutput;
+import Model.Building.Storage.Storage;
 import Model.Resources.Resource;
 import Model.Resources.ResourceType;
-import Model.Trade;
 
-import java.io.StringReader;
-
-import static Controller.Controller.currentUser;
 import static Model.Building.Factory.Factory.getStorageName;
-import static Model.Game.currentGovernment;
 import static View.InputOutput.output;
 
 public class TradeMenuController {
     public static void addTrade(Trade trade) {
         if (trade.toGovernment == null) {
-            output("The destination government was not found");
+            InputOutput.output("The destination government was not found");
         }
         trade.toGovernment.addTrade(trade);
         trade.fromGovernment.addTrade(trade);
@@ -25,7 +22,7 @@ public class TradeMenuController {
     public static String showList() {
         int id = 0;
         String list = "";
-        for (Trade trade : currentGovernment.tradeList) {
+        for (Trade trade : Game.currentGovernment.tradeList) {
             if (!trade.isAccepted) {
                 list += ("ID: " + id + ")" + " Resource Type: " + trade.resourceType + " Resource Amount: " + trade.resourceAmount +
                         " Price: " + trade.price + "\n" + "Message: " + trade.message + " Is from:" + trade.fromGovernment.getUser().getUsername() + "\n");
@@ -36,11 +33,11 @@ public class TradeMenuController {
     }
 
     public static void acceptTrade(int id) {
-        if (id < 0 || id >= currentGovernment.tradeList.size()) {
+        if (id < 0 || id >= Game.currentGovernment.tradeList.size()) {
             System.out.println("Invalid Trade ID!");
             return;
         }
-        Trade trade = currentGovernment.tradeList.get(id);
+        Trade trade = Game.currentGovernment.tradeList.get(id);
         trade.isAccepted = true;
         String resourceName = trade.resourceType;
         int resourceAmount = trade.resourceAmount;
@@ -55,8 +52,8 @@ public class TradeMenuController {
 
     public static void showHistory() {
         int id = 0;
-        for (Trade trade : currentGovernment.tradeList) {
-            if (trade.fromGovernment.equals(currentGovernment) || trade.isAccepted) {
+        for (Trade trade : Game.currentGovernment.tradeList) {
+            if (trade.fromGovernment.equals(Game.currentGovernment) || trade.isAccepted) {
                 System.out.println("ID: " + id + ")" + " Resource Type: " + trade.resourceType + " Resource Amount: " + trade.resourceAmount +
                         " Price: " + trade.price + "\n" + "Message: " + trade.message + " Is from:" + trade.fromGovernment.getUser().getUsername());
             }
@@ -65,12 +62,12 @@ public class TradeMenuController {
     }
 
     public static void showNotification() {
-        currentGovernment.lastTradeIndex++;
-        while (currentGovernment.lastTradeIndex < currentGovernment.tradeList.size()) {
-            Trade trade = currentGovernment.tradeList.get(currentGovernment.lastTradeIndex);
-            System.out.println("ID: " + currentGovernment.lastTradeIndex + ")" + " Resource Type: " + trade.resourceType + " Resource Amount: " + trade.resourceAmount +
+        Game.currentGovernment.lastTradeIndex++;
+        while (Game.currentGovernment.lastTradeIndex < Game.currentGovernment.tradeList.size()) {
+            Trade trade = Game.currentGovernment.tradeList.get(Game.currentGovernment.lastTradeIndex);
+            System.out.println("ID: " + Game.currentGovernment.lastTradeIndex + ")" + " Resource Type: " + trade.resourceType + " Resource Amount: " + trade.resourceAmount +
                     " Price: " + trade.price + "\n" + "Message: " + trade.message + " Is from:" + trade.fromGovernment.getUser().getUsername());
-            currentGovernment.lastTradeIndex++;
+            Game.currentGovernment.lastTradeIndex++;
         }
     }
 }

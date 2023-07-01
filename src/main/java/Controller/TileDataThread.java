@@ -2,7 +2,6 @@ package Controller;
 
 import Model.Tile;
 import javafx.animation.Transition;
-import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 public class TileDataThread extends Transition {

@@ -1,11 +1,10 @@
 package View.LoginRegister;
 
-import Controller.Controller;
 import Model.User;
 import View.Main;
+import Controller.Controller;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;

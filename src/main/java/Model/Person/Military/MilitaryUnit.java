@@ -1,11 +1,12 @@
 package Model.Person.Military;
 
+
 import Controller.GameMenuController;
-import Model.*;
 import Model.Building.Building;
 import Model.Building.DeffensiveBuilding.DefensiveBuilding;
 import Model.Building.Moat;
 import Model.Building.Wall;
+import Model.*;
 import Model.Person.Military.Siege.Siege;
 import Model.Person.Military.Soldier.Soldier;
 import Model.Person.Military.Special.Engineer;

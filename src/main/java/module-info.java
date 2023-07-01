@@ -4,6 +4,12 @@ module Project {
     requires javafx.media;
     requires com.google.gson;
     requires java.desktop;
+    requires java.xml.bind;
+    requires jakarta.xml.bind;
+    requires org.glassfish.jaxb.runtime;
+
+    opens Client to jakarta.xml.bind;
+    opens Server to jakarta.xml.bind;
 
     opens View.LoginRegister to javafx.fxml;
     opens View.Chatroom to javafx.graphics;
@@ -15,7 +21,7 @@ module Project {
     exports View.Game;
     
     opens View to javafx.graphics;
-    exports  View;
+    exports View;
 
     opens Model to com.google.gson;
     exports Model;

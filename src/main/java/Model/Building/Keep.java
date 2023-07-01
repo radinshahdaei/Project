@@ -2,7 +2,6 @@ package Model.Building;
 
 import Model.Game;
 import Model.User;
-import View.Game.GameMenu;
 
 public class Keep extends Building {
     public Keep(int x, int y, User owner) {

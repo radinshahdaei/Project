@@ -1,7 +1,7 @@
 package View.Start;
 
-import Controller.ProfileMenuController;
 import View.Commands.ProfileMenuCommands;
+import Controller.ProfileMenuController;
 
 import static View.InputOutput.input;
 import static View.InputOutput.output;

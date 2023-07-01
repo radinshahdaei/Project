@@ -1,13 +1,10 @@
 package View.Game;
 
-import Controller.StoreMenuController;
-import Controller.TradeMenuController;
-import Model.Trade;
 import View.Commands.StoreMenuCommands;
+import Controller.StoreMenuController;
 
 import java.util.regex.Matcher;
 
-import static Controller.Controller.*;
 import static View.InputOutput.input;
 import static View.InputOutput.output;
 

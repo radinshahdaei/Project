@@ -4,15 +4,13 @@ import Model.Resources.Resource;
 
 import java.util.ArrayList;
 
-import static Model.Resources.Resource.getResources;
-
 public enum DefensiveBuildingType {
 
-    LOOKOUT_TOWER("lookout tower", 100, 0, getResources("stone", "15"), 5, 10),
-    PERIMETER_TOWER("perimeter tower", 150, 0, getResources("stone", "15"), 5, 10),
-    DEFENCE_TURRET("defence turret", 200, 0, getResources("stone", "15"), 3, 10),
-    SQUARE_TOWER("square tower", 300, 0, getResources("stone", "35"), 3, 10),
-    ROUND_TOWER("round tower", 400, 0, getResources("stone", "40"), 3, 10);
+    LOOKOUT_TOWER("lookout tower", 100, 0, Resource.getResources("stone", "15"), 5, 10),
+    PERIMETER_TOWER("perimeter tower", 150, 0, Resource.getResources("stone", "15"), 5, 10),
+    DEFENCE_TURRET("defence turret", 200, 0, Resource.getResources("stone", "15"), 3, 10),
+    SQUARE_TOWER("square tower", 300, 0, Resource.getResources("stone", "35"), 3, 10),
+    ROUND_TOWER("round tower", 400, 0, Resource.getResources("stone", "40"), 3, 10);
 
 
     String name;

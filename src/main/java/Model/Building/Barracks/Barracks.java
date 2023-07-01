@@ -1,25 +1,20 @@
 package Model.Building.Barracks;
 
 import Controller.GameMenuController;
-import Model.Building.Building;
-import Model.Building.Campfire;
-import Model.Building.Storage.Storage;
 import Model.Game;
 import Model.Person.Military.MilitaryUnit;
-import Model.Person.Military.Soldier.Soldier;
 import Model.Person.Military.Soldier.SoldierType;
-import Model.Person.Military.Special.Engineer;
-import Model.Person.Military.Special.Ladderman;
-import Model.Person.Military.Special.Tunneler;
 import Model.Resources.Resource;
 import Model.Resources.ResourceModel;
 import Model.User;
+import View.InputOutput;
+import Model.Building.Building;
+import Model.Building.Campfire;
+import Model.Building.Storage.Storage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static Model.Resources.Resource.getResources;
-import static View.InputOutput.input;
 import static View.InputOutput.output;
 
 public class Barracks extends Building {
@@ -60,16 +55,16 @@ public class Barracks extends Building {
         while (true) {
             troop = printTroops();
             if (troop == null) {
-                output("You can't buy this troop!");
+                InputOutput.output("You can't buy this troop!");
             } else {
                 break;
             }
         }
         String countString;
         int count;
-        output("How many of this troop do you want to buy?");
+        InputOutput.output("How many of this troop do you want to buy?");
         while (true) {
-            countString = input();
+            countString = InputOutput.input();
             count = Integer.parseInt(countString);
             if (count > 0) break;
         }
@@ -82,27 +77,27 @@ public class Barracks extends Building {
         Storage armoury = (Storage) Game.currentGovernment.findBuildingByName("armoury");
         Storage stable = (Storage) Game.currentGovernment.findBuildingByName("stable");
         if (armoury == null && this.getName().equals("barracks")) {
-            output("You don't have an armoury!");
+            InputOutput.output("You don't have an armoury!");
             return false;
         } else if (stable == null && troop.equals("knight")) {
-            output("You don't have a stable!");
+            InputOutput.output("You don't have a stable!");
             return false;
         }
         for (Resource resource : price) {
             resource.setCount(resource.getCount() * count);
             if (resource.getResourceType().getResourceModel().equals(ResourceModel.OTHER)) {
                 if (!stockpile.removeFromStorage(resource)) {
-                    output("You don't have enough gold!");
+                    InputOutput.output("You don't have enough gold!");
                     return false;
                 }
             } else if (resource.getResourceType().getResourceModel().equals(ResourceModel.WEAPON)) {
                 if (!armoury.removeFromStorage(resource)) {
-                    output("You don't have enough weapons or armour!");
+                    InputOutput.output("You don't have enough weapons or armour!");
                     return false;
                 }
             } else if (resource.getResourceType().getResourceModel().equals(ResourceModel.HORSE)) {
                 if (!stable.removeFromStorage(resource)) {
-                    output("You don't have enough horses!");
+                    InputOutput.output("You don't have enough horses!");
                     return false;
                 }
             }
@@ -111,13 +106,13 @@ public class Barracks extends Building {
     }
 
     public String printTroops() {
-        output("Which troop do you want to buy? type it's name!");
+        InputOutput.output("Which troop do you want to buy? type it's name!");
         int counter = 1;
         for (String troop : this.troops) {
-            output(counter + ") " + troop);
+            InputOutput.output(counter + ") " + troop);
             counter++;
         }
-        String input = input();
+        String input = InputOutput.input();
         if (this.troops.contains(input)) return input;
         return null;
 
@@ -129,7 +124,7 @@ public class Barracks extends Building {
             ArrayList<Resource> price = soldier.getPrice();
             return price;
         } else if (barracks.equals("engineer guild") || barracks.equals("tunneler guild")) {
-            ArrayList<Resource> price = getResources("gold", "20");
+            ArrayList<Resource> price = Resource.getResources("gold", "20");
             return price;
         }
         return null;
@@ -146,6 +141,6 @@ public class Barracks extends Building {
             Game.currentGovernment.getPeople().add(militaryUnit);
             GameMenuController.game.getMap().getTiles()[x][y].getPeople().add(militaryUnit);
         }
-        output("Troops successfully bought!");
+        InputOutput.output("Troops successfully bought!");
     }
 }

@@ -1,14 +1,11 @@
 package View.Start;
 
-import Controller.Controller;
 import View.Chatroom.CreateChat;
 import View.Game.StartGameGUI;
-import View.LoginRegister.LoginMenuGUI;
 import View.LoginRegister.MainMenuGUI;
-import View.LoginRegister.RegisterMenuGUI;
 import View.Main;
+import Controller.Controller;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

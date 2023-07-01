@@ -1,10 +1,10 @@
 package View.Game;
 
+import Model.Trade;
+import View.Commands.TradeMenuCommands;
 import Controller.Controller;
 import Controller.GovernmentMenuController;
 import Controller.TradeMenuController;
-import Model.Trade;
-import View.Commands.TradeMenuCommands;
 
 import java.util.regex.Matcher;
 

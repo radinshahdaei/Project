@@ -1,7 +1,7 @@
 package View.LoginRegister;
 
-import Controller.RegisterMenuController;
 import View.Commands.RegisterMenuCommands;
+import Controller.RegisterMenuController;
 
 import java.util.regex.Matcher;
 

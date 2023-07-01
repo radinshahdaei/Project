@@ -5,8 +5,6 @@ import Model.User;
 
 import java.util.ArrayList;
 
-import static Model.Resources.Resource.getResources;
-
 public class Wall extends Building {
     private boolean hasLadder = false;
     private boolean hasStairs = false;
@@ -21,15 +19,15 @@ public class Wall extends Building {
 
     public static Building createWall(String name, int x, int y, User owner) {
         if (name.equals("high wall"))
-            return new Wall("high wall", 500, x, y, 0, getResources("stone", "8"), owner);
+            return new Wall("high wall", 500, x, y, 0, Resource.getResources("stone", "8"), owner);
         else if (name.equals("low wall"))
-            return new Wall("high wall", 400, x, y, 0, getResources("stone", "5"), owner);
+            return new Wall("high wall", 400, x, y, 0, Resource.getResources("stone", "5"), owner);
         else if (name.equals("small stone gatehouse")) {
-            Wall gateHouse = new Wall("small stone gatehouse", 300, x, y, 0, getResources(), owner);
+            Wall gateHouse = new Wall("small stone gatehouse", 300, x, y, 0, Resource.getResources(), owner);
             gateHouse.setGateHouse(true);
             return gateHouse;
         } else if (name.equals("big stone gatehouse")) {
-            Wall gateHouse = new Wall("big stone gatehouse", 500, x, y, 0, getResources("stone", "20"), owner);
+            Wall gateHouse = new Wall("big stone gatehouse", 500, x, y, 0, Resource.getResources("stone", "20"), owner);
             gateHouse.setGateHouse(true);
             return gateHouse;
         }

@@ -1,6 +1,7 @@
 package View.Game;
 
 import Controller.GovernmentMenuController;
+import Model.Game;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.control.ChoiceBox;
@@ -10,9 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-
-
-import static Model.Game.currentGovernment;
 
 public class GovernmentMenuGUI {
     private Pane menuPane;
@@ -43,23 +41,23 @@ public class GovernmentMenuGUI {
         menuPane.getChildren().add(back);
 
         Text popularity = new Text();
-        popularity.setText("Popularity: " + String.valueOf(currentGovernment.getPopularity()));
+        popularity.setText("Popularity: " + String.valueOf(Game.currentGovernment.getPopularity()));
         popularity.setLayoutX(350);
         popularity.setLayoutY(70);
         menuPane.getChildren().add(popularity);
 
         Text population = new Text();
-        population.setText("Population: " + String.valueOf(currentGovernment.getPopulation()));
+        population.setText("Population: " + String.valueOf(Game.currentGovernment.getPopulation()));
         population.setLayoutX(350);
         population.setLayoutY(100);
         menuPane.getChildren().add(population);
 
         Text foodEffect = new Text();
-        foodEffect.setText("Food effect: " + String.valueOf(currentGovernment.getFoodEffect()));
+        foodEffect.setText("Food effect: " + String.valueOf(Game.currentGovernment.getFoodEffect()));
         foodEffect.setLayoutX(350);
         foodEffect.setLayoutY(130);
         ImageView imageViewFoodEffect;
-        if (currentGovernment.getFoodEffect() > 0) {
+        if (Game.currentGovernment.getFoodEffect() > 0) {
             foodEffect.setFill(Color.GREEN);
             imageViewFoodEffect = new ImageView(new Image(GovernmentMenuGUI.class.getResource("/MenuImages/happy.png").toExternalForm()));
             imageViewFoodEffect.setScaleX(0.3);
@@ -67,7 +65,7 @@ public class GovernmentMenuGUI {
             imageViewFoodEffect.setLayoutX(430);
             imageViewFoodEffect.setLayoutY(75);
         }
-        else if (currentGovernment.getFoodEffect() < 0) {
+        else if (Game.currentGovernment.getFoodEffect() < 0) {
             foodEffect.setFill(Color.RED);
             imageViewFoodEffect = new ImageView(new Image(GovernmentMenuGUI.class.getResource("/MenuImages/sad.png").toExternalForm()));
             imageViewFoodEffect.setScaleX(0.06);
@@ -86,11 +84,11 @@ public class GovernmentMenuGUI {
         menuPane.getChildren().add(imageViewFoodEffect);
 
         Text taxEffect = new Text();
-        taxEffect.setText("Tax effect: " + String.valueOf(currentGovernment.getTaxEffect()));
+        taxEffect.setText("Tax effect: " + String.valueOf(Game.currentGovernment.getTaxEffect()));
         taxEffect.setLayoutX(350);
         taxEffect.setLayoutY(160);
         ImageView imageViewTaxEffect;
-        if (currentGovernment.getTaxEffect() > 0) {
+        if (Game.currentGovernment.getTaxEffect() > 0) {
             taxEffect.setFill(Color.GREEN);
             imageViewTaxEffect = new ImageView(new Image(GovernmentMenuGUI.class.getResource("/MenuImages/happy.png").toExternalForm()));
             imageViewTaxEffect.setScaleX(0.3);
@@ -98,7 +96,7 @@ public class GovernmentMenuGUI {
             imageViewTaxEffect.setLayoutX(430);
             imageViewTaxEffect.setLayoutY(75 + 30);
         }
-        else if (currentGovernment.getTaxEffect() < 0) {
+        else if (Game.currentGovernment.getTaxEffect() < 0) {
             taxEffect.setFill(Color.RED);
             imageViewTaxEffect = new ImageView(new Image(GovernmentMenuGUI.class.getResource("/MenuImages/sad.png").toExternalForm()));
             imageViewTaxEffect.setScaleX(0.06);
@@ -117,11 +115,11 @@ public class GovernmentMenuGUI {
         menuPane.getChildren().add(imageViewTaxEffect);
 
         Text religionEffect = new Text();
-        religionEffect.setText("Religion Effect: " + String.valueOf(currentGovernment.getReligionEffect()));
+        religionEffect.setText("Religion Effect: " + String.valueOf(Game.currentGovernment.getReligionEffect()));
         religionEffect.setLayoutX(550);
         religionEffect.setLayoutY(70);
         ImageView imageViewReligionEffect;
-        if (currentGovernment.getReligionEffect() > 0) {
+        if (Game.currentGovernment.getReligionEffect() > 0) {
             religionEffect.setFill(Color.GREEN);
             imageViewReligionEffect = new ImageView(new Image(GovernmentMenuGUI.class.getResource("/MenuImages/happy.png").toExternalForm()));
             imageViewReligionEffect.setScaleX(0.3);
@@ -129,7 +127,7 @@ public class GovernmentMenuGUI {
             imageViewReligionEffect.setLayoutX(430 + 200);
             imageViewReligionEffect.setLayoutY(75 - 60);
         }
-        else if (currentGovernment.getReligionEffect() < 0) {
+        else if (Game.currentGovernment.getReligionEffect() < 0) {
             religionEffect.setFill(Color.RED);
             imageViewReligionEffect = new ImageView(new Image(GovernmentMenuGUI.class.getResource("/MenuImages/sad.png").toExternalForm()));
             imageViewReligionEffect.setScaleX(0.06);
@@ -148,11 +146,11 @@ public class GovernmentMenuGUI {
         menuPane.getChildren().add(imageViewReligionEffect);
 
         Text fearEffect = new Text();
-        fearEffect.setText("Fear effect: " +  String.valueOf(currentGovernment.getFearEffect()));
+        fearEffect.setText("Fear effect: " +  String.valueOf(Game.currentGovernment.getFearEffect()));
         fearEffect.setLayoutX(550);
         fearEffect.setLayoutY(100);
         ImageView imageViewFearEffect;
-        if (currentGovernment.getFearEffect() > 0) {
+        if (Game.currentGovernment.getFearEffect() > 0) {
             fearEffect.setFill(Color.GREEN);
             imageViewFearEffect = new ImageView(new Image(GovernmentMenuGUI.class.getResource("/MenuImages/happy.png").toExternalForm()));
             imageViewFearEffect.setScaleX(0.3);
@@ -160,7 +158,7 @@ public class GovernmentMenuGUI {
             imageViewFearEffect.setLayoutX(430 + 200);
             imageViewFearEffect.setLayoutY(75 - 30);
         }
-        else if (currentGovernment.getFearEffect() < 0) {
+        else if (Game.currentGovernment.getFearEffect() < 0) {
             fearEffect.setFill(Color.RED);
             imageViewFearEffect = new ImageView(new Image(GovernmentMenuGUI.class.getResource("/MenuImages/sad.png").toExternalForm()));
             imageViewFearEffect.setScaleX(0.06);
@@ -179,11 +177,11 @@ public class GovernmentMenuGUI {
         menuPane.getChildren().add(imageViewFearEffect);
 
         Text innEffect = new Text();
-        innEffect.setText("Inn effect: " +  String.valueOf(currentGovernment.getInnEffect()));
+        innEffect.setText("Inn effect: " +  String.valueOf(Game.currentGovernment.getInnEffect()));
         innEffect.setLayoutX(550);
         innEffect.setLayoutY(130);
         ImageView imageViewInnEffect;
-        if (currentGovernment.getInnEffect() > 0) {
+        if (Game.currentGovernment.getInnEffect() > 0) {
             innEffect.setFill(Color.GREEN);
             imageViewInnEffect = new ImageView(new Image(GovernmentMenuGUI.class.getResource("/MenuImages/happy.png").toExternalForm()));
             imageViewInnEffect.setScaleX(0.3);
@@ -191,7 +189,7 @@ public class GovernmentMenuGUI {
             imageViewInnEffect.setLayoutX(430 + 200);
             imageViewInnEffect.setLayoutY(75);
         }
-        else if (currentGovernment.getInnEffect() < 0) {
+        else if (Game.currentGovernment.getInnEffect() < 0) {
             innEffect.setFill(Color.RED);
             imageViewInnEffect = new ImageView(new Image(GovernmentMenuGUI.class.getResource("/MenuImages/sad.png").toExternalForm()));
             imageViewInnEffect.setScaleX(0.06);
@@ -257,7 +255,7 @@ public class GovernmentMenuGUI {
         for (int i = -2 ; i <=2 ; i++) {
             foodRate.getItems().add(i);
         }
-        foodRate.getSelectionModel().select(currentGovernment.getFoodRate() + 2);
+        foodRate.getSelectionModel().select(Game.currentGovernment.getFoodRate() + 2);
         foodRate.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) ->
                 fixFoodRate(newValue, foodRate));
         foodRate.setLayoutX(455);
@@ -275,7 +273,7 @@ public class GovernmentMenuGUI {
         for (int i = -5 ; i <=5 ; i++) {
             fearRate.getItems().add(i);
         }
-        fearRate.getSelectionModel().select(currentGovernment.getFearRate() + 5);
+        fearRate.getSelectionModel().select(Game.currentGovernment.getFearRate() + 5);
         fearRate.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) ->
                 fixFearRate(newValue, fearRate));
         fearRate.setLayoutX(455);
@@ -293,7 +291,7 @@ public class GovernmentMenuGUI {
         for (int i = -3 ; i <=8 ; i++) {
             taxRate.getItems().add(i);
         }
-        taxRate.getSelectionModel().select(currentGovernment.getTaxRate() + 3);
+        taxRate.getSelectionModel().select(Game.currentGovernment.getTaxRate() + 3);
         taxRate.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) ->
                 fixTaxRate(newValue, taxRate));
         taxRate.setLayoutX(455);
@@ -304,17 +302,17 @@ public class GovernmentMenuGUI {
 
     private void fixTaxRate(Integer newValue, ChoiceBox<Integer> taxRate) {
         GovernmentMenuController.setTaxRate(newValue);
-        taxRate.getSelectionModel().select(currentGovernment.getTaxRate() + 3);
+        taxRate.getSelectionModel().select(Game.currentGovernment.getTaxRate() + 3);
     }
 
     private void fixFearRate(Integer newValue, ChoiceBox<Integer> fearRate) {
         GovernmentMenuController.setFearRate(newValue);
-        fearRate.getSelectionModel().select(currentGovernment.getFearRate() + 5);
+        fearRate.getSelectionModel().select(Game.currentGovernment.getFearRate() + 5);
     }
 
     private static void fixFoodRate(Integer newValue, ChoiceBox<Integer> foodRate) {
         GovernmentMenuController.setFoodRate(newValue);
-        foodRate.getSelectionModel().select(currentGovernment.getFoodRate() + 2);
+        foodRate.getSelectionModel().select(Game.currentGovernment.getFoodRate() + 2);
     }
 
     public void runMenu() {

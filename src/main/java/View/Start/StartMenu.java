@@ -1,7 +1,7 @@
 package View.Start;
 
-import Controller.StartMenuController;
 import View.Commands.StartMenuCommands;
+import Controller.StartMenuController;
 import View.Game.GameMenu;
 
 import java.util.regex.Matcher;

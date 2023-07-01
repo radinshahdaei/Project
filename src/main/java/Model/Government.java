@@ -1,11 +1,11 @@
 package Model;
 
 
-import Model.Building.Building;
 import Model.Person.Military.MilitaryUnit;
 import Model.Person.Military.Special.Engineer;
 import Model.Person.Person;
 import Model.Person.PersonType;
+import Model.Building.Building;
 import Model.Resources.Resource;
 import Model.Resources.ResourceModel;
 import Model.Resources.ResourceType;

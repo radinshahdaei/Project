@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.User;
+import View.InputOutput;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -8,7 +9,6 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static View.InputOutput.input;
 import static View.InputOutput.output;
 
 public class RegisterMenuController {
@@ -55,7 +55,7 @@ public class RegisterMenuController {
         if (!checkAnswer(answer, answerConfirmation)) return false;
         captcha();
         User.createUser(finalUsername, finalPassword, finalNickname, finalEmail, finalSlogan, finalAnswer, finalQuestionNumber);
-        output("User created successfully!");
+        InputOutput.output("User created successfully!");
         return true;
     }
 
@@ -87,23 +87,23 @@ public class RegisterMenuController {
                 }
                 captcha.append("\n");
             }
-            output(captcha.toString());
+            InputOutput.output(captcha.toString());
 
 
-            output("Enter the captcha: ");
-            String userInput = input();
+            InputOutput.output("Enter the captcha: ");
+            String userInput = InputOutput.input();
 
             if (userInput.equals(String.valueOf(digits[0]) + String.valueOf(digits[1]) + String.valueOf(digits[2]) + String.valueOf(digits[3]))) {
-                output("Captcha verified.");
+                InputOutput.output("Captcha verified.");
                 return;
             }
-            output("Incorrect captcha.");
+            InputOutput.output("Incorrect captcha.");
         }
     }
 
     public static boolean checkNumber(int questionNumber) {
         if (questionNumber > 3 || questionNumber < 1) {
-            output("Invalid question number!");
+            InputOutput.output("Invalid question number!");
             return false;
         }
         finalQuestionNumber = questionNumber;
@@ -112,7 +112,7 @@ public class RegisterMenuController {
 
     public static boolean checkAnswer(String answer, String answerConfirmation) {
         if (!answer.equals(answerConfirmation)) {
-            output("Answer and it's confirmation do not match!");
+            InputOutput.output("Answer and it's confirmation do not match!");
             return false;
         }
         finalAnswer = answer;
@@ -123,13 +123,13 @@ public class RegisterMenuController {
                                           String password, String passwordConfirmation, String passwordRandom,
                                           String containsSlogan, String sloganRandom, String slogan) {
         if (nickname == null || username == null || email == null) {
-            output("Empty field!");
+            InputOutput.output("Empty field!");
             return false;
         } else if ((password == null || passwordConfirmation == null) && passwordRandom == null) {
-            output("Empty field!");
+            InputOutput.output("Empty field!");
             return false;
         } else if (containsSlogan != null && sloganRandom == null && slogan == null) {
-            output("Empty field!");
+            InputOutput.output("Empty field!");
             return false;
         }
         return true;
@@ -137,20 +137,20 @@ public class RegisterMenuController {
 
     public static boolean checkUsername(String username) {
         if (!checkUsernameFormat(username)) {
-            output("Invalid username format");
+            InputOutput.output("Invalid username format");
             return false;
         }
 
         if (Controller.findUserByUsername(username) != null) {
             String newUsername = newUsername(username);
-            output("Username already exists, you can use " + newUsername + " instead!\n" +
+            InputOutput.output("Username already exists, you can use " + newUsername + " instead!\n" +
                     "chose an option: 1) confirm    2) decline");
-            String input = input();
+            String input = InputOutput.input();
             if (input.equals("1")) {
-                output("Confirmed!");
+                InputOutput.output("Confirmed!");
                 username = newUsername;
             } else {
-                output("Declined!");
+                InputOutput.output("Declined!");
                 return false;
             }
         }
@@ -187,17 +187,17 @@ public class RegisterMenuController {
     public static boolean checkPassword(String password, String passwordConfirmation, String passwordRandom) {
         if (passwordRandom != null) {
             password = randomPassword();
-            output("Your random password is: " + password + "\n" +
+            InputOutput.output("Your random password is: " + password + "\n" +
                     "Please re-enter your password here:");
-            passwordConfirmation = input();
+            passwordConfirmation = InputOutput.input();
         }
         String passwordStrength = checkPasswordStrength(password);
         if (!passwordStrength.equals("success")) {
-            output(passwordStrength);
+            InputOutput.output(passwordStrength);
             return false;
         }
         if (!password.equals(passwordConfirmation)) {
-            output("Password and it's confirmation do not match!");
+            InputOutput.output("Password and it's confirmation do not match!");
             return false;
         }
         finalPassword = password;
@@ -206,11 +206,11 @@ public class RegisterMenuController {
 
     public static boolean checkEmail(String email) {
         if (Controller.findUserByEmail(email) != null) {
-            output("A user with this email already exists!");
+            InputOutput.output("A user with this email already exists!");
             return false;
         }
         if (!checkEmailFormat(email)) {
-            output("Invalid email!");
+            InputOutput.output("Invalid email!");
             return false;
         }
         finalEmail = email;
@@ -232,7 +232,7 @@ public class RegisterMenuController {
     public static boolean checkSlogan(String slogan, String sloganRandom, String containsSlogan) {
         if (sloganRandom != null && slogan == null) {
             slogan = randomSlogan();
-            output("Your slogan is \"" + slogan + "\"");
+            InputOutput.output("Your slogan is \"" + slogan + "\"");
         }
 
         if (containsSlogan == null) {

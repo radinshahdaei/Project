@@ -1,11 +1,9 @@
 
 package View.Game;
 
-import Controller.Controller;
+import View.Commands.MapMenuCommands;
 import Controller.GameMenuController;
 import Controller.MapMenuController;
-import View.Commands.GameMenuCommands;
-import View.Commands.MapMenuCommands;
 
 import java.util.regex.Matcher;
 

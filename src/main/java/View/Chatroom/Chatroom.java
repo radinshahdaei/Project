@@ -1,8 +1,8 @@
 package View.Chatroom;
 
-import Controller.Controller;
 import Model.Chat.Chat;
 import Model.Chat.Message;
+import Controller.Controller;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -14,14 +14,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import java.awt.*;
 import java.util.Iterator;
 
 public class Chatroom extends Application {

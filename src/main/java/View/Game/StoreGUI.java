@@ -1,11 +1,11 @@
 package View.Game;
 
-import Controller.StoreMenuController;
-import Model.Building.Storage.Storage;
 import Model.Commodity;
 import Model.Game;
-import Model.Resources.ResourceType;
 import Model.Store;
+import Controller.StoreMenuController;
+import Model.Building.Storage.Storage;
+import Model.Resources.ResourceType;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,7 +17,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
