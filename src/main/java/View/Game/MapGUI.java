@@ -32,6 +32,7 @@ public class MapGUI extends Application {
     public static BuildingMenuGUI buildingMenuGUI;
     public static GovernmentMenuGUI governmentMenuGUI;
     public static DropUnitMenuGUI dropUnitMenuGUI;
+    public static ResourceViewGUI resourceViewGUI;
     private static Pane tileDataPane;
     private static TileDataThread tileDataThread;
     private static Tile[][] tiles;
@@ -62,6 +63,7 @@ public class MapGUI extends Application {
         buildingMenuGUI = new BuildingMenuGUI(menuPane);
         governmentMenuGUI = new GovernmentMenuGUI(menuPane);
         dropUnitMenuGUI = new DropUnitMenuGUI(menuPane);
+        resourceViewGUI = new ResourceViewGUI(menuPane);
         menusGUI.runMenu();
         createMap();
 

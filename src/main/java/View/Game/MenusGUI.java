@@ -77,7 +77,7 @@ public class MenusGUI {
 
         Button goToDropUnitMenu = new Button();
         goToDropUnitMenu.setText("DropUnit Menu");
-        goToDropUnitMenu.setLayoutX(150);
+        goToDropUnitMenu.setLayoutX(170);
         goToDropUnitMenu.setLayoutY(10);
         goToDropUnitMenu.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -86,6 +86,18 @@ public class MenusGUI {
             }
         });
         menuPane.getChildren().add(goToDropUnitMenu);
+
+        Button goToResourceViewMenu = new Button();
+        goToResourceViewMenu.setText("View resources");
+        goToResourceViewMenu.setLayoutX(170);
+        goToResourceViewMenu.setLayoutY(50);
+        goToResourceViewMenu.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                MapGUI.resourceViewGUI.run();
+            }
+        });
+        menuPane.getChildren().add(goToResourceViewMenu);
     }
 
     public void runMenu() {
