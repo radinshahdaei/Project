@@ -129,7 +129,7 @@ public class GameMenu {
         mapMenu.run();
     }
 
-    private static void valueDefaults() {
+    public static void valueDefaults() {
         int k = GameMenuController.mapSize;
         defaultXPositions[0] = 0;
         defaultYPositions[0] = 0;
@@ -220,7 +220,7 @@ public class GameMenu {
         }
     }
 
-    private void giveDefaultBuildings(Government government, int counter) {
+    public static void giveDefaultBuildings(Government government, int counter) {
         BuildingType buildingType = Building.ALL_BUILDINGS.get("stockpile");
         Building building = Building.createBuildings("stockpile", defaultXPositions[3 * counter],
                 defaultYPositions[3 * counter], buildingType, government.getUser());
@@ -242,7 +242,7 @@ public class GameMenu {
 
     }
 
-    private void giveDefaultResources(Government government, Storage storage) {
+    public static void giveDefaultResources(Government government, Storage storage) {
         Resource resource;
         resource = Resource.createResource(ResourceType.getResourceByName("wood"), 100);
         storage.addToStorage(resource);

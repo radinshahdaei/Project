@@ -59,6 +59,22 @@ public class MenusGUI {
             }
         });
         menuPane.getChildren().add(goToStore);
+
+        Button endGame = new Button();
+        endGame.setLayoutX(10);
+        endGame.setLayoutY(130);
+        endGame.setText("End the game");
+        endGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    MapGUI.endGame();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        menuPane.getChildren().add(endGame);
     }
 
     public void runMenu() {

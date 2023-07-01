@@ -101,9 +101,8 @@ public class Building {
     }
 
     public String imageUrl(String name){
-        if (name.equals("campfire")) return null;
         String buildingName = name.replaceAll("\\s+","").toLowerCase();
-        return Game.class.getResource("/Images/fixedBuildings/"+buildingName+".png").toString();
+        return Game.class.getResource("/Images/Buildings/"+buildingName+".png").toString();
     }
 
     public static Building createBuildings(String name, int x, int y, BuildingType buildingType, User owner) {

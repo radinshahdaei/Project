@@ -4,6 +4,7 @@ import Controller.*;
 import Model.Game;
 import Model.Person.Military.MilitaryUnit;
 import Model.Tile;
+import View.Start.StartMenuGUI;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -22,7 +23,7 @@ public class MapGUI extends Application {
     private static double startingY = 0;
     private static double xStamp = 0;
     private static double yStamp = 0;
-    private static int mapSize = 200;
+    private static int mapSize = GameMenuController.mapSize;
     private static Pane[][] map = new Pane[mapSize][mapSize];
     private static Pane[][] dataPanes = new Pane[mapSize][mapSize];
     private static Pane gamePane;
@@ -35,21 +36,13 @@ public class MapGUI extends Application {
     private static Tile[][] tiles;
     private static ArrayList<Tile> selectedTiles = new ArrayList<>();
     private static int scale = 160;
-    public static Stage owner;
+    private static Stage myStage;
     public static void main(String[] args) {
         launch(args);
     }
     @Override
     public void start(Stage stage) throws Exception {
-//        GameMenuController.game = new Game();
-//        GameMenuController.game.setMap(new Map());
-//        MapMenuController.initializeMap(mapSize);
-        owner = stage;
-        GameMenu gameMenu = new GameMenu();
-        gameMenu.run();
-        MilitaryUnit militaryUnit = MilitaryUnit.createUnits("slave", "soldier", 1, 1, Controller.currentUser);
-        GameMenuController.game.getMap().getTiles()[1][1].getPeople().add(militaryUnit);
-        Game.currentGovernment.getPeople().add(militaryUnit);
+        myStage = stage;
         tiles = GameMenuController.game.getMap().getTiles();
         gamePane = new Pane();
         gamePane.setPrefSize(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
@@ -275,5 +268,11 @@ public class MapGUI extends Application {
 
     public static ArrayList<Tile> getSelectedTiles() {
         return selectedTiles;
+    }
+
+    public static void endGame() throws Exception {
+        tileDataThread.stop();
+        StartMenuGUI startMenuGUI = new StartMenuGUI();
+        startMenuGUI.start(myStage);
     }
 }

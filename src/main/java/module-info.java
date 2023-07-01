@@ -6,6 +6,8 @@ module Project {
     requires java.desktop;
 
     opens View.LoginRegister to javafx.fxml;
+    opens View.Chatroom to javafx.graphics;
+    exports View.Chatroom;
     exports View.LoginRegister;
     exports View.Start;
 
@@ -22,5 +24,7 @@ module Project {
     exports Controller;
     exports View.Examples;
     opens View.Examples to javafx.fxml;
+    exports Model.Chat;
+    opens Model.Chat to com.google.gson;
 
 }

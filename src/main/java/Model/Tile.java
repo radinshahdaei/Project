@@ -161,13 +161,10 @@ public class Tile {
         Rectangle backGroundRectangle = new Rectangle(0, 0, 170, 170);
         backGroundRectangle.setFill(Color.TRANSPARENT);
         Rectangle rect = new Rectangle(10, 10, 150, 150);
-        rect.setFill(Color.BLUE);
+        rect.setFill(Color.GREEN);
         mainPane.getChildren().add(backGroundRectangle);
         mainPane.getChildren().add(rect);
         if (building != null) {
-            if (building.getName().equals("campfire")) {
-                return;
-            }
             ImageView buildingImage = new ImageView(new Image(building.getImageUrl()));
             buildingImage.setLayoutX(50);
             buildingImage.setLayoutY(50);

@@ -8,9 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -46,6 +48,8 @@ public class CreateTradeGUI extends Application {
             BorderPane borderPane = new BorderPane();
             Text text1 = new Text("\t" + commodity.resourceType.name);
             Text text2 = new Text("Stock: "+commodity.stock);
+            text1.setFont(Font.font(15));
+            text2.setFont(Font.font(15));
             javafx.scene.control.Button buttonPlus = new javafx.scene.control.Button("+");
             Button buttonMinus = new Button("-");
 
@@ -89,13 +93,15 @@ public class CreateTradeGUI extends Application {
             borderPane.setCenter(text2);
             borderPane.setRight(hBox);
             borderPane.setMinWidth(280);
-            borderPane.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
+            borderPane.setStyle("-fx-border-color: black; -fx-border-width: 0.5px;");
             vbox.getChildren().add(borderPane);
         }
         vbox.setAlignment(Pos.CENTER);
         javafx.scene.control.ScrollPane scrollPane = new javafx.scene.control.ScrollPane();
         scrollPane.setContent(vbox);
-        scrollPane.setMinWidth(300);
+        scrollPane.setMaxHeight(300);
+
+        scrollPane.setMinWidth(250);
 
         root.getChildren().add(scrollPane);
         root.getChildren().add(label);

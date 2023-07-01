@@ -15,7 +15,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -102,8 +104,10 @@ public class StoreGUI extends Application {
 
         for (Commodity commodity:Store.commodities){
             BorderPane borderPane = new BorderPane();
-            Text text1 = new Text("\t" + commodity.resourceType.name);
+            Text text1 = new Text("   " + commodity.resourceType.name);
             Text text2 = new Text("Stock: "+commodity.stock);
+            text1.setFont(Font.font(15));
+            text2.setFont(Font.font(15));
             javafx.scene.control.Button button = new javafx.scene.control.Button("Select");
             button.setOnAction(actionEvent -> {
                 label.setText("Selected commodity: "+commodity.resourceType.name + "\t\tGold: "+goldAmount);
@@ -113,7 +117,8 @@ public class StoreGUI extends Application {
             borderPane.setCenter(text2);
             borderPane.setRight(button);
             borderPane.setMinWidth(280);
-            borderPane.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
+
+            borderPane.setStyle("-fx-border-color: black; -fx-border-width: 0.5px;");
             vbox.getChildren().add(borderPane);
             commodities.add(borderPane);
         }
@@ -122,6 +127,7 @@ public class StoreGUI extends Application {
         scrollPane.setContent(vbox);
         scrollPane.setMinWidth(300);
 
+        scrollPane.setMaxHeight(300);
         root.getChildren().add(scrollPane);
         root.getChildren().add(label);
         hBox.getChildren().addAll(buy,sell);
