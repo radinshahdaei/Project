@@ -1,6 +1,7 @@
 package View.Start;
 
 import Controller.Controller;
+import View.Game.StartGameGUI;
 import View.LoginRegister.LoginMenuGUI;
 import View.LoginRegister.MainMenuGUI;
 import View.LoginRegister.RegisterMenuGUI;
@@ -50,8 +51,8 @@ public class StartMenuGUI extends Application {
         startGame.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 try {
-                    StartMenuGUI startMenuGUI = new StartMenuGUI();
-                    startMenuGUI.start(Controller.getStage());
+                    StartGameGUI startGameGUI = new StartGameGUI();
+                    startGameGUI.start(Controller.getStage());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
