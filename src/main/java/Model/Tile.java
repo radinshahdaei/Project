@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -162,7 +163,8 @@ public class Tile {
         Rectangle backGroundRectangle = new Rectangle(0, 0, 170, 170);
         backGroundRectangle.setFill(Color.TRANSPARENT);
         Rectangle rect = new Rectangle(10, 10, 150, 150);
-        rect.setFill(Color.GREEN);
+        rect.setFill(new ImagePattern(new Image(Tile.class.getResource("/Images/Textures/" +
+                texture.toLowerCase() + ".png").toString())));
         mainPane.getChildren().add(backGroundRectangle);
         mainPane.getChildren().add(rect);
         if (building != null) {
