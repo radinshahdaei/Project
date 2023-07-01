@@ -12,6 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 public class UnitMenuGUI {
@@ -160,6 +162,12 @@ public class UnitMenuGUI {
                     return;
                 }
                 UnitMenuController.attackEnemy(Integer.parseInt(posX1.getText()), Integer.parseInt(posY1.getText()));
+                Circle circle = new Circle(5);
+                circle.setFill(Color.RED);
+                Pane pane = MapGUI.getTiles()[x][y].getMainPane();
+                circle.setLayoutX(pane.getChildren().get(pane.getChildren().size() - 1).getLayoutX() * 1.5);
+                circle.setLayoutY(pane.getChildren().get(pane.getChildren().size() - 1).getLayoutY() * 1.2);
+                pane.getChildren().add(circle);
             }
         });
         attackHBox.getChildren().add(attack);
