@@ -4,6 +4,7 @@ import Controller.Controller;
 import Controller.LoginMenuController;
 import Controller.ManageData;
 import Controller.RegisterMenuController;
+import View.Start.StartMenuGUI;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -139,7 +140,13 @@ public class LoginMenuGUI extends Application {
                         System.out.println("Hooray");
                     }
 
-                    //TODO go to game menu
+                    try {
+                        LoginMenuController.connectToServer();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    StartMenuGUI startMenuGUI = new StartMenuGUI();
+                    startMenuGUI.start(stage);
                 }
             }
 

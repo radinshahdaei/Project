@@ -6,6 +6,7 @@ import View.LoginRegister.MainMenu;
 import View.Start.StartMenu;
 import javafx.stage.Stage;
 
+import java.net.Socket;
 import java.util.ArrayList;
 
 
@@ -15,6 +16,12 @@ public class Controller {
     public static boolean stayLoggedIn = currentUser != null;
 
     public static Stage stage;
+
+    public Socket socket;
+
+    public static void setSocket(Socket socket) {
+        socket = socket;
+    }
 
     static {
         if (users == null) users = new ArrayList<>();

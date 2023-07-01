@@ -110,7 +110,7 @@ public class LoginMenuController {
     }
 
     public static void connectToServer() throws IOException {
-//        Socket socket = new Socket("local host",8000);
-//        Controller.currentUser.setSocket(socket);
+        Socket socket = new Socket("local host",8001);
+        Controller.setSocket(socket);
     }
 }

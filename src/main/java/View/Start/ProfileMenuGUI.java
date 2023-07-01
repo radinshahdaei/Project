@@ -199,6 +199,10 @@ public class ProfileMenuGUI extends Application {
         Button changePassword = new Button("Change Password");
         changePassword.setOnAction(actionEvent -> changePassword());
         Button back = new Button("Back");
+        back.setOnAction(actionEvent -> {
+            StartMenuGUI startMenuGUI = new StartMenuGUI();
+            startMenuGUI.start(stage);
+        });
         Button scoreboard = new Button("Scoreboard");
         scoreboard.setOnAction(actionEvent -> showScoreboard());
         changePassword.setMinWidth(220);

@@ -19,11 +19,6 @@ public class User {
     int highScore;
     private String imageUrl = Game.class.getResource("/Images/Avatars/1.png").toString();
 
-//    Socket socket;
-//
-//    public void setSocket(Socket socket) {
-//        this.socket = socket;
-//    }
 
     public String getImageUrl() {
         return imageUrl;
