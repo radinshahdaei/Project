@@ -143,7 +143,6 @@ public class StartGameGUI extends Application {
                 if (searchError.getText().equals("")) addGovernment(usernamePrompt.getText());
             }
         });
-
         Button startGame = new Button();
         startGame.setText("Start game");
         vBox.getChildren().add(startGame);
@@ -170,7 +169,16 @@ public class StartGameGUI extends Application {
         editMap.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-
+                if (GameMenuController.game.getGovernments().size() == 1) {
+                    InputOutput.output("Add other users", 'b');
+                    return;
+                }
+                EditMapGUI editMapGUI = new EditMapGUI();
+                try {
+                    editMapGUI.start(stage);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 

@@ -60,6 +60,14 @@ public class InputOutput {
             case 'i':
                 error.setTitle("Error in unit selection");
                 error.showAndWait();
+                return;
+            case 'j':
+                error.setTitle("Error in editing map");
+                error.showAndWait();
+                return;
+            case 'k':
+                inform.setTitle("Editing map");
+                inform.showAndWait();
         }
 
 

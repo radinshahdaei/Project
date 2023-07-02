@@ -71,7 +71,7 @@ public class GameMenuController {
                 }
                 if (person instanceof Soldier) {
                     Random random = new Random(System.currentTimeMillis());
-                    if (random.nextInt() % 20 == 0){
+                    if (random.nextInt() % 7 == 0){
                         Soldier soldier = (Soldier) person;
                         soldier.setSick(true);
                         soldier.reduceDefence(10);

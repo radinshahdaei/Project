@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Model.EditedMap;
 import Client.Model.Game;
 import Client.Model.User;
 import com.google.gson.Gson;
@@ -28,6 +29,15 @@ public class ManageData {
     public static void saveUsers() {
         String json = new Gson().toJson(Controller.users);
         try (FileWriter writer = new FileWriter("src/main/java/Client/Controller/Data/users.json")) {
+            writer.write(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveMap(EditedMap editedMap) {
+        String json = new Gson().toJson(editedMap);
+        try (FileWriter writer = new FileWriter("src/main/java/Client/Controller/Data/maps.json")) {
             writer.write(json);
         } catch (IOException e) {
             e.printStackTrace();
