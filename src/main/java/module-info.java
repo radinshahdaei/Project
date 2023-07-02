@@ -18,7 +18,6 @@ module Project {
     exports Client.View.LoginRegister;
     exports Client.View.Start;
 
-    opens Client.View.Game to javafx.fxml;
     exports Client.View.Game;
     
     opens Client.View to javafx.graphics;
@@ -32,7 +31,7 @@ module Project {
     exports Client.View.Examples;
     opens Client.View.Examples to javafx.fxml;
     exports Client.Model.Chat;
-
+    opens Client.View.Game to javafx.fxml, javafx.graphics;
 
 
 }
