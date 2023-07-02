@@ -1,6 +1,7 @@
 package Client.Model;
 
 import Client.Controller.GameMenuController;
+import Client.Controller.SampleFilter;
 import Client.Model.Person.Military.MilitaryUnit;
 import Client.Model.Person.Military.Soldier.Soldier;
 import Client.Model.Person.Person;
@@ -187,6 +188,14 @@ public class Tile {
                     soldierImage.setLayoutY(50);
                     soldierImage.setFitWidth(70);
                     soldierImage.setFitHeight(70);
+                    if (soldier.isSick()) {
+                        SampleFilter sampleFilter = new SampleFilter(new Image(soldier.getImageUrl()));
+                        soldierImage = new ImageView(sampleFilter.filter(0.3, 0.9, 0.3));
+                        soldierImage.setLayoutX(75);
+                        soldierImage.setLayoutY(75);
+                        soldierImage.setScaleX(1.2);
+                        soldierImage.setScaleY(1.2);
+                    }
                     soldierImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {

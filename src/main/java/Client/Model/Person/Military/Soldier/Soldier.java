@@ -11,6 +11,7 @@ public class Soldier extends MilitaryUnit {
     SoldierGuild soldierGuild;
     Boolean canUseLadder;
     String imageUrl;
+    boolean isSick;
 
     public String imageUrl(String name){
         String unitName = name.replaceAll("\\s+","").toLowerCase();
@@ -22,6 +23,7 @@ public class Soldier extends MilitaryUnit {
         this.soldierGuild = soldierGuild;
         this.canUseLadder = canUseLadder;
         this.imageUrl = imageUrl(name);
+        this.isSick = false;
     }
 
     public static MilitaryUnit createUnit(String name, int x, int y, User owner) {
@@ -39,6 +41,14 @@ public class Soldier extends MilitaryUnit {
 
     public SoldierGuild getSoldierGuild() {
         return soldierGuild;
+    }
+
+    public boolean isSick() {
+        return isSick;
+    }
+
+    public void setSick(boolean sick) {
+        isSick = sick;
     }
 
     public Boolean getCanUseLadder() {
