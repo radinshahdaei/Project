@@ -49,18 +49,18 @@ public class Client {
         String line;
 
         sendUser();
+        sendDatabase();
 
-
-        while (true) {
+        while (true){
             StringBuilder xmlBuilder = new StringBuilder();
-            while (!(line = in.readLine()).contains("<<CLASS>>==")) {
-                if (line.equals("<<UPDATE_DATA_BASE>>")) ;
-                else xmlBuilder.append(line);
+            line = in.readLine();
+            if (line.equals("<<UPDATE_CHAT>>")){
+                while (!(line = in.readLine()).contains("<<CLASS>>")) {
+                    xmlBuilder.append(line);
+                }
+                String xmlData = xmlBuilder.toString();
+                handleChat(xmlData);
             }
-            String xmlData = xmlBuilder.toString();
-            String function = line.replaceAll("<<CLASS>>==","").replaceAll("\"","");
-            if (function.equals("updateChat")) handleChat(xmlData);
-            // else if (function.equals("nextTurn")) handleNextTurn(xmlData);
         }
     }
 
@@ -92,8 +92,9 @@ public class Client {
     public void sendChats() throws IOException {
         OutputStream outputStream = socket.getOutputStream();
         PrintWriter out = new PrintWriter(outputStream, true);
+        out.println("<<UPDATE_CHAT>>");
         out.println(SaveAsXML.getWriter(new AllChatsSender("nothing")));
-        out.println("<<CLASS>>==\"updateChat\"");
+        out.println("<<CLASS>>");
     }
 
     public void sendUser() throws IOException{

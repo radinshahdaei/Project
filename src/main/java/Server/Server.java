@@ -1,23 +1,32 @@
 package Server;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import jakarta.xml.bind.JAXBException;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Server {
     public ArrayList<Socket> clients = new ArrayList<>();
-    public HashMap<String,String> usernameTokenMap = new HashMap<>();
+    public HashMap<String,String> usernameTokenMap;
     public HashMap<String,Socket> usernameSocketMap = new HashMap<>();
+    public HashMap<String,String> usernameLastSeenMap = new HashMap<>();
+
     public static void main(String[] args) {
         Server server = new Server(8002);
     }
     public Server(int port) {
+        usernameTokenMap = loadTokens();
+        if (usernameTokenMap == null) usernameTokenMap = new HashMap<>();
         System.out.println("Starting server...");
         try {
             ServerSocket serverSocket = new ServerSocket(port);
@@ -52,26 +61,34 @@ public class Server {
 
         String username = in.readLine();
         if (!usernameTokenMap.containsKey(username)) sendToken(socket,username);
-        else receiveToken(socket,username);
+        else receiveToken(socket,username,in);
         usernameSocketMap.put(username,socket);
+        saveTokens(usernameTokenMap);
+
+        LocalTime currentTime = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String formattedTime = currentTime.format(formatter);
+        usernameLastSeenMap.put(username,formattedTime);
+
 
         while (true){
             StringBuilder xmlBuilder = new StringBuilder();
-            while (!(line = in.readLine()).contains("<<CLASS>>==")) {
-                if (line.equals("<<UPDATE_DATA_BASE>>")) updateDatabase(inputStream);
-                else xmlBuilder.append(line);
+            line = in.readLine();
+            if (line.equals("<<UPDATE_CHAT>>")){
+                while (!(line = in.readLine()).contains("<<CLASS>>")) {
+                    xmlBuilder.append(line);
+                }
+                String xmlData = xmlBuilder.toString();
+                handleChat(xmlData);
+            } else if (line.equals("<<UPDATE_DATA_BASE>>")) {
+                updateDatabase(inputStream,in);
             }
-            String xmlData = xmlBuilder.toString();
-            String function = line.replaceAll("<<CLASS>>==","").replaceAll("\"","");
-            if (function.equals("updateChat")) handleChat(xmlData);
-            else if (function.equals("nextTurn")) handleNextTurn(xmlData);
         }
 
     }
 
-    public void receiveToken(Socket socket,String username) throws IOException {
+    public void receiveToken(Socket socket,String username,BufferedReader in) throws IOException {
         InputStream inputStream = socket.getInputStream();
-        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
         OutputStream outputStream = socket.getOutputStream();
         PrintWriter out = new PrintWriter(outputStream,true);
         while (true){
@@ -81,13 +98,10 @@ public class Server {
                 break;
             }
         }
-
-
     }
 
     public void sendToken(Socket socket,String username) throws IOException {
         InputStream inputStream = socket.getInputStream();
-        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
         OutputStream outputStream = socket.getOutputStream();
         PrintWriter out = new PrintWriter(outputStream,true);
         String token = String.valueOf(LocalTime.now().getNano());
@@ -95,9 +109,18 @@ public class Server {
         usernameTokenMap.put(username,token);
     }
 
-    public void updateDatabase(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        String jsonContent = bufferedReader.readLine();
+    public void updateDatabase(InputStream inputStream,BufferedReader in) throws IOException {
+        String jsonString = in.readLine();
+        System.out.println(jsonString);
+        String jsonFilePath = "src/main/java/Server/Data/users.json";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(jsonFilePath))) {
+            writer.write(jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateDatabaseForClients(String jsonContent) throws IOException {
         for (Socket socket:clients){
             System.out.println("Updating database for "+socket.toString());
             OutputStream outputStream = socket.getOutputStream();
@@ -112,8 +135,9 @@ public class Server {
             System.out.println("Chat handled for "+socket.toString());
             OutputStream outputStream = socket.getOutputStream();
             PrintWriter out = new PrintWriter(outputStream, true);
+            out.println("<<UPDATE_CHAT>>");
             out.println(xmlData);
-            out.println("<<CLASS>>==\"updateChat\"");
+            out.println("<<CLASS>>");
         }
     }
 
@@ -128,6 +152,29 @@ public class Server {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void saveTokens(HashMap<String,String> usernameTokenMap){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonString = gson.toJson(usernameTokenMap);
+        String filePath = "src/main/java/Server/Data/userToken.json";
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
+            fileWriter.write(jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static HashMap<String,String> loadTokens(){
+        String filePath = "src/main/java/Server/Data/userToken.json";
+        try (FileReader fileReader = new FileReader(filePath)) {
+            Type type = new TypeToken<HashMap<String, String>>() {}.getType();
+            Gson gson = new Gson();
+            return gson.fromJson(fileReader, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
