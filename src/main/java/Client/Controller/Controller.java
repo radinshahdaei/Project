@@ -22,6 +22,13 @@ public class Controller {
 
     public static Client client;
 
+    public static User findUserById(String id){
+        for (User user:users){
+            if (user.getId().equals(id)) return user;
+        }
+        return null;
+    }
+
     public static void setClient(Client client) {
         Controller.client = client;}
 

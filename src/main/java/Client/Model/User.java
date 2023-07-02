@@ -4,6 +4,7 @@ import Client.Controller.Controller;
 import Client.Controller.ManageData;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class User {
     String username;
@@ -14,9 +15,23 @@ public class User {
     String answer;
     int questionNumber;
     int highScore;
-    private String imageUrl = Game.class.getResource("/Images/Avatars/1.png").toString();
 
+    private String imageUrl = Game.class.getResource("/Images/Avatars/1.png").toString();
     String id;
+
+    ArrayList<String> friendsId = new ArrayList<>();
+    ArrayList<String> pendingFriendRequestsId = new ArrayList<>();
+
+    public void addToFriendRequests(String id){
+        if (!(pendingFriendRequestsId.contains(id))) pendingFriendRequestsId.add(id);
+    }
+
+    public void addToFriends(String id){
+        if (pendingFriendRequestsId.contains(id)) {
+            pendingFriendRequestsId.remove(id);
+            friendsId.add(id);
+        }
+    }
 
     public String getId() {
         return id;
