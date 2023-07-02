@@ -6,12 +6,14 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Server {
     public ArrayList<Socket> clients = new ArrayList<>();
+    public HashMap<String,Socket> usernameSocketMap = new HashMap<>();
     public static void main(String[] args) {
-        Server server = new Server(8001);
+        Server server = new Server(8002);
     }
     public Server(int port) {
         System.out.println("Starting server...");
@@ -24,8 +26,10 @@ public class Server {
                     try {
                         clients.add(socket);
                         runClient(socket);
-                    } catch (IOException | JAXBException e) {
-                        throw new RuntimeException(e);
+                    } catch (IOException | JAXBException | NullPointerException e) {
+                        System.out.println("disconnected; "+socket.toString());
+                        clients.remove(socket);
+                        usernameSocketMap.remove(socket);
                     }
                 };
                 Thread thread = new Thread(runnable);
@@ -44,10 +48,14 @@ public class Server {
         Scanner scanner = new Scanner(new InputStreamReader(inputStream));
         String line;
 
+        String username = in.readLine();
+        usernameSocketMap.put(username,socket);
+
         while (true){
             StringBuilder xmlBuilder = new StringBuilder();
             while (!(line = in.readLine()).contains("<<CLASS>>==")) {
-                xmlBuilder.append(line);
+                if (line.equals("<<UPDATE_DATA_BASE>>")) updateDatabase(inputStream);
+                else xmlBuilder.append(line);
             }
             String xmlData = xmlBuilder.toString();
             String function = line.replaceAll("<<CLASS>>==","").replaceAll("\"","");
@@ -55,6 +63,18 @@ public class Server {
             else if (function.equals("nextTurn")) handleNextTurn(xmlData);
         }
 
+    }
+
+    public void updateDatabase(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String jsonContent = bufferedReader.readLine();
+        for (Socket socket:clients){
+            System.out.println("Updating database for "+socket.toString());
+            OutputStream outputStream = socket.getOutputStream();
+            PrintWriter out = new PrintWriter(outputStream,true);
+            out.println("<<UPDATE_DATA_BASE>>");
+            out.println(jsonContent);
+        }
     }
 
     public void handleChat(String xmlData) throws IOException {

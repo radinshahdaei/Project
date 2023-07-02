@@ -1,14 +1,18 @@
 package Client;
 
 import Client.Controller.Controller;
+import Client.Controller.ManageData;
 import Client.Model.Chat.AllChatsSender;
 import Client.Model.Chat.Chat;
+import Client.Model.User;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -31,19 +35,22 @@ public class Client {
     }
 
     public void runClient(Client client) throws IOException, JAXBException {
-        System.out.println("Starting client...");
+        System.out.println("Starting client..");
         Controller.setClient(client);
-        this.socket = new Socket("localhost",8001);
+        this.socket = new Socket("localhost",8002);
         InputStream inputStream = socket.getInputStream();
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
         Scanner scanner = new Scanner(new InputStreamReader(inputStream));
         String line;
 
+        sendUser();
+
 
         while (true) {
             StringBuilder xmlBuilder = new StringBuilder();
             while (!(line = in.readLine()).contains("<<CLASS>>==")) {
-                xmlBuilder.append(line);
+                if (line.equals("<<UPDATE_DATA_BASE>>")) ;
+                else xmlBuilder.append(line);
             }
             String xmlData = xmlBuilder.toString();
             String function = line.replaceAll("<<CLASS>>==","").replaceAll("\"","");
@@ -82,5 +89,48 @@ public class Client {
         PrintWriter out = new PrintWriter(outputStream, true);
         out.println(SaveAsXML.getWriter(new AllChatsSender("nothing")));
         out.println("<<CLASS>>==\"updateChat\"");
+    }
+
+    public void sendUser() throws IOException{
+        OutputStream outputStream = socket.getOutputStream();
+        PrintWriter out = new PrintWriter(outputStream, true);
+        out.println(Controller.currentUser.getUsername());
+    }
+
+    public void updateDatabase() throws IOException{
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        String jsonString = bufferedReader.readLine();
+        String jsonFilePath = "src/main/java/Client/Controller/Data/users.json";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(jsonFilePath))) {
+            writer.write(jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ArrayList<User> updatedUsers = ManageData.loadUsers();
+        ArrayList<User> usersToAdd = new ArrayList<>();
+        for (User updatedUser : updatedUsers){
+            boolean flag = false;
+            for (User user : Controller.users){
+                if (user.getUsername().equals(updatedUser.getUsername())) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag) usersToAdd.add(updatedUser);
+        }
+        Controller.users.addAll(usersToAdd);
+    }
+
+    public void sendDatabase() throws IOException{
+        OutputStream outputStream = socket.getOutputStream();
+        String jsonFilePath = "src/main/java/Client/Controller/Data/users.json";
+        String jsonContent = new String(Files.readAllBytes(Paths.get(jsonFilePath)));
+        PrintWriter out = new PrintWriter(outputStream,true);
+        out.println("<<UPDATE_DATA_BASE>>");
+        out.println(jsonContent);
+    }
+
+    public void setOnlineClients() {
+
     }
 }

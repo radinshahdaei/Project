@@ -33,6 +33,6 @@ module Project {
     opens Client.View.Examples to javafx.fxml;
     exports Client.Model.Chat;
 
-    opens Server.Model to jakarta.xml.bind;
+
 
 }
