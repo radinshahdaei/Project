@@ -71,11 +71,21 @@ public class StartMenuGUI extends Application {
         chatMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 CreateChat createChat = new CreateChat();
-                createChat.start(stage);
+                createChat.start(new Stage());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
+        Button friends = new Button("Friends");
+        friends.setOnAction(actionEvent -> {
+            FriendsMenuGUI friendsMenuGUI = new FriendsMenuGUI();
+            try {
+                friendsMenuGUI.start(new Stage());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         Button back = new Button("Back");
         back.setOnAction(actionEvent -> {
             MainMenuGUI mainMenuGUI = new MainMenuGUI();
@@ -84,8 +94,9 @@ public class StartMenuGUI extends Application {
         startGame.setMinWidth(100);
         profileMenu.setMinWidth(100);
         chatMenu.setMinWidth(100);
+        friends.setMinWidth(100);
         back.setMinWidth(100);
-        vBox.getChildren().addAll(startGame, profileMenu, chatMenu,back);
+        vBox.getChildren().addAll(startGame, profileMenu, chatMenu,friends,back);
         root.setCenter(vBox);
     }
 }

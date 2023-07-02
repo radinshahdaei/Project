@@ -22,15 +22,33 @@ public class User {
     ArrayList<String> friendsId = new ArrayList<>();
     ArrayList<String> pendingFriendRequestsId = new ArrayList<>();
 
-    public void addToFriendRequests(String id){
-        if (!(pendingFriendRequestsId.contains(id))) pendingFriendRequestsId.add(id);
+    public boolean addToFriendRequests(String id){
+        if (!(pendingFriendRequestsId.contains(id)) && !(friendsId.contains(id))) {
+            pendingFriendRequestsId.add(id);
+            return true;
+        }
+        return false;
     }
 
-    public void addToFriends(String id){
+    public void removeFromFriendRequests(String id){
+        pendingFriendRequestsId.remove(id);
+    }
+
+    public boolean addToFriends(String id){
         if (pendingFriendRequestsId.contains(id)) {
             pendingFriendRequestsId.remove(id);
             friendsId.add(id);
+            return true;
         }
+        return false;
+    }
+
+    public ArrayList<String> getFriendsId() {
+        return friendsId;
+    }
+
+    public ArrayList<String> getPendingFriendRequestsId() {
+        return pendingFriendRequestsId;
     }
 
     public String getId() {

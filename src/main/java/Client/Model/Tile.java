@@ -208,7 +208,7 @@ public class Tile {
                                 output("This unit does no belong to you", 'i');
                                 return;
                             }
-                            System.out.println("6");
+
                             MapGUI.unitMenuGUI.setX(soldier.getX());
                             MapGUI.unitMenuGUI.setY(soldier.getY());
                             MapGUI.unitMenuGUI.setType(soldier.getName());
