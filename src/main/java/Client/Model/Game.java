@@ -1,5 +1,7 @@
 package Client.Model;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -9,6 +11,8 @@ public class Game {
     public static int currentX;
     public static int currentY;
     public static Government currentGovernment;
+
+    public ArrayList<Pair<Integer,Integer>> onFire = new ArrayList<>();
 
 
     public static Government getGovernmentByUser(User owner) {

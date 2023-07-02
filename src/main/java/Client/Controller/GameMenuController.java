@@ -1,5 +1,10 @@
 package Client.Controller;
 
+import Client.Model.Building.Building;
+import Client.Model.Building.Factory.Factory;
+import Client.Model.Building.Keep;
+import Client.Model.Building.Storage.Storage;
+import Client.Model.Building.Wall;
 import Client.Model.Game;
 import Client.Model.Government;
 import Client.Model.Person.Military.MilitaryUnit;
@@ -7,20 +12,13 @@ import Client.Model.Person.Military.Siege.Siege;
 import Client.Model.Person.Military.Special.Ladderman;
 import Client.Model.Person.Military.Special.Tunneler;
 import Client.Model.Person.Person;
-import Client.View.Game.GameMenu;
-import Client.View.InputOutput;
-import Client.Model.Building.Building;
-import Client.Model.Building.Factory.Factory;
-import Client.Model.Building.Keep;
-import Client.Model.Building.Storage.Storage;
-import Client.Model.Building.Wall;
 import Client.Model.Resources.Resource;
 import Client.Model.Resources.ResourceModel;
 import Client.Model.Resources.ResourceType;
+import Client.View.Game.GameMenu;
+import Client.View.InputOutput;
 
 import java.util.ArrayList;
-
-import static Client.View.InputOutput.output;
 
 public class GameMenuController {
     public static Game game;

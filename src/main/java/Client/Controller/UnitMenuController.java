@@ -255,6 +255,13 @@ public class UnitMenuController {
         ArrayList<Person> peopleInTile = GameMenuController.game.getMap().getTiles()[x][y].getPeople();
         Building building = GameMenuController.game.getMap().getTiles()[x][y].getBuilding();
         for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
+            if (militaryUnit.getName().equals("fire thrower")) {
+                GameMenuController.game.getMap().getTiles()[x][y].setOnFire(true);
+                Integer X = new Integer(x);
+                Integer Y = new Integer(y);
+                javafx.util.Pair<Integer,Integer> pair = new javafx.util.Pair<>(X,Y);
+                GameMenuController.game.onFire.add(pair);
+            }
             if (militaryUnit.getRange() > 0 && checkInRange(militaryUnit, x, y)) {
                 for (Person person : peopleInTile) {
                     if (person instanceof MilitaryUnit && !person.getOwner().equals(militaryUnit.getOwner())) {

@@ -1,10 +1,10 @@
 package Client.Model;
 
 import Client.Controller.GameMenuController;
+import Client.Model.Building.Building;
 import Client.Model.Person.Military.MilitaryUnit;
 import Client.Model.Person.Military.Soldier.Soldier;
 import Client.Model.Person.Person;
-import Client.Model.Building.Building;
 import Client.View.Game.MapGUI;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 
@@ -141,6 +142,9 @@ public class Tile {
             buildingData.setLayoutY(firstY);
             dataPane.getChildren().add(buildingData);
         }
+
+
+
         if (people.size() != 0) {
             for (Person person: people) {
                 firstY += 15;
@@ -177,6 +181,16 @@ public class Tile {
             buildingImage.setFitWidth(90);
             buildingImage.setFitHeight(90);
             mainPane.getChildren().add(buildingImage);
+        }
+
+        if (GameMenuController.game.onFire.contains(new Pair<>(x,y))){
+            ImageView fire = new ImageView(new Image(Tile.class.getResource("/Images/Textures/fire.png").toString()));
+            fire.setLayoutX(10);
+            fire.setLayoutY(110);
+            fire.setFitWidth(150);
+            fire.setFitHeight(50);
+            mainPane.getChildren().add(fire);
+            this.setOnFire(true);
         }
         if (people.size() != 0) {
             for (Person person: people) {
