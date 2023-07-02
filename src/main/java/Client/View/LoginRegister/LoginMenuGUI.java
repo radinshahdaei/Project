@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static java.lang.Thread.sleep;
+
 public class LoginMenuGUI extends Application {
     private static int time = 5;
     public static void main(String[] args) {
@@ -136,10 +138,11 @@ public class LoginMenuGUI extends Application {
                         ManageData.saveCurrentUser();
                         try {
                             Client client = new Client();
-                        } catch (JAXBException | IOException e) {
+                            while (!client.isAuthenticated()) sleep(5000);
+                        } catch (JAXBException | IOException | InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                        System.out.println("Hooray");
+                        System.out.println("I am logged in!");
                         StartMenuGUI startMenuGUI = new StartMenuGUI();
                         startMenuGUI.start(stage);
                     }
@@ -169,7 +172,7 @@ public class LoginMenuGUI extends Application {
 
                 new Thread(() -> {
                     try {
-                        Thread.sleep(time*1000L);  // Sleep for 5 seconds
+                        sleep(time*1000L);  // Sleep for 5 seconds
                         javafx.application.Platform.runLater(alert::close);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
@@ -214,7 +217,7 @@ public class LoginMenuGUI extends Application {
                     usernameError.setText(result);
                 }
                 try {
-                    Thread.sleep(200);
+                    sleep(200);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -361,7 +364,7 @@ public class LoginMenuGUI extends Application {
                         passwordError.setText("");
                     } else passwordError.setText(result);
 
-                    Thread.sleep(200);
+                    sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

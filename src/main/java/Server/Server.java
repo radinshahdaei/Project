@@ -5,12 +5,14 @@ import jakarta.xml.bind.JAXBException;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Server {
     public ArrayList<Socket> clients = new ArrayList<>();
+    public HashMap<String,String> usernameTokenMap = new HashMap<>();
     public HashMap<String,Socket> usernameSocketMap = new HashMap<>();
     public static void main(String[] args) {
         Server server = new Server(8002);
@@ -49,6 +51,8 @@ public class Server {
         String line;
 
         String username = in.readLine();
+        if (!usernameTokenMap.containsKey(username)) sendToken(socket,username);
+        else receiveToken(socket,username);
         usernameSocketMap.put(username,socket);
 
         while (true){
@@ -63,6 +67,32 @@ public class Server {
             else if (function.equals("nextTurn")) handleNextTurn(xmlData);
         }
 
+    }
+
+    public void receiveToken(Socket socket,String username) throws IOException {
+        InputStream inputStream = socket.getInputStream();
+        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+        OutputStream outputStream = socket.getOutputStream();
+        PrintWriter out = new PrintWriter(outputStream,true);
+        while (true){
+            out.println("<<SEND_TOKEN>>");
+            if (in.readLine().equals(usernameTokenMap.get(username))) {
+                out.println("<<SUCCESS>>");
+                break;
+            }
+        }
+
+
+    }
+
+    public void sendToken(Socket socket,String username) throws IOException {
+        InputStream inputStream = socket.getInputStream();
+        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+        OutputStream outputStream = socket.getOutputStream();
+        PrintWriter out = new PrintWriter(outputStream,true);
+        String token = String.valueOf(LocalTime.now().getNano());
+        out.println("<<RECEIVE_TOKEN>>\n"+token+"\n<<SUCCESS>>");
+        usernameTokenMap.put(username,token);
     }
 
     public void updateDatabase(InputStream inputStream) throws IOException {

@@ -18,8 +18,13 @@ import java.util.Scanner;
 
 public class Client {
     Socket socket;
+    boolean authenticated = false;
     public static void main(String[] args) throws IOException, JAXBException {
         Client client = new Client();
+    }
+
+    public boolean isAuthenticated() {
+        return authenticated;
     }
 
     public Client() throws IOException, JAXBException {
@@ -92,9 +97,23 @@ public class Client {
     }
 
     public void sendUser() throws IOException{
+        InputStream inputStream = socket.getInputStream();
         OutputStream outputStream = socket.getOutputStream();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         PrintWriter out = new PrintWriter(outputStream, true);
         out.println(Controller.currentUser.getUsername());
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            String messageFromServer = bufferedReader.readLine();
+            if (messageFromServer.equals("<<SEND_TOKEN>>")) {
+                System.out.println("Type your private token:");
+                out.println(scanner.nextLine());
+            } else if (messageFromServer.equals("<<RECEIVE_TOKEN>>")) {
+                System.out.println("Your private token: "+bufferedReader.readLine());
+            } else if (messageFromServer.equals("<<SUCCESS>>")) break;
+        }
+        authenticated = true;
     }
 
     public void updateDatabase() throws IOException{
