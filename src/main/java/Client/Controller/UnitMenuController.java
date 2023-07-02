@@ -129,8 +129,8 @@ public class UnitMenuController {
             InputOutput.output("There are no units that you can select(They may be on Patrol)");
             return;
         }
-        UnitMenu unitMenu = new UnitMenu();
-        unitMenu.run();
+//        UnitMenu unitMenu = new UnitMenu();
+//        unitMenu.run();
     }
 
     private static ArrayList<MilitaryUnit> getUserUnitInTile(ArrayList<Person> game, String type) {
@@ -211,7 +211,7 @@ public class UnitMenuController {
 
     public static void moveUnit(int x, int y) {
         if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
-            InputOutput.output("Invalid coordinates");
+            InputOutput.output("Invalid coordinates", 'f');
             return;
         }
         for (MilitaryUnit militaryUnit : UnitMenu.userUnitInTile) {
@@ -228,11 +228,11 @@ public class UnitMenuController {
 
     public static void attackEnemy(int x, int y) {
         if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
-            InputOutput.output("Invalid coordinates");
+            InputOutput.output("Invalid coordinates", 'f');
             return;
         }
         moveUnit(x, y);
-        InputOutput.output("Your troop are moving towards the enemy");
+        InputOutput.output("Your troop are moving towards the enemy", 'g');
     }
 
     public static void digTunnel(int x, int y) {
@@ -249,7 +249,7 @@ public class UnitMenuController {
 
     public static void attackArcher(int x, int y) {
         if (x >= GameMenuController.mapSize || y >= GameMenuController.mapSize) {
-            InputOutput.output("Invalid coordinates");
+            InputOutput.output("Invalid coordinates", 'f');
             return;
         }
         ArrayList<Person> peopleInTile = GameMenuController.game.getMap().getTiles()[x][y].getPeople();
@@ -270,7 +270,7 @@ public class UnitMenuController {
                 }
             }
         }
-        InputOutput.output("Archers who have the possible range attacked the enemies and buildings");
+        InputOutput.output("Archers who have the possible range attacked the enemies and buildings", 'g');
     }
 
     private static boolean checkInRange(MilitaryUnit militaryUnit, int x, int y) {

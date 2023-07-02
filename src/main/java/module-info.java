@@ -10,7 +10,6 @@ module Project {
 
     opens Client to jakarta.xml.bind;
     opens Server to jakarta.xml.bind;
-    opens Client.Model.Chat to jakarta.xml.bind;
 
     opens Client.View.LoginRegister to javafx.fxml;
     opens Client.View.Chatroom to javafx.graphics;
@@ -32,7 +31,6 @@ module Project {
     exports Client.View.Examples;
     opens Client.View.Examples to javafx.fxml;
     exports Client.Model.Chat;
-
-
+    opens Client.Model.Chat to com.google.gson;
 
 }

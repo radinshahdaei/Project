@@ -33,12 +33,14 @@ public class MapGUI extends Application {
     public static GovernmentMenuGUI governmentMenuGUI;
     public static DropUnitMenuGUI dropUnitMenuGUI;
     public static ResourceViewGUI resourceViewGUI;
+    public static UnitMenuGUI unitMenuGUI;
     private static Pane tileDataPane;
-    private static TileDataThread tileDataThread;
+    public static TileDataThread tileDataThread;
     private static Tile[][] tiles;
     private static ArrayList<Tile> selectedTiles = new ArrayList<>();
     private static int scale = 160;
     private static Stage myStage;
+    public static GovernmentPlayingThread governmentPlayingThread;
     public static void main(String[] args) {
         launch(args);
     }
@@ -64,6 +66,7 @@ public class MapGUI extends Application {
         governmentMenuGUI = new GovernmentMenuGUI(menuPane);
         dropUnitMenuGUI = new DropUnitMenuGUI(menuPane);
         resourceViewGUI = new ResourceViewGUI(menuPane);
+        unitMenuGUI = new UnitMenuGUI(menuPane);
         menusGUI.runMenu();
         createMap();
 
@@ -275,6 +278,7 @@ public class MapGUI extends Application {
     }
 
     public static void endGame() throws Exception {
+        governmentPlayingThread.stop();
         tileDataThread.stop();
         StartMenuGUI startMenuGUI = new StartMenuGUI();
         startMenuGUI.start(myStage);

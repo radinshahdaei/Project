@@ -1,8 +1,8 @@
 package Client.View.Chatroom;
 
-import Client.Controller.Controller;
 import Client.Model.Chat.Chat;
 import Client.Model.User;
+import Client.Controller.Controller;
 import Client.View.Start.StartMenuGUI;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -15,8 +15,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -68,21 +66,18 @@ public class CreateChat extends Application {
 
         startChat.setOnAction(actionEvent -> {
             Chat chat = new Chat();
-            chat.setId(LocalTime.now().getNano());
             for (AtomicReference<User> atomicReference:selectedUsers){
                 chat.getUsers().add(atomicReference.get());
             }
             if (chat.getUsers().size() == 2){
                 chat.name = "private chat with "+chat.getUsers().get(1).getUsername();
-            } else  if (chat.getUsers().size() > 2){
+            } else {
                 String name = "room with ";
                 for (User user : chat.getUsers()) {
                     if (user.equals(Controller.currentUser)) continue;
                     else name+=user.getUsername()+"/ ";
                 }
                 chat.name = name;
-            } else {
-                chat.name = "saved messages for "+Controller.currentUser.getUsername();
             }
             Chat.allChats.add(chat);
             Chatroom chatroom = new Chatroom();
@@ -98,21 +93,14 @@ public class CreateChat extends Application {
         Button showAllChats = new Button("Show your chats");
         showAllChats.setOnAction(actionEvent -> {
             for (Chat chat : Chat.allChats){
-                for (User user : chat.getUsers()){
-                    if (Controller.currentUser.getUsername().equals(user.getUsername())){
-                        System.out.println(chat);
-                        Chatroom chatroom = new Chatroom();
-                        chatroom.setChat(chat);
-                        try {
-                            chatroom.start(new Stage());
-                        try {
-                            Controller.client.sendChats();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
+                if (chat.getUsers().contains(Controller.currentUser)) {
+                    Chatroom chatroom = new Chatroom();
+                    chatroom.setChat(chat);
+                    try {
+                        chatroom.start(new Stage());
+                        // Chat.debugKonesh();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
                     }
                 }
             }

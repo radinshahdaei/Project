@@ -1,21 +1,16 @@
 package Server;
 
+import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 
 public class Server {
-    public ArrayList<Socket> clients = new ArrayList<>();
-    public HashMap<String,String> usernameTokenMap = new HashMap<>();
-    public HashMap<String,Socket> usernameSocketMap = new HashMap<>();
     public static void main(String[] args) {
-        Server server = new Server(8002);
+        Server server = new Server(8001);
     }
     public Server(int port) {
         System.out.println("Starting server...");
@@ -23,112 +18,29 @@ public class Server {
             ServerSocket serverSocket = new ServerSocket(port);
             while (true){
                 Socket socket = serverSocket.accept();
-                System.out.println("connected: "+socket.toString());
-                Runnable runnable = () -> {
-                    try {
-                        clients.add(socket);
-                        runClient(socket);
-                    } catch (IOException | JAXBException | NullPointerException e) {
-                        System.out.println("disconnected; "+socket.toString());
-                        clients.remove(socket);
-                        usernameSocketMap.remove(socket);
-                    }
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
+                System.out.println("connected");
 
+
+                InputStream inputStream = socket.getInputStream();
+                BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder xmlBuilder = new StringBuilder();
+                String line;
+                while ((line = in.readLine()) != null) {
+                    xmlBuilder.append(line);
+                }
+                String xmlData = xmlBuilder.toString();
+                JAXBContext context = JAXBContext.newInstance(Person.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                StringReader reader = new StringReader(xmlData);
+                Person person = (Person) unmarshaller.unmarshal(reader);
+
+                System.out.println(person.getName());
             }
-        } catch (IOException e) {
+        } catch (IOException  e) {
+            throw new RuntimeException(e);
+        } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
 
     }
-
-    public void runClient(Socket socket) throws IOException, JAXBException {
-        InputStream inputStream = socket.getInputStream();
-        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-        Scanner scanner = new Scanner(new InputStreamReader(inputStream));
-        String line;
-
-        String username = in.readLine();
-        if (!usernameTokenMap.containsKey(username)) sendToken(socket,username);
-        else receiveToken(socket,username);
-        usernameSocketMap.put(username,socket);
-
-        while (true){
-            StringBuilder xmlBuilder = new StringBuilder();
-            while (!(line = in.readLine()).contains("<<CLASS>>==")) {
-                if (line.equals("<<UPDATE_DATA_BASE>>")) updateDatabase(inputStream);
-                else xmlBuilder.append(line);
-            }
-            String xmlData = xmlBuilder.toString();
-            String function = line.replaceAll("<<CLASS>>==","").replaceAll("\"","");
-            if (function.equals("updateChat")) handleChat(xmlData);
-            else if (function.equals("nextTurn")) handleNextTurn(xmlData);
-        }
-
-    }
-
-    public void receiveToken(Socket socket,String username) throws IOException {
-        InputStream inputStream = socket.getInputStream();
-        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-        OutputStream outputStream = socket.getOutputStream();
-        PrintWriter out = new PrintWriter(outputStream,true);
-        while (true){
-            out.println("<<SEND_TOKEN>>");
-            if (in.readLine().equals(usernameTokenMap.get(username))) {
-                out.println("<<SUCCESS>>");
-                break;
-            }
-        }
-
-
-    }
-
-    public void sendToken(Socket socket,String username) throws IOException {
-        InputStream inputStream = socket.getInputStream();
-        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-        OutputStream outputStream = socket.getOutputStream();
-        PrintWriter out = new PrintWriter(outputStream,true);
-        String token = String.valueOf(LocalTime.now().getNano());
-        out.println("<<RECEIVE_TOKEN>>\n"+token+"\n<<SUCCESS>>");
-        usernameTokenMap.put(username,token);
-    }
-
-    public void updateDatabase(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        String jsonContent = bufferedReader.readLine();
-        for (Socket socket:clients){
-            System.out.println("Updating database for "+socket.toString());
-            OutputStream outputStream = socket.getOutputStream();
-            PrintWriter out = new PrintWriter(outputStream,true);
-            out.println("<<UPDATE_DATA_BASE>>");
-            out.println(jsonContent);
-        }
-    }
-
-    public void handleChat(String xmlData) throws IOException {
-        for (Socket socket:clients){
-            System.out.println("Chat handled for "+socket.toString());
-            OutputStream outputStream = socket.getOutputStream();
-            PrintWriter out = new PrintWriter(outputStream, true);
-            out.println(xmlData);
-            out.println("<<CLASS>>==\"updateChat\"");
-        }
-    }
-
-    public void handleNextTurn(String xmlData){
-
-    }
-
-    private static Class getClassByName(String className) {
-        try {
-            return Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
 }

@@ -8,8 +8,6 @@ public class Message {
     boolean isSeen;
     User sender;
 
-    public Message() {}
-
     public Message(String message, String time, boolean isSeen, User sender) {
         this.message = message;
         this.time = time;

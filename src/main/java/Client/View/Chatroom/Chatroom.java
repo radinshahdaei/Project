@@ -1,8 +1,8 @@
 package Client.View.Chatroom;
 
-import Client.Controller.Controller;
 import Client.Model.Chat.Chat;
 import Client.Model.Chat.Message;
+import Client.Controller.Controller;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -13,15 +13,13 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+
 import java.util.Iterator;
 
 public class Chatroom extends Application {
@@ -42,22 +40,15 @@ public class Chatroom extends Application {
         TextField typeMessage = new TextField();
         typeMessage.setPromptText("type your message...");
         Button sendMessage = new Button("send");
-        Button refresh = new Button("refresh");
-        refresh.setMinWidth(45);
-        typeMessage.setMinWidth(275);
+        typeMessage.setMinWidth(330);
         sendMessage.setMinWidth(45);
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(5);
-        hBox.getChildren().addAll(typeMessage,sendMessage,refresh);
+        hBox.getChildren().addAll(typeMessage,sendMessage);
         root.getChildren().add(hBox);
         hBox.setLayoutX(10);
         hBox.setLayoutY(565);
-
-        refresh.setOnAction(actionEvent -> {
-            clearMessages(root);
-            showMessages(root);
-        });
 
         sendMessage.setOnAction(actionEvent -> {
             if (!typeMessage.getText().trim().equals("")) {
@@ -68,6 +59,8 @@ public class Chatroom extends Application {
             }
         });
         showMessages(root);
+
+
     }
 
     public void clearMessages(Pane root){
@@ -92,7 +85,7 @@ public class Chatroom extends Application {
     }
 
     public Pane getMessage(Message message){
-        if (!message.getSender().getUsername().equals(Controller.currentUser.getUsername())) message.setSeen(true);
+        if (!message.getSender().equals(Controller.currentUser)) message.setSeen(true);
         Pane messageBox = new Pane();
         messageBox.setMaxWidth(200);
         messageBox.setMaxHeight(80);
@@ -155,11 +148,6 @@ public class Chatroom extends Application {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedTime = currentTime.format(formatter);
         chat.getMessages().add(new Message(message,formattedTime,false, Controller.currentUser));
-        try {
-            Controller.client.sendChats();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

@@ -1,12 +1,10 @@
 package Client.View.LoginRegister;
 
-import Client.Client;
 import Client.Controller.Controller;
 import Client.Controller.LoginMenuController;
 import Client.Controller.ManageData;
 import Client.Controller.RegisterMenuController;
 import Client.View.Start.StartMenuGUI;
-import jakarta.xml.bind.JAXBException;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -22,8 +20,6 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import static java.lang.Thread.sleep;
 
 public class LoginMenuGUI extends Application {
     private static int time = 5;
@@ -137,15 +133,20 @@ public class LoginMenuGUI extends Application {
                         Controller.setCurrentUser(Controller.findUserByUsername(usernamePrompt.getText()));
                         ManageData.saveCurrentUser();
                         try {
-                            Client client = new Client();
-                            while (!client.isAuthenticated()) sleep(5000);
-                        } catch (JAXBException | IOException | InterruptedException e) {
+                            LoginMenuController.connectToServer();
+                        } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        System.out.println("I am logged in!");
-                        StartMenuGUI startMenuGUI = new StartMenuGUI();
-                        startMenuGUI.start(stage);
+                        System.out.println("Hooray");
                     }
+
+                    try {
+                        LoginMenuController.connectToServer();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    StartMenuGUI startMenuGUI = new StartMenuGUI();
+                    startMenuGUI.start(stage);
                 }
             }
 
@@ -172,7 +173,7 @@ public class LoginMenuGUI extends Application {
 
                 new Thread(() -> {
                     try {
-                        sleep(time*1000L);  // Sleep for 5 seconds
+                        Thread.sleep(time*1000L);  // Sleep for 5 seconds
                         javafx.application.Platform.runLater(alert::close);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
@@ -217,14 +218,14 @@ public class LoginMenuGUI extends Application {
                     usernameError.setText(result);
                 }
                 try {
-                    sleep(200);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
         });
 
-
+        // Client client = new Client();
 
         errorCheckThread.start();
         stage.setOnCloseRequest(event -> errorCheck.set(false));
@@ -364,7 +365,7 @@ public class LoginMenuGUI extends Application {
                         passwordError.setText("");
                     } else passwordError.setText(result);
 
-                    sleep(200);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
