@@ -1,7 +1,10 @@
 package Client.View.Start;
 
-import Client.Model.User;
 import Client.Controller.Controller;
+import Client.Controller.ManageData;
+import Client.Controller.ProfileMenuController;
+import Client.Controller.RegisterMenuController;
+import Client.Model.User;
 import Client.View.Examples.ChangeAvatar;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -18,10 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import Client.Controller.RegisterMenuController;
-import Client.Controller.ProfileMenuController;
-import Client.Controller.ManageData;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -424,7 +424,13 @@ public class ProfileMenuGUI extends Application {
         VBox vbox = new VBox();
         vbox.setSpacing(10);
 
-        alert.setTitle("Scoreboard");
+        alert.setHeaderText("Scoreboard");
+
+        try {
+            Controller.client.setOnlineClients();
+        } catch (IOException e) {
+            System.out.println("Server Error");
+        }
 
         ArrayList<User> users = ProfileMenuController.sortUsers();
         int index = 1;
@@ -434,9 +440,10 @@ public class ProfileMenuGUI extends Application {
             imageView.setFitHeight(20);
             imageView.setFitWidth(20);
             Label label = new Label();
-            label.setText(index+") Username: "+user.getUsername()+", HighScore: "+user.getHighScore());
+            label.setText(index+") Username: "+user.getUsername()+"\t HighScore: "+user.getHighScore()+"\t Last Seen: "+Controller.onlineMembers.get(user.getId()));
             borderPane.setLeft(label);
             borderPane.setRight(imageView);
+            borderPane.setMinWidth(420);
             vbox.getChildren().add(borderPane);
             index++;
         }
@@ -445,7 +452,7 @@ public class ProfileMenuGUI extends Application {
         ScrollPane scrollPane = new ScrollPane(vbox);
         scrollPane.setFitToWidth(true);
 
-        dialogPane.setMaxHeight(400);
+        dialogPane.setMaxHeight(420);
         dialogPane.setMinWidth(300);
 
         dialogPane.setContent(scrollPane);

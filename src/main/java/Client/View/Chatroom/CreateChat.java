@@ -33,6 +33,8 @@ public class CreateChat extends Application {
         stage.setTitle("Create Chat");
         stage.show();
 
+        Controller.client.setChats();
+
         selectedUsers.add(new AtomicReference<>(Controller.currentUser));
 
         javafx.scene.control.Button startChat = new Button("Create chat with users: "+Controller.currentUser.getUsername());
@@ -100,7 +102,6 @@ public class CreateChat extends Application {
             for (Chat chat : Chat.allChats){
                 for (User user : chat.getUsers()){
                     if (Controller.currentUser.getUsername().equals(user.getUsername())){
-                        System.out.println(chat);
                         Chatroom chatroom = new Chatroom();
                         chatroom.setChat(chat);
                         try {

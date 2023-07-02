@@ -9,6 +9,9 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -92,6 +95,8 @@ public class Server {
                 updateDatabase(in);
             } else if (line.equals("<<GET_ONLINE_MEMBERS>>")) {
                 getOnlineMembers(socket);
+            } else if (line.equals("<<GET_CHATS>>")) {
+                sendSavedChats();
             }
         }
 
@@ -100,7 +105,7 @@ public class Server {
     public void getOnlineMembers(Socket socket) throws IOException {
         InputStream inputStream = socket.getInputStream();
         OutputStream outputStream = socket.getOutputStream();
-        PrintWriter out = new PrintWriter(outputStream,true);
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream),true);
         HashMap<String,String> returnMap = new HashMap<>();
         String value;
         for (String userId: userIdLastSeenMap.keySet()){
@@ -110,7 +115,7 @@ public class Server {
         }
         Gson gson = new Gson();
         String jsonString = gson.toJson(returnMap);
-        out.println(returnMap.toString());
+        out.println(jsonString);
         out.println("<<FINISHED>>");
 
 
@@ -160,6 +165,7 @@ public class Server {
     }
 
     public void handleChat(String xmlData) throws IOException {
+        saveChats(xmlData);
         for (Socket socket:clients){
             System.out.println("Chat handled for "+socket.toString());
             OutputStream outputStream = socket.getOutputStream();
@@ -229,5 +235,28 @@ public class Server {
         return null;
     }
 
+    public static void saveChats(String xmlString){
+        String filePath = "src/main/java/Server/Data/chats.xml";
+        try {
+            Path file = Path.of(filePath);
+            Files.writeString(file, xmlString, StandardOpenOption.CREATE);
+            System.out.println("Chat file saved successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendSavedChats() throws IOException {
+        String xmlFilePath = "src/main/java/Server/Data/chats.xml";
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(xmlFilePath));
+        StringBuilder xmlStringBuilder = new StringBuilder();
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            xmlStringBuilder.append(line);
+        }
+        bufferedReader.close();
+        String xmlString = xmlStringBuilder.toString();
+        handleChat(xmlString);
+    }
 
 }

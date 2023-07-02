@@ -8,12 +8,15 @@ import Client.View.Start.StartMenu;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Controller {
     public static ArrayList<User> users = ManageData.loadUsers();
     public static User currentUser = ManageData.loadCurrentUser();
     public static boolean stayLoggedIn = currentUser != null;
+
+    public static HashMap<String,String> onlineMembers;
 
     public static Stage stage;
 
