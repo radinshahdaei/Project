@@ -9,6 +9,7 @@ import Client.Model.Game;
 import Client.Model.Government;
 import Client.Model.Person.Military.MilitaryUnit;
 import Client.Model.Person.Military.Siege.Siege;
+import Client.Model.Person.Military.Soldier.Soldier;
 import Client.Model.Person.Military.Special.Ladderman;
 import Client.Model.Person.Military.Special.Tunneler;
 import Client.Model.Person.Person;
@@ -19,6 +20,7 @@ import Client.View.Game.GameMenu;
 import Client.View.InputOutput;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameMenuController {
     public static Game game;
@@ -43,6 +45,7 @@ public class GameMenuController {
     }
 
     public static void nextTurn() {
+        GameMenuController.makeSick();
         GameMenuController.onFire();
         GameMenuController.clearMap();
         UnitMenuController.checkPatrols();
@@ -54,6 +57,28 @@ public class GameMenuController {
         GameMenuController.foodDelivery();
         GameMenuController.getTaxes();
         GameMenuController.clearMap();
+    }
+
+    private static void makeSick() {
+        for (Government government: GameMenuController.game.getGovernments()) {
+            if (government.isDead()) continue;
+            for (Person person: government.getPeople()) {
+                if (person instanceof Soldier) {
+                    Soldier soldier = (Soldier) person;
+                    if (soldier.isSick()) {
+                        soldier.setSick(false);
+                    }
+                }
+                if (person instanceof Soldier) {
+                    Random random = new Random(System.currentTimeMillis());
+                    if (random.nextInt() % 20 == 0){
+                        Soldier soldier = (Soldier) person;
+                        soldier.setSick(true);
+                        soldier.reduceDefence(10);
+                    }
+                }
+            }
+        }
     }
 
     private static void AllMilitaryUnitsAttack() {
