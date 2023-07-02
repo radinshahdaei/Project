@@ -5,6 +5,7 @@ import Client.Controller.ManageData;
 import Client.Model.Chat.AllChatsSender;
 import Client.Model.Chat.Chat;
 import Client.Model.User;
+import com.google.gson.Gson;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -14,6 +15,7 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Client {
@@ -102,7 +104,7 @@ public class Client {
         OutputStream outputStream = socket.getOutputStream();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         PrintWriter out = new PrintWriter(outputStream, true);
-        out.println(Controller.currentUser.getUsername());
+        out.println(Controller.currentUser.getId());
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -150,7 +152,14 @@ public class Client {
         out.println(jsonContent);
     }
 
-    public void setOnlineClients() {
-
+    public HashMap<String,String> setOnlineClients(BufferedReader in) throws IOException{
+        InputStream inputStream = socket.getInputStream();
+        OutputStream outputStream = socket.getOutputStream();
+        PrintWriter out = new PrintWriter(outputStream,true);
+        out.println("<<GET_ONLINE_MEMBERS>>");
+        String jsonString = in.readLine();
+        Gson gson = new Gson();
+        HashMap<String, String> receivedHashMap = gson.fromJson(jsonString, HashMap.class);
+        return receivedHashMap;
     }
 }

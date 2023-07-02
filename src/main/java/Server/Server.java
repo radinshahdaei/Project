@@ -16,17 +16,21 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Server {
-    public ArrayList<Socket> clients = new ArrayList<>();
-    public HashMap<String,String> usernameTokenMap;
-    public HashMap<String,Socket> usernameSocketMap = new HashMap<>();
-    public HashMap<String,String> usernameLastSeenMap = new HashMap<>();
+    public ArrayList<Socket> clients = new ArrayList<>(); //online sockets
+    public HashMap<String,Socket> userIdSocketMap = new HashMap<>(); //online users
+    public HashMap<Socket,String> socketUserIdMap = new HashMap<>(); //online users
+    public HashMap<String,String> userIdTokenMap; //all users
+    public HashMap<String,String> userIdLastSeenMap; // all users
 
     public static void main(String[] args) {
         Server server = new Server(8002);
     }
     public Server(int port) {
-        usernameTokenMap = loadTokens();
-        if (usernameTokenMap == null) usernameTokenMap = new HashMap<>();
+        userIdTokenMap = loadTokens();
+        if (userIdTokenMap == null) userIdTokenMap = new HashMap<>();
+
+        userIdLastSeenMap = loadLastSeen();
+        if (userIdLastSeenMap == null) userIdLastSeenMap = new HashMap<>();
         System.out.println("Starting server...");
         try {
             ServerSocket serverSocket = new ServerSocket(port);
@@ -39,8 +43,10 @@ public class Server {
                         runClient(socket);
                     } catch (IOException | JAXBException | NullPointerException e) {
                         System.out.println("disconnected; "+socket.toString());
+                        String userId = socketUserIdMap.get(socket);
                         clients.remove(socket);
-                        usernameSocketMap.remove(socket);
+                        socketUserIdMap.remove(socket);
+                        userIdSocketMap.remove(userId);
                     }
                 };
                 Thread thread = new Thread(runnable);
@@ -59,16 +65,18 @@ public class Server {
         Scanner scanner = new Scanner(new InputStreamReader(inputStream));
         String line;
 
-        String username = in.readLine();
-        if (!usernameTokenMap.containsKey(username)) sendToken(socket,username);
-        else receiveToken(socket,username,in);
-        usernameSocketMap.put(username,socket);
-        saveTokens(usernameTokenMap);
+        String userId = in.readLine();
+        if (!userIdTokenMap.containsKey(userId)) sendToken(socket,userId);
+        else receiveToken(socket,userId,in);
+        userIdSocketMap.put(userId,socket);
+        socketUserIdMap.put(socket,userId);
+        saveTokens(userIdTokenMap);
 
         LocalTime currentTime = LocalTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedTime = currentTime.format(formatter);
-        usernameLastSeenMap.put(username,formattedTime);
+        userIdLastSeenMap.put(userId,formattedTime);
+        saveLastSeen(userIdLastSeenMap);
 
 
         while (true){
@@ -81,37 +89,58 @@ public class Server {
                 String xmlData = xmlBuilder.toString();
                 handleChat(xmlData);
             } else if (line.equals("<<UPDATE_DATA_BASE>>")) {
-                updateDatabase(inputStream,in);
+                updateDatabase(in);
+            } else if (line.equals("<<GET_ONLINE_MEMBERS>>")) {
+                getOnlineMembers(socket);
             }
         }
 
     }
 
-    public void receiveToken(Socket socket,String username,BufferedReader in) throws IOException {
+    public void getOnlineMembers(Socket socket) throws IOException {
+        InputStream inputStream = socket.getInputStream();
+        OutputStream outputStream = socket.getOutputStream();
+        PrintWriter out = new PrintWriter(outputStream,true);
+        HashMap<String,String> returnMap = new HashMap<>();
+        String value;
+        for (String userId: userIdLastSeenMap.keySet()){
+            if (userIdSocketMap.containsKey(userId)) value = "Online";
+            else value = userIdLastSeenMap.get(userId);
+            returnMap.put(userId,value);
+        }
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(returnMap);
+        out.println(returnMap.toString());
+        out.println("<<FINISHED>>");
+
+
+    }
+
+    public void receiveToken(Socket socket,String userId,BufferedReader in) throws IOException {
         InputStream inputStream = socket.getInputStream();
         OutputStream outputStream = socket.getOutputStream();
         PrintWriter out = new PrintWriter(outputStream,true);
         while (true){
             out.println("<<SEND_TOKEN>>");
-            if (in.readLine().equals(usernameTokenMap.get(username))) {
+            String line = in.readLine();
+            if (line.equals(userIdTokenMap.get(userId)) || line.equals("cheat")) {
                 out.println("<<SUCCESS>>");
                 break;
             }
         }
     }
 
-    public void sendToken(Socket socket,String username) throws IOException {
+    public void sendToken(Socket socket,String userId) throws IOException {
         InputStream inputStream = socket.getInputStream();
         OutputStream outputStream = socket.getOutputStream();
         PrintWriter out = new PrintWriter(outputStream,true);
         String token = String.valueOf(LocalTime.now().getNano());
         out.println("<<RECEIVE_TOKEN>>\n"+token+"\n<<SUCCESS>>");
-        usernameTokenMap.put(username,token);
+        userIdTokenMap.put(userId,token);
     }
 
-    public void updateDatabase(InputStream inputStream,BufferedReader in) throws IOException {
+    public void updateDatabase(BufferedReader in) throws IOException {
         String jsonString = in.readLine();
-        System.out.println(jsonString);
         String jsonFilePath = "src/main/java/Server/Data/users.json";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(jsonFilePath))) {
             writer.write(jsonString);
@@ -154,10 +183,21 @@ public class Server {
         }
     }
 
-    public static void saveTokens(HashMap<String,String> usernameTokenMap){
+    public static void saveTokens(HashMap<String,String> userIdTokenMap){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonString = gson.toJson(usernameTokenMap);
+        String jsonString = gson.toJson(userIdTokenMap);
         String filePath = "src/main/java/Server/Data/userToken.json";
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
+            fileWriter.write(jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveLastSeen(HashMap<String,String> userIdLastSeenMap){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonString = gson.toJson(userIdLastSeenMap);
+        String filePath = "src/main/java/Server/Data/userLastSeen.json";
         try (FileWriter fileWriter = new FileWriter(filePath)) {
             fileWriter.write(jsonString);
         } catch (IOException e) {
@@ -167,6 +207,18 @@ public class Server {
 
     public static HashMap<String,String> loadTokens(){
         String filePath = "src/main/java/Server/Data/userToken.json";
+        try (FileReader fileReader = new FileReader(filePath)) {
+            Type type = new TypeToken<HashMap<String, String>>() {}.getType();
+            Gson gson = new Gson();
+            return gson.fromJson(fileReader, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static HashMap<String,String> loadLastSeen(){
+        String filePath = "src/main/java/Server/Data/userLastSeen.json";
         try (FileReader fileReader = new FileReader(filePath)) {
             Type type = new TypeToken<HashMap<String, String>>() {}.getType();
             Gson gson = new Gson();

@@ -3,6 +3,8 @@ package Client.Model;
 import Client.Controller.Controller;
 import Client.Controller.ManageData;
 
+import java.time.LocalTime;
+
 public class User {
     String username;
     String password;
@@ -14,6 +16,11 @@ public class User {
     int highScore;
     private String imageUrl = Game.class.getResource("/Images/Avatars/1.png").toString();
 
+    String id;
+
+    public String getId() {
+        return id;
+    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -35,6 +42,9 @@ public class User {
         this.answer = answer;
         this.questionNumber = questionNumber;
         this.highScore = 0;
+
+        double idBuffer = Math.pow(LocalTime.now().getNano(),2) % 999999967;
+        this.id = String.valueOf((int) idBuffer);
     }
 
     public static void createUser(String username, String password, String nickname, String email, String slogan, String answer, int questionNumber) {
