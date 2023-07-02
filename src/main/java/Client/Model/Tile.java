@@ -1,5 +1,6 @@
 package Client.Model;
 
+import Client.Controller.GameMenuController;
 import Client.Model.Person.Military.MilitaryUnit;
 import Client.Model.Person.Military.Soldier.Soldier;
 import Client.Model.Person.Person;
@@ -16,6 +17,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+
+import static Client.View.InputOutput.output;
 
 public class Tile {
     private int x;
@@ -187,6 +190,10 @@ public class Tile {
                     soldierImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
+                            if (!Game.currentGovernment.getUser().equals(soldier.getOwner())) {
+                                output("This unit does no belong to you", 'i');
+                                return;
+                            }
                             MapGUI.unitMenuGUI.setX(soldier.getX());
                             MapGUI.unitMenuGUI.setY(soldier.getY());
                             MapGUI.unitMenuGUI.setType(soldier.getName());

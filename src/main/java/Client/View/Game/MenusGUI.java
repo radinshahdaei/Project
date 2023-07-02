@@ -144,6 +144,14 @@ public class MenusGUI {
         });
         menuPane.getChildren().add(nextTurn);
 
+        Text currentPlayer = new Text();
+        currentPlayer.setText("Current government: " + Game.currentGovernment.getUser().getUsername());
+        currentPlayer.setLayoutX(1000);
+        currentPlayer.setLayoutY(30);
+        currentPlayer.setScaleX(1.3);
+        currentPlayer.setScaleY(1.3);
+        menuPane.getChildren().add(currentPlayer);
+
         createMiniMap();
     }
 

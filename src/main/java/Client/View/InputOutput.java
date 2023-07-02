@@ -56,6 +56,10 @@ public class InputOutput {
             case 'h':
                 inform.setTitle("Turn switch");
                 inform.showAndWait();
+                return;
+            case 'i':
+                error.setTitle("Error in unit selection");
+                error.showAndWait();
         }
 
 
