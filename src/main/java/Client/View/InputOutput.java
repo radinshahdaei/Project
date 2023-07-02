@@ -52,6 +52,10 @@ public class InputOutput {
             case 'g':
                 inform.setTitle("Attacking troops");
                 inform.showAndWait();
+                return;
+            case 'h':
+                inform.setTitle("Turn switch");
+                inform.showAndWait();
         }
 
 

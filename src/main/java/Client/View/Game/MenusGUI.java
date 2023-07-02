@@ -1,8 +1,10 @@
 package Client.View.Game;
 
 import Client.Controller.GameMenuController;
+import Client.Controller.TileDataThread;
+import Client.Controller.UnitMenuController;
 import Client.Model.Game;
-import Client.Model.Map;
+import Client.Model.Government;
 import Client.Model.Tile;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -16,10 +18,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
+import java.util.Map;
+
+import static Client.View.InputOutput.output;
 
 
 public class MenusGUI {
@@ -121,7 +127,19 @@ public class MenusGUI {
         nextTurn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-
+                GameMenuController.nextTurn();
+                MapGUI.tileDataThread.setRunner(false);
+                MapGUI.tileDataThread.stop();
+                MapGUI.setScale(160);
+                MapGUI.setSelectedTiles(new ArrayList<>());
+                MapGUI.governmentPlayingThread.setRunner(false);
+                MapGUI.setFirstTime(false);
+                MapGUI mapGUI = new MapGUI();
+                try {
+                    mapGUI.start(MapGUI.getMyStage());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         menuPane.getChildren().add(nextTurn);

@@ -7,30 +7,31 @@ import Client.Model.Government;
 import static Client.View.InputOutput.output;
 
 public class GovernmentPlayingThread extends Thread{
-    public volatile boolean run;
-    public boolean mainRun = true;
+    private volatile boolean runner;
+    private boolean mainRun = true;
     @Override
     public void run() {
         while (mainRun) {
+            System.out.println("another time");
             for (Government government : GameMenuController.game.getGovernments()) {
-                run = true;
+                runner = true;
                 if (GameMenuController.checkAllGovernmentsDead()) {
                     GameMenuController.countScores();
-                    return;
+                    mainRun = false;
                 }
                 if (government.isDead()) continue;
                 GameMenu.numberOfTurns++;
                 Game.currentGovernment = government;
                 output("Currently " + government.getUser().getUsername() + " is playing");
-                while (run) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                while (runner) {
+                    Thread.onSpinWait();
                 }
             }
         }
+    }
+
+    public void setRunner(boolean runner) {
+        this.runner = runner;
     }
 
     public void setMainRun(boolean mainRun) {

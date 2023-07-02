@@ -26,6 +26,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
+import java.util.ArrayList;
+
 import static Client.Controller.GameMenuController.mapSize;
 import static Client.View.InputOutput.output;
 
@@ -33,7 +35,9 @@ public class StartGameGUI extends Application {
     private static int counter = 0;
     @Override
     public void start(Stage stage) throws Exception {
+        counter = 0;
         GameMenuController.game = new Game();
+        GameMenuController.game.setGovernments(new ArrayList<>());
         GameMenu.numberOfTurns = 0;
         mapSize = 200;
 
@@ -150,6 +154,7 @@ public class StartGameGUI extends Application {
                     InputOutput.output("Add other users", 'b');
                     return;
                 }
+                MapGUI.setFirstTime(true);
                 MapGUI mapGUI = new MapGUI();
                 try {
                     mapGUI.start(stage);
