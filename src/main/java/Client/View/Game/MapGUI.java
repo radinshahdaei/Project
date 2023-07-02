@@ -33,17 +33,24 @@ public class MapGUI extends Application {
     public static GovernmentMenuGUI governmentMenuGUI;
     public static DropUnitMenuGUI dropUnitMenuGUI;
     public static ResourceViewGUI resourceViewGUI;
-    private static Pane tileDataPane;
-    private static TileDataThread tileDataThread;
+    public static UnitMenuGUI unitMenuGUI;
+    public static Pane tileDataPane;
+    public static TileDataThread tileDataThread;
     private static Tile[][] tiles;
     private static ArrayList<Tile> selectedTiles = new ArrayList<>();
     private static int scale = 160;
     private static Stage myStage;
+    public static GovernmentPlayingThread governmentPlayingThread;
+    private static boolean firstTime;
     public static void main(String[] args) {
         launch(args);
     }
     @Override
     public void start(Stage stage) throws Exception {
+        if (firstTime) {
+            governmentPlayingThread = new GovernmentPlayingThread();
+            governmentPlayingThread.start();
+        }
         myStage = stage;
         tiles = GameMenuController.game.getMap().getTiles();
         gamePane = new Pane();
@@ -64,6 +71,7 @@ public class MapGUI extends Application {
         governmentMenuGUI = new GovernmentMenuGUI(menuPane);
         dropUnitMenuGUI = new DropUnitMenuGUI(menuPane);
         resourceViewGUI = new ResourceViewGUI(menuPane);
+        unitMenuGUI = new UnitMenuGUI(menuPane);
         menusGUI.runMenu();
         createMap();
 
@@ -274,9 +282,26 @@ public class MapGUI extends Application {
         return selectedTiles;
     }
 
-    public static void endGame() throws Exception {
-        tileDataThread.stop();
+    public static void endGame() {
+        governmentPlayingThread.setMainRun(false);
+        tileDataThread.setRunner(false);
         StartMenuGUI startMenuGUI = new StartMenuGUI();
         startMenuGUI.start(myStage);
+    }
+
+    public static Stage getMyStage() {
+        return myStage;
+    }
+
+    public static void setScale(int scale) {
+        MapGUI.scale = scale;
+    }
+
+    public static void setSelectedTiles(ArrayList<Tile> selectedTiles) {
+        MapGUI.selectedTiles = selectedTiles;
+    }
+
+    public static void setFirstTime(boolean firstTime) {
+        MapGUI.firstTime = firstTime;
     }
 }

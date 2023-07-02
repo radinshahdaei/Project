@@ -129,8 +129,8 @@ public class UnitMenuController {
             InputOutput.output("There are no units that you can select(They may be on Patrol)");
             return;
         }
-        UnitMenu unitMenu = new UnitMenu();
-        unitMenu.run();
+//        UnitMenu unitMenu = new UnitMenu();
+//        unitMenu.run();
     }
 
     private static ArrayList<MilitaryUnit> getUserUnitInTile(ArrayList<Person> game, String type) {

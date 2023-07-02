@@ -45,6 +45,21 @@ public class InputOutput {
                 error.setTitle("Error in building drop");
                 error.showAndWait();
                 return;
+            case 'f':
+                error.setTitle("Error in Unit menu");
+                error.showAndWait();
+                return;
+            case 'g':
+                inform.setTitle("Attacking troops");
+                inform.showAndWait();
+                return;
+            case 'h':
+                inform.setTitle("Turn switch");
+                inform.showAndWait();
+                return;
+            case 'i':
+                error.setTitle("Error in unit selection");
+                error.showAndWait();
         }
 
 

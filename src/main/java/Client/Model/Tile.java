@@ -1,11 +1,15 @@
 package Client.Model;
 
+import Client.Controller.GameMenuController;
 import Client.Model.Person.Military.MilitaryUnit;
 import Client.Model.Person.Military.Soldier.Soldier;
 import Client.Model.Person.Person;
 import Client.Model.Building.Building;
+import Client.View.Game.MapGUI;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -13,6 +17,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+
+import static Client.View.InputOutput.output;
 
 public class Tile {
     private int x;
@@ -168,8 +174,8 @@ public class Tile {
             ImageView buildingImage = new ImageView(new Image(building.getImageUrl()));
             buildingImage.setLayoutX(50);
             buildingImage.setLayoutY(50);
-            buildingImage.setFitWidth(70);
-            buildingImage.setFitHeight(70);
+            buildingImage.setFitWidth(90);
+            buildingImage.setFitHeight(90);
             mainPane.getChildren().add(buildingImage);
         }
         if (people.size() != 0) {
@@ -181,6 +187,20 @@ public class Tile {
                     soldierImage.setLayoutY(50);
                     soldierImage.setFitWidth(70);
                     soldierImage.setFitHeight(70);
+                    soldierImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            if (!Game.currentGovernment.getUser().equals(soldier.getOwner())) {
+                                output("This unit does no belong to you", 'i');
+                                return;
+                            }
+                            System.out.println("6");
+                            MapGUI.unitMenuGUI.setX(soldier.getX());
+                            MapGUI.unitMenuGUI.setY(soldier.getY());
+                            MapGUI.unitMenuGUI.setType(soldier.getName());
+                            MapGUI.unitMenuGUI.run();
+                        }
+                    });
                     mainPane.getChildren().add(soldierImage);
                 }
             }
