@@ -68,6 +68,18 @@ public class InputOutput {
             case 'k':
                 inform.setTitle("Editing map");
                 inform.showAndWait();
+                return;
+            case 'l':
+                error.setTitle("Error in copying buildings");
+                error.showAndWait();
+                return;
+            case 'm':
+                inform.setTitle("Building copy");
+                inform.showAndWait();
+                return;
+            case 'n':
+                inform.setTitle("Building paste");
+                inform.showAndWait();
         }
 
 
