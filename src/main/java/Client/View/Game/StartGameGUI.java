@@ -1,14 +1,14 @@
 package Client.View.Game;
 
+import Client.Controller.Controller;
+import Client.Controller.GameMenuController;
+import Client.Controller.MapMenuController;
+import Client.Model.Building.Storage.Storage;
 import Client.Model.Game;
 import Client.Model.Government;
 import Client.Model.Map;
 import Client.Model.User;
 import Client.View.InputOutput;
-import Client.Controller.Controller;
-import Client.Controller.GameMenuController;
-import Client.Controller.MapMenuController;
-import Client.Model.Building.Storage.Storage;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -25,11 +25,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-
 import java.util.ArrayList;
 
 import static Client.Controller.GameMenuController.mapSize;
-import static Client.View.InputOutput.output;
 
 public class StartGameGUI extends Application {
     private static int counter = 0;
@@ -44,7 +42,7 @@ public class StartGameGUI extends Application {
         //Select map size
         Stage miniStage = new Stage();
         VBox selectMapSize = new VBox();
-        selectMapSize.setPrefSize(300, 400);
+        selectMapSize.setPrefSize(250, 80);
         selectMapSize.setAlignment(Pos.CENTER);
         selectMapSize.setSpacing(10);
         Scene miniScene = new Scene(selectMapSize);
@@ -70,7 +68,7 @@ public class StartGameGUI extends Application {
 
         Button continueButton = new Button();
         continueButton.setText("Continue");
-        selectMapSize.getChildren().add(continueButton);
+        selectMapSizeHBox.getChildren().add(continueButton);
         continueButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -99,7 +97,7 @@ public class StartGameGUI extends Application {
         //Select users
         Pane mainPane = new Pane();
         Scene scene = new Scene(mainPane);
-        mainPane.setPrefSize(300, 400);
+        mainPane.setPrefSize(300, 110);
 
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
@@ -145,7 +143,8 @@ public class StartGameGUI extends Application {
         });
         Button startGame = new Button();
         startGame.setText("Start game");
-        vBox.getChildren().add(startGame);
+        startGame.setMinWidth(140);
+        // vBox.getChildren().add(startGame);
         startGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -165,7 +164,8 @@ public class StartGameGUI extends Application {
 
         Button editMap = new Button();
         editMap.setText("Edit map");
-        vBox.getChildren().add(editMap);
+        editMap.setMinWidth(140);
+        // vBox.getChildren().add(editMap);
         editMap.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -181,6 +181,12 @@ public class StartGameGUI extends Application {
                 }
             }
         });
+
+        HBox hBox1 = new HBox();
+        hBox1.setSpacing(5);
+        hBox1.setAlignment(Pos.CENTER);
+        hBox1.getChildren().addAll(startGame,editMap);
+        vBox.getChildren().add(hBox1);
 
 
         stage.requestFocus();

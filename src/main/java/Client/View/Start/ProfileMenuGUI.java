@@ -197,6 +197,11 @@ public class ProfileMenuGUI extends Application {
         changePassword.setOnAction(actionEvent -> changePassword());
         Button back = new Button("Back");
         back.setOnAction(actionEvent -> {
+            try {
+                Controller.client.sendDatabase();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             StartMenuGUI startMenuGUI = new StartMenuGUI();
             startMenuGUI.start(stage);
         });
@@ -417,6 +422,8 @@ public class ProfileMenuGUI extends Application {
 
         }
     }
+
+
 
     public static void showScoreboard(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

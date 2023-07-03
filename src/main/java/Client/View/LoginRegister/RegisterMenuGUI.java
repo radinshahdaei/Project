@@ -1,8 +1,9 @@
 package Client.View.LoginRegister;
 
+import Client.Controller.Controller;
+import Client.Controller.RegisterMenuController;
 import Client.Model.User;
 import Client.View.Main;
-import Client.Controller.Controller;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
@@ -26,8 +27,6 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-
-import Client.Controller.RegisterMenuController;
 
 public class RegisterMenuGUI extends Application {
     private static int number;
@@ -258,7 +257,6 @@ public class RegisterMenuGUI extends Application {
                     || !passwordError.getText().equals("")
                     || !emailError.getText().equals("")) hasError = true;
             if (!hasError && !emptyField) {
-                System.out.println("Hooray");
                 AtomicReference<String> answerText = new AtomicReference<>();
 
 
@@ -274,13 +272,14 @@ public class RegisterMenuGUI extends Application {
                     if (sloganPrompt.getText() == null) slogan = "";
                     else slogan = sloganPrompt.getText();
                     if (showCaptcha()) {
+                        errorCheck.set(false);
                         User.createUser(username,password,nickname,email,slogan,answerText.get(),answerNumber);
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Register Successful!");
                         alert.setHeaderText(null);
                         alert.setContentText("Welcome to the game!");
                         alert.showAndWait();
-                        errorCheck.set(false);
+                        System.out.println("Successfully registered.");
                         MainMenuGUI mainMenuGUI = new MainMenuGUI();
                         mainMenuGUI.start(stage);
                     }

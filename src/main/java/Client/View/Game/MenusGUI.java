@@ -1,31 +1,20 @@
 package Client.View.Game;
 
 import Client.Controller.GameMenuController;
-import Client.Controller.TileDataThread;
-import Client.Controller.UnitMenuController;
 import Client.Model.Game;
-import Client.Model.Government;
 import Client.Model.Tile;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
-import java.util.Map;
-
-import static Client.View.InputOutput.output;
 
 
 public class MenusGUI {
@@ -37,6 +26,7 @@ public class MenusGUI {
 
     public void createGUI() {
         Button goToBuildingMenu = new Button();
+        goToBuildingMenu.setMinWidth(120);
         goToBuildingMenu.setLayoutX(10);
         goToBuildingMenu.setLayoutY(10);
         goToBuildingMenu.setText("Building Menu");
@@ -49,6 +39,7 @@ public class MenusGUI {
         menuPane.getChildren().add(goToBuildingMenu);
 
         Button goToGovernmentMenu = new Button();
+        goToGovernmentMenu.setMinWidth(120);
         goToGovernmentMenu.setLayoutX(10);
         goToGovernmentMenu.setLayoutY(50);
         goToGovernmentMenu.setText("Government Menu");
@@ -61,6 +52,7 @@ public class MenusGUI {
         menuPane.getChildren().add(goToGovernmentMenu);
 
         Button goToStore = new Button();
+        goToStore.setMinWidth(120);
         goToStore.setLayoutX(10);
         goToStore.setLayoutY(90);
         goToStore.setText("Store");
@@ -81,6 +73,7 @@ public class MenusGUI {
         menuPane.getChildren().add(goToStore);
 
         Button endGame = new Button();
+        endGame.setMinWidth(120);
         endGame.setLayoutX(10);
         endGame.setLayoutY(130);
         endGame.setText("End the game");
@@ -97,6 +90,7 @@ public class MenusGUI {
         menuPane.getChildren().add(endGame);
 
         Button goToDropUnitMenu = new Button();
+        goToDropUnitMenu.setMinWidth(120);
         goToDropUnitMenu.setText("DropUnit Menu");
         goToDropUnitMenu.setLayoutX(170);
         goToDropUnitMenu.setLayoutY(10);
@@ -109,6 +103,7 @@ public class MenusGUI {
         menuPane.getChildren().add(goToDropUnitMenu);
 
         Button goToResourceViewMenu = new Button();
+        goToResourceViewMenu.setMinWidth(120);
         goToResourceViewMenu.setText("View resources");
         goToResourceViewMenu.setLayoutX(170);
         goToResourceViewMenu.setLayoutY(50);
@@ -121,6 +116,7 @@ public class MenusGUI {
         menuPane.getChildren().add(goToResourceViewMenu);
 
         Button nextTurn = new Button();
+        nextTurn.setMinWidth(120);
         nextTurn.setText("Next turn");
         nextTurn.setLayoutX(170);
         nextTurn.setLayoutY(90);

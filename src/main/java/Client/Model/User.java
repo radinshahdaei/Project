@@ -22,6 +22,20 @@ public class User {
     ArrayList<String> friendsId = new ArrayList<>();
     ArrayList<String> pendingFriendRequestsId = new ArrayList<>();
 
+    public void updateUser(User user){
+        if (user != null && user.getId().equals(this.getId())) {
+            this.friendsId = user.getFriendsId();
+            this.pendingFriendRequestsId = user.getPendingFriendRequestsId();
+            return;
+        } else if (user == null || !user.getId().equals(this.getId())) return;
+        this.setUsername(user.getUsername());
+        this.setPassword(user.getPassword());
+        this.setNickname(user.getNickname());
+        this.setEmail(user.getEmail());
+        this.setSlogan(user.getSlogan());
+        this.setHighScore(user.getHighScore());
+    }
+
     public boolean addToFriendRequests(String id){
         if (!(pendingFriendRequestsId.contains(id)) && !(friendsId.contains(id))) {
             pendingFriendRequestsId.add(id);
@@ -38,6 +52,7 @@ public class User {
         if (pendingFriendRequestsId.contains(id)) {
             pendingFriendRequestsId.remove(id);
             friendsId.add(id);
+            Controller.findUserById(id).addToFriends(this.getId());
             return true;
         }
         return false;

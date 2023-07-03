@@ -142,7 +142,12 @@ public class LoginMenuGUI extends Application {
                         } catch (JAXBException | IOException | InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                        System.out.println("I am logged in!");
+                        try {
+                            Controller.client.sendDatabase();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        System.out.println("Successfully logged in.");
                         StartMenuGUI startMenuGUI = new StartMenuGUI();
                         startMenuGUI.start(stage);
                     }

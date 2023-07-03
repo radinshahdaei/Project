@@ -1,28 +1,25 @@
 package Client.View.Game;
 
 import Client.Controller.Controller;
-import Client.Controller.GameMenuController;
 import Client.Controller.ManageData;
 import Client.Controller.MapMenuController;
 import Client.Model.EditedMap;
 import Client.View.Commands.MapMenuCommands;
-import Client.View.Game.MapGUI;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-import static Client.View.InputOutput.input;
 import static Client.View.InputOutput.output;
 
 public class EditMapGUI extends Application {
@@ -31,20 +28,20 @@ public class EditMapGUI extends Application {
     public void start(Stage stage) throws Exception {
         ArrayList<String> commands = new ArrayList<>();
         VBox vBox = new VBox();
-        vBox.setPrefSize(750, 750);
+        vBox.setPrefSize(500, 100);
         vBox.setAlignment(Pos.CENTER);
-        vBox.setSpacing(20);
+        vBox.setSpacing(5);
         Scene scene = new Scene(vBox);
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
-        hBox.setSpacing(25);
+        hBox.setSpacing(5);
         vBox.getChildren().add(hBox);
 
-        Text text = new Text();
-        text.setText("Enter your command here: ");
-        text.setScaleX(1.2);
-        text.setScaleY(1.2);
-        hBox.getChildren().add(text);
+        Label label = new Label("Enter your command: ");
+        label.setScaleX(1.2);
+        label.setScaleY(1.2);
+        label.setMinWidth(130);
+        hBox.getChildren().add(label);
         TextField textField = new TextField();
         textField.setMaxWidth(1250);
         textField.setPromptText("command");
@@ -64,7 +61,7 @@ public class EditMapGUI extends Application {
 
         Button startGame = new Button();
         startGame.setText("Start game");
-        vBox.getChildren().add(startGame);
+        hBox.getChildren().add(startGame);
         startGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

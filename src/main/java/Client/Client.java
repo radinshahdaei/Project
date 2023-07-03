@@ -64,6 +64,8 @@ public class Client {
                 }
                 String xmlData = xmlBuilder.toString();
                 handleChat(xmlData);
+            } if (line.equals("<<UPDATE_DATA_BASE>>")){
+                updateDatabase(in);
             }
         }
     }
@@ -121,8 +123,8 @@ public class Client {
         authenticated = true;
     }
 
-    public void updateDatabase() throws IOException{
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    public void updateDatabase(BufferedReader bufferedReader) throws IOException{
+        // BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String jsonString = bufferedReader.readLine();
         String jsonFilePath = "src/main/java/Client/Controller/Data/users.json";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(jsonFilePath))) {
@@ -135,7 +137,7 @@ public class Client {
         for (User updatedUser : updatedUsers){
             boolean flag = false;
             for (User user : Controller.users){
-                if (user.getUsername().equals(updatedUser.getUsername())) {
+                if (user.getId().equals(updatedUser.getId())) {
                     flag = true;
                     break;
                 }
@@ -143,6 +145,11 @@ public class Client {
             if (!flag) usersToAdd.add(updatedUser);
         }
         Controller.users.addAll(usersToAdd);
+        for (User updatedUser : updatedUsers){
+            User user = Controller.findUserById(updatedUser.getId());
+            if (user != null) user.updateUser(updatedUser);
+        }
+        ManageData.saveUsers();
     }
 
     public void sendDatabase() throws IOException{

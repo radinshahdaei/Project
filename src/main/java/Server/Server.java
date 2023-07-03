@@ -152,6 +152,7 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        updateDatabaseForClients(jsonString);
     }
 
     public void updateDatabaseForClients(String jsonContent) throws IOException {

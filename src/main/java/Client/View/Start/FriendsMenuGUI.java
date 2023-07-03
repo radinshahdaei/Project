@@ -1,6 +1,7 @@
 package Client.View.Start;
 
 import Client.Controller.Controller;
+import Client.Controller.ManageData;
 import Client.Model.User;
 import Client.View.InputOutput;
 import javafx.application.Application;
@@ -17,6 +18,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class FriendsMenuGUI extends Application {
 
@@ -70,7 +73,15 @@ public class FriendsMenuGUI extends Application {
                 assert user != null;
                 boolean result = user.addToFriendRequests(Controller.currentUser.getId());
                 if (!result) InputOutput.output("You have already sent a friend request!\nor This user is already your friend!", 'b');
-                else InputOutput.output("Friend request sent to "+user.getUsername(), 'c');
+                else {
+                    InputOutput.output("Friend request sent to "+user.getUsername(), 'c');
+                    ManageData.saveUsers();
+                    try {
+                        Controller.client.sendDatabase();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
         });
 
@@ -104,14 +115,25 @@ public class FriendsMenuGUI extends Application {
             HBox buttons = new HBox();
             Button accept = new Button("accept");
             accept.setOnAction(actionEvent -> {
-                user.addToFriends(id);
                 InputOutput.output(Controller.findUserById(id).getUsername()+" added as friend!", 'c');
+                ManageData.saveUsers();
+                try {
+                    Controller.client.sendDatabase();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
             });
             Button reject = new Button("reject");
             reject.setOnAction(actionEvent -> {
                 user.removeFromFriendRequests(id);
                 InputOutput.output("Friend request from "+Controller.findUserById(id).getUsername()+" rejected!", 'b');
+                ManageData.saveUsers();
+                try {
+                    Controller.client.sendDatabase();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             });
             buttons.getChildren().addAll(accept,reject);
             borderPane.setLeft(label);
