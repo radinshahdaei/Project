@@ -68,6 +68,11 @@ public class InputOutput {
             case 'k':
                 inform.setTitle("Editing map");
                 inform.showAndWait();
+                return;
+            case 'l':
+                inform.setTitle("Game Invite");
+                inform.showAndWait();
+
         }
 
 

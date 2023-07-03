@@ -26,7 +26,7 @@ public class Server {
     public HashMap<String,String> userIdLastSeenMap; // all users
 
     public static void main(String[] args) {
-        Server server = new Server(8002);
+        Server server = new Server(8003);
     }
     public Server(int port) {
         userIdTokenMap = loadTokens();
@@ -45,7 +45,7 @@ public class Server {
                         clients.add(socket);
                         runClient(socket);
                     } catch (IOException | JAXBException | NullPointerException e) {
-                        System.out.println("disconnected; "+socket.toString());
+                        System.out.println("disconnected: "+socket.toString());
                         String userId = socketUserIdMap.get(socket);
                         clients.remove(socket);
                         socketUserIdMap.remove(socket);
@@ -97,9 +97,27 @@ public class Server {
                 getOnlineMembers(socket);
             } else if (line.equals("<<GET_CHATS>>")) {
                 sendSavedChats();
+            } else if (line.equals("<<UPDATE_GAME_INVITES>>")) {
+                while (!(line = in.readLine()).contains("<<CLASS>>")) {
+                    xmlBuilder.append(line);
+                }
+                String xmlData = xmlBuilder.toString();
+                sendGameInvites(xmlData);
             }
         }
 
+    }
+
+    public void sendGameInvites(String xmlData) throws IOException {
+        for (Socket socket:clients){
+            System.out.println("Chat handled for "+socket.toString());
+            OutputStream outputStream = socket.getOutputStream();
+            PrintWriter out = new PrintWriter(outputStream, true);
+            out.println("<<UPDATE_GAME_INVITES>>");
+            out.println(xmlData);
+            out.println("<<CLASS>>");
+            System.out.println("game invites updated for "+socket.toString());
+        }
     }
 
     public void getOnlineMembers(Socket socket) throws IOException {

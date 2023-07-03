@@ -58,6 +58,15 @@ public class StartMenuGUI extends Application {
                 throw new RuntimeException(e);
             }
         });
+        Button gameListMenu = new Button("Game List Menu");
+        gameListMenu.setOnAction(actionEvent -> {
+            GameListGUI gameListGUI = new GameListGUI();
+            try {
+                gameListGUI.start(new Stage());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
         Button profileMenu = new Button("Profile Menu");
         profileMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
@@ -96,7 +105,7 @@ public class StartMenuGUI extends Application {
         chatMenu.setMinWidth(100);
         friends.setMinWidth(100);
         back.setMinWidth(100);
-        vBox.getChildren().addAll(startGame, profileMenu, chatMenu,friends,back);
+        vBox.getChildren().addAll(startGame, gameListMenu, profileMenu, chatMenu,friends,back);
         root.setCenter(vBox);
     }
 }

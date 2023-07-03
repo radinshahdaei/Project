@@ -4,6 +4,8 @@ import Client.Controller.Controller;
 import Client.Controller.ManageData;
 import Client.Model.Chat.AllChatsSender;
 import Client.Model.Chat.Chat;
+import Client.Model.GameInvite.GameInvite;
+import Client.Model.GameInvite.GameInvitesSender;
 import Client.Model.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -46,7 +48,7 @@ public class Client {
     public void runClient(Client client) throws IOException, JAXBException {
         System.out.println("Starting client..");
         Controller.setClient(client);
-        this.socket = new Socket("localhost",8002);
+        this.socket = new Socket("localhost",8003);
         InputStream inputStream = socket.getInputStream();
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
         Scanner scanner = new Scanner(new InputStreamReader(inputStream));
@@ -66,8 +68,22 @@ public class Client {
                 handleChat(xmlData);
             } if (line.equals("<<UPDATE_DATA_BASE>>")){
                 updateDatabase(in);
+            } if (line.equals("<<UPDATE_GAME_INVITES>>")){
+                while (!(line = in.readLine()).contains("<<CLASS>>")) {
+                    xmlBuilder.append(line);
+                }
+                String xmlData = xmlBuilder.toString();
+                handleGameInvites(xmlData);
             }
         }
+    }
+
+    public void handleGameInvites(String xmlData) throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(GameInvitesSender.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        StringReader reader = new StringReader(xmlData);
+        GameInvitesSender gameInvitesSender = (GameInvitesSender) unmarshaller.unmarshal(reader);
+        GameInvite.allGameInvites = gameInvitesSender.getGameInvites();
     }
 
     public void handleChat(String xmlData) throws JAXBException {
@@ -94,6 +110,14 @@ public class Client {
     }
 
     public void handleNextTurn(String xmlData){}
+
+    public void sendGameInvites() throws IOException{
+        OutputStream outputStream = socket.getOutputStream();
+        PrintWriter out = new PrintWriter(outputStream, true);
+        out.println("<<UPDATE_GAME_INVITES>>");
+        out.println(SaveAsXML.getWriter(new GameInvitesSender("nothing")));
+        out.println("<<CLASS>>");
+    }
 
     public void sendChats() throws IOException {
         OutputStream outputStream = socket.getOutputStream();
@@ -171,6 +195,8 @@ public class Client {
         Type type = new TypeToken<HashMap<String, String>>() {}.getType();
         Controller.onlineMembers = gson.fromJson(jsonString, type);
     }
+
+
 
     public void setChats() throws IOException{
         OutputStream outputStream = socket.getOutputStream();

@@ -3,7 +3,6 @@ package Client.View.Chatroom;
 import Client.Controller.Controller;
 import Client.Model.Chat.Chat;
 import Client.Model.User;
-import Client.View.Start.StartMenuGUI;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -124,8 +123,7 @@ public class CreateChat extends Application {
         Button back = new Button("back");
         back.setMinWidth(170);
         back.setOnAction(actionEvent -> {
-            StartMenuGUI startMenuGUI = new StartMenuGUI();
-            startMenuGUI.start(stage);
+            stage.close();
         });
 
         HBox hBox = new HBox();

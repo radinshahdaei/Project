@@ -94,11 +94,13 @@ public class Chatroom extends Application {
     public Pane getMessage(Message message){
         if (!message.getSender().getUsername().equals(Controller.currentUser.getUsername())) message.setSeen(true);
         Pane messageBox = new Pane();
+
         messageBox.setMaxWidth(200);
         messageBox.setMaxHeight(80);
         ImageView imageView = new ImageView(new Image(message.getSender().getImageUrl()));
         imageView.setFitHeight(20);
         imageView.setFitWidth(20);
+        messageBox.getChildren().add(imageView);
         Text username = new Text(message.getSender().getUsername());
         Text time = new Text(message.getTime());
         Text messageString = new Text(message.getMessage());

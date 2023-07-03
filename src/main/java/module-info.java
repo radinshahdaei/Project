@@ -11,6 +11,7 @@ module Project {
     opens Client to jakarta.xml.bind;
     opens Server to jakarta.xml.bind;
     opens Client.Model.Chat to jakarta.xml.bind;
+    opens Client.Model.GameInvite to jakarta.xml.bind;
 
     opens Client.View.LoginRegister to javafx.fxml;
     opens Client.View.Chatroom to javafx.graphics;
@@ -32,6 +33,8 @@ module Project {
     opens Client.View.Examples to javafx.fxml;
     exports Client.Model.Chat;
     opens Client.View.Game to javafx.fxml, javafx.graphics;
+    exports Client.Model.GameInvite;
+    opens Client.View.Start to javafx.fxml, javafx.graphics;
 
 
 }
