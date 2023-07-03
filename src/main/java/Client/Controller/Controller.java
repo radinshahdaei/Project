@@ -1,6 +1,7 @@
 package Client.Controller;
 
 import Client.Client;
+import Client.Model.EditedMap;
 import Client.Model.Store;
 import Client.Model.User;
 import Client.View.LoginRegister.MainMenu;
@@ -21,6 +22,13 @@ public class Controller {
     public static Stage stage;
 
     public static Client client;
+    public static ArrayList<EditedMap> editedMaps = ManageData.loadMap();
+
+    static {
+        if (editedMaps == null) {
+            editedMaps = new ArrayList<>();
+        }
+    }
 
     public static User findUserById(String id){
         for (User user:users){

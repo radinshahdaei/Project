@@ -28,7 +28,7 @@ public class EditMapGUI extends Application {
     public void start(Stage stage) throws Exception {
         ArrayList<String> commands = new ArrayList<>();
         VBox vBox = new VBox();
-        vBox.setPrefSize(500, 100);
+        vBox.setPrefSize(500, 200);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(5);
         Scene scene = new Scene(vBox);
@@ -65,12 +65,46 @@ public class EditMapGUI extends Application {
         startGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                EditedMap editedMap = new EditedMap(Controller.currentUser, commands);
-                ManageData.saveMap(editedMap);
                 MapGUI.setFirstTime(true);
                 MapGUI mapGUI = new MapGUI();
                 try {
                     mapGUI.start(stage);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        HBox hBox1 = new HBox();
+        hBox1.setAlignment(Pos.CENTER);
+        hBox1.setSpacing(5);
+        vBox.getChildren().add(hBox1);
+
+        Button shareMap = new Button();
+        shareMap.setText("Share");
+        hBox1.getChildren().add(shareMap);
+        shareMap.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                EditedMap editedMap = new EditedMap(Controller.currentUser, commands);
+                Controller.editedMaps.add(editedMap);
+                ManageData.saveMap(Controller.editedMaps);
+            }
+        });
+
+        Button selectMap = new Button();
+        selectMap.setText("Select edited maps");
+        hBox1.getChildren().add(selectMap);
+        selectMap.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (commands.size() != 0) {
+                    output("You have already made changes you can not choose any other map", 'o');
+                    return;
+                }
+                SelectMapGUI selectMapGUI = new SelectMapGUI();
+                try {
+                    selectMapGUI.start(stage);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -85,7 +119,7 @@ public class EditMapGUI extends Application {
         stage.show();
     }
 
-    private void runCommand(String text) {
+    public void runCommand(String text) {
         Matcher matcher;
         if (text.matches("\\s*show\\s+related\\s+commands\\s*")) {
             output("end map\nsettexture -x <X> -y <Y> -t <type>\nsettexture -x1 <X1> -x2 <X2> -y1 <Y1> -y2 <Y2> -t <type>\nclear -x <X> -y <Y>\ndraw map\nend draw map\nmap move up <amountUp> down <amountDown> left <amountLeft> right <amountRight>\nshow details -x <X> -y <Y>\ndropbuilding -x <X> -y <Y> -t <type>", 'k');

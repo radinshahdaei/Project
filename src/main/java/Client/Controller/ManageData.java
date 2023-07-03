@@ -35,13 +35,30 @@ public class ManageData {
         }
     }
 
-    public static void saveMap(EditedMap editedMap) {
+    public static void saveMap(ArrayList<EditedMap> editedMap) {
         String json = new Gson().toJson(editedMap);
         try (FileWriter writer = new FileWriter("src/main/java/Client/Controller/Data/maps.json")) {
             writer.write(json);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<EditedMap> loadMap() {
+        File file = new File("src/main/java/Client/Controller/Data/maps.json");
+        Scanner reader = null;
+        try {
+            reader = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assert reader != null;
+        String data = "";
+        while (reader.hasNextLine()) {
+            data += reader.nextLine();
+        }
+        Type type = new TypeToken<ArrayList<EditedMap>>(){}.getType();
+        return new Gson().fromJson(data, type);
     }
     public static void saveGame() {
         String json = new Gson().toJson(GameMenuController.game);

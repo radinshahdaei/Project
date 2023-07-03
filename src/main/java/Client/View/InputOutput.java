@@ -80,6 +80,10 @@ public class InputOutput {
             case 'n':
                 inform.setTitle("Building paste");
                 inform.showAndWait();
+                return;
+            case 'o':
+                error.setTitle("Error in map creation");
+                error.showAndWait();
         }
 
 
