@@ -36,6 +36,7 @@ public class Tile {
     private Pane dataPane = new Pane();
 
     private static HashMap<String, Image> textureImages = new HashMap<>();
+    private static ArrayList<Client.Model.Pair> defPos= new ArrayList<>();
 
     static {
         textureImages.put("Earth", new Image(Tile.class.getResource("/Images/Textures/earth.png").toString()));
@@ -48,6 +49,18 @@ public class Tile {
         textureImages.put("Stone", new Image(Tile.class.getResource("/Images/Textures/stone.png").toString()));
         textureImages.put("Rock", new Image(Tile.class.getResource("/Images/Textures/rock.png").toString()));
         textureImages.put("Sand", new Image(Tile.class.getResource("/Images/Textures/sand.png").toString()));
+    }
+
+    static {
+        defPos.add(new Client.Model.Pair(60, 60));
+        defPos.add(new Client.Model.Pair(10, 10));
+        defPos.add(new Client.Model.Pair(110, 110));
+        defPos.add(new Client.Model.Pair(10, 110));
+        defPos.add(new Client.Model.Pair(110, 10));
+        defPos.add(new Client.Model.Pair(10, 60));
+        defPos.add(new Client.Model.Pair(60, 10));
+        defPos.add(new Client.Model.Pair(110, 60));
+        defPos.add(new Client.Model.Pair(60, 110));
     }
 
     public int getX() {
@@ -216,10 +229,10 @@ public class Tile {
                 if (person instanceof Soldier) {
                     Soldier soldier = (Soldier) person;
                     ImageView soldierImage = new ImageView(new Image(soldier.getImageUrl()));
-                    soldierImage.setLayoutX(50);
-                    soldierImage.setLayoutY(50);
-                    soldierImage.setFitWidth(70);
-                    soldierImage.setFitHeight(70);
+                    soldierImage.setLayoutX(defPos.get(people.indexOf(person) % 9).first);
+                    soldierImage.setLayoutY(defPos.get(people.indexOf(person) % 9).second);
+                    soldierImage.setFitWidth(45);
+                    soldierImage.setFitHeight(45);
                     if (soldier.isSick()) {
                         SampleFilter sampleFilter = new SampleFilter(new Image(soldier.getImageUrl()));
                         soldierImage = new ImageView(sampleFilter.filter(0.3, 0.9, 0.3));

@@ -55,6 +55,10 @@ public class MapGUI extends Application {
             governmentPlayingThread = new GovernmentPlayingThread();
             governmentPlayingThread.start();
         }
+        startingX = 0;
+        startingY = 0;
+        xStamp = 0;
+        yStamp = 0;
         clipboard = null;
         myStage = stage;
         tiles = GameMenuController.game.getMap().getTiles();
@@ -111,47 +115,30 @@ public class MapGUI extends Application {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.isShiftDown()) return;
-                if (event.getCode().getName().equals("Left")) {
-                    double x = startingX - 70;
-                    x = Math.max(0, x);
-                    startingX = x;
+                if (!event.isShiftDown()) {
+                    if (event.getCode().getName().equals("Left")) {
+                        double x = startingX - 70;
+                        x = Math.max(0, x);
+                        startingX = x;
+                    }
+                    if (event.getCode().getName().equals("Right")) {
+                        double x = startingX + 70;
+                        x = Math.min(scale * mapSize - gamePane.getWidth(), x);
+                        startingX = x;
+                    }
+                    if (event.getCode().getName().equals("Up")) {
+                        double y = startingY - 70;
+                        y = Math.max(0, y);
+                        startingY = y;
+                    }
+                    if (event.getCode().getName().equals("Down")) {
+                        double y = startingY + 70;
+                        y = Math.min(scale * mapSize - gamePane.getHeight() + menuPane.getHeight(), y);
+                        startingY = y;
+                    }
+                    gamePane.getChildren().clear();
+                    drawMap(startingX, startingY, gamePane, menuPane);
                 }
-                if (event.getCode().getName().equals("Right")) {
-                    double x = startingX + 70;
-                    x = Math.min(scale * mapSize - gamePane.getWidth(), x);
-                    startingX = x;
-                }
-                if (event.getCode().getName().equals("Up")) {
-                    double y = startingY - 70;
-                    y = Math.max(0, y);
-                    startingY = y;
-                }
-                if (event.getCode().getName().equals("Down")) {
-                    double y = startingY + 70;
-                    y = Math.min(scale * mapSize - gamePane.getHeight() + menuPane.getHeight(), y);
-                    startingY = y;
-                }
-                gamePane.getChildren().clear();
-                drawMap(startingX, startingY, gamePane, menuPane);
-            }
-        });
-
-        scene.setOnScroll(new EventHandler<ScrollEvent>() {
-            @Override
-            public void handle(ScrollEvent event) {
-                if (event.getDeltaY() > 0) scale += 5;
-                if (event.getDeltaY() < 0) scale -= 5;
-                scale = Math.min(250, scale);
-                scale = Math.max(120, scale);
-                gamePane.getChildren().clear();
-                drawMap(startingX, startingY, gamePane, menuPane);
-            }
-        });
-
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
                 if (event.isControlDown() && event.getCode().getName().equals("0")) {
                     scale = 160;
                     gamePane.getChildren().clear();
@@ -185,6 +172,18 @@ public class MapGUI extends Application {
                     }
                     output("Building in clipboard has been added to selected tiles", 'n');
                 }
+            }
+        });
+
+        scene.setOnScroll(new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                if (event.getDeltaY() > 0) scale += 5;
+                if (event.getDeltaY() < 0) scale -= 5;
+                scale = Math.min(250, scale);
+                scale = Math.max(120, scale);
+                gamePane.getChildren().clear();
+                drawMap(startingX, startingY, gamePane, menuPane);
             }
         });
 
@@ -300,8 +299,8 @@ public class MapGUI extends Application {
         drawMap(startingX, startingY, gamePane, menuPane);
     }
     private static void drawMap(double startingX, double startingY, Pane gamePane, Pane menuPane) {
-        int x = (int) (startingX / scale);
-        int y = (int) (startingY / scale);
+        int x = (int) (startingX / (scale + (double) 9 * scale / 160));
+        int y = (int) (startingY / (scale + (double) 9 * scale / 160));
         for (int i = 0; i < 16 * 160 / scale; i++) {
             for (int j = 0; j < 10 * 160 / scale; j++) {
                 if (x + i >= mapSize || y + j >= mapSize) break;
