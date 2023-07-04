@@ -2,6 +2,7 @@ package Client.View.Start;
 
 import Client.Controller.Controller;
 import Client.Model.GameInvite.GameInvite;
+import Client.View.Game.StartGameGUI;
 import Client.View.InputOutput;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -76,7 +77,21 @@ public class GameListGUI extends Application {
                 }
 
             });
-            borderPane.setRight(join);
+            hBox.getChildren().add(join);
+            if (gameInvite.getAdminId().equals(Controller.currentUser.getId())) {
+                Button start = new Button("start");
+                start.setOnAction(actionEvent -> {
+                    InputOutput.output("Game started!",'l');
+                    StartGameGUI startGameGUI = new StartGameGUI();
+                    try {
+                        startGameGUI.start(new Stage());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    hBox.getChildren().add(start);
+                });
+            }
+            borderPane.setRight(hBox);
             vBox.getChildren().add(borderPane);
         }
 
@@ -90,6 +105,7 @@ public class GameListGUI extends Application {
         for (GameInvite gameInvite:GameInvite.allGameInvites){
             BorderPane borderPane = new BorderPane();
             borderPane.setLeft(gameInviteInformation(gameInvite));
+            HBox hBox = new HBox();
             Button join = new Button("join");
             join.setOnAction(actionEvent -> {
                 if (!gameInvite.getAdminId().equals(Controller.currentUser.getId())){
@@ -109,7 +125,22 @@ public class GameListGUI extends Application {
                     }
                 }
             });
-            borderPane.setRight(join);
+            hBox.getChildren().add(join);
+            if (gameInvite.getAdminId().equals(Controller.currentUser.getId())) {
+                Button start = new Button("start");
+                hBox.getChildren().add(start);
+                start.setOnAction(actionEvent -> {
+                    InputOutput.output("Game started!",'l');
+                    StartGameGUI startGameGUI = new StartGameGUI();
+                    try {
+                        startGameGUI.start(new Stage());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+                });
+            }
+            borderPane.setRight(hBox);
             vBox.getChildren().add(borderPane);
         }
     }
