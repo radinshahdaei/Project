@@ -103,6 +103,8 @@ public class Server {
                 }
                 String xmlData = xmlBuilder.toString();
                 sendGameInvites(xmlData);
+            } else if (line.equals("<<UPDATE_MAPS>>")) {
+                updateMaps(in);
             }
         }
 
@@ -171,6 +173,17 @@ public class Server {
             e.printStackTrace();
         }
         updateDatabaseForClients(jsonString);
+    }
+
+    public void updateMaps(BufferedReader in) throws IOException {
+        String jsonString = in.readLine();
+        for (Socket socket:clients){
+            System.out.println("Updating maps "+socket.toString());
+            OutputStream outputStream = socket.getOutputStream();
+            PrintWriter out = new PrintWriter(outputStream,true);
+            out.println("<<UPDATE_MAPS>");
+            out.println(jsonString);
+        }
     }
 
     public void updateDatabaseForClients(String jsonContent) throws IOException {

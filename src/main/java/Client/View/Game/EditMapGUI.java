@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
@@ -81,6 +82,7 @@ public class EditMapGUI extends Application {
         vBox.getChildren().add(hBox1);
 
         Button shareMap = new Button();
+        shareMap.setMinWidth(220);
         shareMap.setText("Share");
         hBox1.getChildren().add(shareMap);
         shareMap.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -89,11 +91,17 @@ public class EditMapGUI extends Application {
                 EditedMap editedMap = new EditedMap(Controller.currentUser, commands);
                 Controller.editedMaps.add(editedMap);
                 ManageData.saveMap(Controller.editedMaps);
+                try {
+                    Controller.client.sendMaps();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
         Button selectMap = new Button();
         selectMap.setText("Select edited maps");
+        selectMap.setMinWidth(220);
         hBox1.getChildren().add(selectMap);
         selectMap.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override

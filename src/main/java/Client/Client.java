@@ -74,6 +74,8 @@ public class Client {
                 }
                 String xmlData = xmlBuilder.toString();
                 handleGameInvites(xmlData);
+            } else if (line.equals("<<UPDATE_MAPS>>")) {
+                updateMaps(in);
             }
         }
     }
@@ -174,6 +176,25 @@ public class Client {
             if (user != null) user.updateUser(updatedUser);
         }
         ManageData.saveUsers();
+    }
+
+    public void updateMaps(BufferedReader bufferedReader) throws IOException{
+        String jsonString = bufferedReader.readLine();
+        String jsonFilePath = "src/main/java/Client/Controller/Data/maps.json";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(jsonFilePath))) {
+            writer.write(jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMaps() throws IOException{
+        OutputStream outputStream = socket.getOutputStream();
+        String jsonFilePath = "src/main/java/Client/Controller/Data/maps.json";
+        String jsonContent = new String(Files.readAllBytes(Paths.get(jsonFilePath)));
+        PrintWriter out = new PrintWriter(outputStream,true);
+        out.println("<<UPDATE_MAPS>>");
+        out.println(jsonContent);
     }
 
     public void sendDatabase() throws IOException{

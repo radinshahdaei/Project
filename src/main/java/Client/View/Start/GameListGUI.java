@@ -1,7 +1,9 @@
 package Client.View.Start;
 
 import Client.Controller.Controller;
+import Client.Model.Chat.Chat;
 import Client.Model.GameInvite.GameInvite;
+import Client.View.Chatroom.Chatroom;
 import Client.View.Game.StartGameGUI;
 import Client.View.InputOutput;
 import javafx.application.Application;
@@ -15,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class GameListGUI extends Application {
@@ -88,8 +91,14 @@ public class GameListGUI extends Application {
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-                    hBox.getChildren().add(start);
                 });
+                hBox.getChildren().add(start);
+                Button makePrivate = new Button("public");
+                makePrivate.setOnAction(actionEvent -> {
+                    if (makePrivate.getText().equals("public")) makePrivate.setText("private");
+                    else makePrivate.setText("public");
+                });
+                hBox.getChildren().add(makePrivate);
             }
             borderPane.setRight(hBox);
             vBox.getChildren().add(borderPane);
@@ -128,20 +137,44 @@ public class GameListGUI extends Application {
             hBox.getChildren().add(join);
             if (gameInvite.getAdminId().equals(Controller.currentUser.getId())) {
                 Button start = new Button("start");
-                hBox.getChildren().add(start);
                 start.setOnAction(actionEvent -> {
                     InputOutput.output("Game started!",'p');
                     StartGameGUI startGameGUI = new StartGameGUI();
                     try {
+                        createGameRoom(gameInvite);
                         startGameGUI.start(new Stage());
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-
                 });
+                hBox.getChildren().add(start);
+                Button makePrivate = new Button("public");
+                makePrivate.setOnAction(actionEvent -> {
+                    if (makePrivate.getText().equals("public")) makePrivate.setText("private");
+                    else makePrivate.setText("public");
+                });
+                hBox.getChildren().add(makePrivate);
             }
             borderPane.setRight(hBox);
             vBox.getChildren().add(borderPane);
+        }
+    }
+
+    public void createGameRoom(GameInvite gameInvite){
+        Chat chat = new Chat();
+        chat.setId(LocalTime.now().getNano());
+        for (String id:gameInvite.getAllUsersId()){
+            chat.getUsers().add(Controller.findUserById(id));
+        }
+        chat.name = "Game room";
+        Chat.allChats.add(chat);
+        Chatroom chatroom = new Chatroom();
+        chatroom.setChat(chat);
+        try {
+            chatroom.start(new Stage());
+            // Chat.debugKonesh();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
