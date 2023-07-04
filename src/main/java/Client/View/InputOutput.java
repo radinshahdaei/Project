@@ -70,9 +70,23 @@ public class InputOutput {
                 inform.showAndWait();
                 return;
             case 'l':
+                error.setTitle("Error in copying buildings");
+                error.showAndWait();
+                return;
+            case 'm':
+                inform.setTitle("Building copy");
+                inform.showAndWait();
+                return;
+            case 'n':
+                inform.setTitle("Building paste");
+                inform.showAndWait();
+                return;
+            case 'o':
+                error.setTitle("Error in map creation");
+                error.showAndWait();
+            case 'p':
                 inform.setTitle("Game Invite");
                 inform.showAndWait();
-
         }
 
 

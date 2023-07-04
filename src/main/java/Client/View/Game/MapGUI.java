@@ -1,6 +1,7 @@
 package Client.View.Game;
 
 import Client.Controller.TileDataThread;
+import Client.Model.Building.Building;
 import Client.Model.Tile;
 import Client.View.Start.StartMenuGUI;
 import Client.Controller.BuildingMenuController;
@@ -17,6 +18,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+
+import static Client.View.InputOutput.output;
 
 public class MapGUI extends Application {
     private static double startingX = 0;
@@ -42,6 +45,7 @@ public class MapGUI extends Application {
     private static Stage myStage;
     public static GovernmentPlayingThread governmentPlayingThread;
     private static boolean firstTime;
+    private static Building clipboard;
     public static void main(String[] args) {
         launch(args);
     }
@@ -51,6 +55,11 @@ public class MapGUI extends Application {
             governmentPlayingThread = new GovernmentPlayingThread();
             governmentPlayingThread.start();
         }
+        startingX = 0;
+        startingY = 0;
+        xStamp = 0;
+        yStamp = 0;
+        clipboard = null;
         myStage = stage;
         tiles = GameMenuController.game.getMap().getTiles();
         gamePane = new Pane();
@@ -106,29 +115,63 @@ public class MapGUI extends Application {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.isShiftDown()) return;
-                if (event.getCode().getName().equals("Left")) {
-                    double x = startingX - 70;
-                    x = Math.max(0, x);
-                    startingX = x;
+                if (!event.isShiftDown()) {
+                    if (event.getCode().getName().equals("Left")) {
+                        double x = startingX - 70;
+                        x = Math.max(0, x);
+                        startingX = x;
+                    }
+                    if (event.getCode().getName().equals("Right")) {
+                        double x = startingX + 70;
+                        x = Math.min(scale * mapSize - gamePane.getWidth(), x);
+                        startingX = x;
+                    }
+                    if (event.getCode().getName().equals("Up")) {
+                        double y = startingY - 70;
+                        y = Math.max(0, y);
+                        startingY = y;
+                    }
+                    if (event.getCode().getName().equals("Down")) {
+                        double y = startingY + 70;
+                        y = Math.min(scale * mapSize - gamePane.getHeight() + menuPane.getHeight(), y);
+                        startingY = y;
+                    }
+                    gamePane.getChildren().clear();
+                    drawMap(startingX, startingY, gamePane, menuPane);
                 }
-                if (event.getCode().getName().equals("Right")) {
-                    double x = startingX + 70;
-                    x = Math.min(scale * mapSize - gamePane.getWidth(), x);
-                    startingX = x;
+                if (event.isControlDown() && event.getCode().getName().equals("0")) {
+                    scale = 160;
+                    gamePane.getChildren().clear();
+                    drawMap(startingX, startingY, gamePane, menuPane);
                 }
-                if (event.getCode().getName().equals("Up")) {
-                    double y = startingY - 70;
-                    y = Math.max(0, y);
-                    startingY = y;
+                if (event.isControlDown() && event.getCode().getName().equals("9")) {
+                    scale = 120;
+                    gamePane.getChildren().clear();
+                    drawMap(startingX, startingY, gamePane, menuPane);
                 }
-                if (event.getCode().getName().equals("Down")) {
-                    double y = startingY + 70;
-                    y = Math.min(scale * mapSize - gamePane.getHeight() + menuPane.getHeight(), y);
-                    startingY = y;
+                if (event.isControlDown() && event.getCode().getName().equals("1")) {
+                    scale = 250;
+                    gamePane.getChildren().clear();
+                    drawMap(startingX, startingY, gamePane, menuPane);
                 }
-                gamePane.getChildren().clear();
-                drawMap(startingX, startingY, gamePane, menuPane);
+                if (event.isControlDown() && event.getCode().getName().equals("2")) {
+                    if (selectedTiles.size() == 1) {
+                        clipboard = selectedTiles.get(0).getBuilding();
+                        output("Selected tile's building is copied into clipboard", 'm');
+                    }
+                    else {
+                        output("You can only copy from a single tile", 'l');
+                    }
+                }
+                if (event.isControlDown() && event.getCode().getName().equals("3")) {
+                    for (Tile tile: selectedTiles) {
+                        BuildingMenuController.dropBuilding(tile.getX(), tile.getY(), clipboard.getName());
+                        tile.showOnPane();
+                        gamePane.getChildren().clear();
+                        drawMap(startingX, startingY, gamePane, menuPane);
+                    }
+                    output("Building in clipboard has been added to selected tiles", 'n');
+                }
             }
         });
 
@@ -143,6 +186,7 @@ public class MapGUI extends Application {
                 drawMap(startingX, startingY, gamePane, menuPane);
             }
         });
+
 
         stage.setScene(scene);
         stage.show();
@@ -255,8 +299,8 @@ public class MapGUI extends Application {
         drawMap(startingX, startingY, gamePane, menuPane);
     }
     private static void drawMap(double startingX, double startingY, Pane gamePane, Pane menuPane) {
-        int x = (int) (startingX / scale);
-        int y = (int) (startingY / scale);
+        int x = (int) (startingX / (scale + (double) 9 * scale / 160));
+        int y = (int) (startingY / (scale + (double) 9 * scale / 160));
         for (int i = 0; i < 16 * 160 / scale; i++) {
             for (int j = 0; j < 10 * 160 / scale; j++) {
                 if (x + i >= mapSize || y + j >= mapSize) break;
@@ -265,8 +309,8 @@ public class MapGUI extends Application {
                     node.setScaleX((double) scale / 160);
                     node.setScaleY((double) scale / 160);
                 }
-                map[x + i][y + j].setLayoutX((x + i) * scale - startingX - (double) scale / 16);
-                map[x + i][y + j].setLayoutY((y + j) * scale - startingY - (double) scale / 16);
+                map[x + i][y + j].setLayoutX((x + i) * (scale + (double) 9 * scale / 160) - startingX - (double) scale / 160);
+                map[x + i][y + j].setLayoutY((y + j) * (scale + (double) 9 * scale / 160) - startingY - (double) scale / 160);
                 gamePane.getChildren().add(map[x + i][y + j]);
             }
         }

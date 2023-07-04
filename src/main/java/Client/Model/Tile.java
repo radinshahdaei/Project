@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static Client.View.InputOutput.output;
 
@@ -33,6 +34,34 @@ public class Tile {
     private Building building = null;
     private Pane mainPane = new Pane();
     private Pane dataPane = new Pane();
+
+    private static HashMap<String, Image> textureImages = new HashMap<>();
+    private static ArrayList<Client.Model.Pair> defPos= new ArrayList<>();
+
+    static {
+        textureImages.put("Earth", new Image(Tile.class.getResource("/Images/Textures/earth.png").toString()));
+        textureImages.put("Dirt", new Image(Tile.class.getResource("/Images/Textures/dirt.png").toString()));
+        textureImages.put("Grass", new Image(Tile.class.getResource("/Images/Textures/grass.png").toString()));
+        textureImages.put("Iron", new Image(Tile.class.getResource("/Images/Textures/iron.png").toString()));
+        textureImages.put("SmallPound", new Image(Tile.class.getResource("/Images/Textures/smallpound.png").toString()));
+        textureImages.put("LargePound", new Image(Tile.class.getResource("/Images/Textures/largepound.png").toString()));
+        textureImages.put("Sea", new Image(Tile.class.getResource("/Images/Textures/sea.png").toString()));
+        textureImages.put("Stone", new Image(Tile.class.getResource("/Images/Textures/stone.png").toString()));
+        textureImages.put("Rock", new Image(Tile.class.getResource("/Images/Textures/rock.png").toString()));
+        textureImages.put("Sand", new Image(Tile.class.getResource("/Images/Textures/sand.png").toString()));
+    }
+
+    static {
+        defPos.add(new Client.Model.Pair(60, 60));
+        defPos.add(new Client.Model.Pair(10, 10));
+        defPos.add(new Client.Model.Pair(110, 110));
+        defPos.add(new Client.Model.Pair(10, 110));
+        defPos.add(new Client.Model.Pair(110, 10));
+        defPos.add(new Client.Model.Pair(10, 60));
+        defPos.add(new Client.Model.Pair(60, 10));
+        defPos.add(new Client.Model.Pair(110, 60));
+        defPos.add(new Client.Model.Pair(60, 110));
+    }
 
     public int getX() {
         return x;
@@ -170,9 +199,11 @@ public class Tile {
         mainPane.setPrefSize(170, 170);
         Rectangle backGroundRectangle = new Rectangle(0, 0, 170, 170);
         backGroundRectangle.setFill(Color.TRANSPARENT);
-        Rectangle rect = new Rectangle(10, 10, 150, 150);
-        rect.setFill(new ImagePattern(new Image(Tile.class.getResource("/Images/Textures/" +
-                texture.toLowerCase() + ".png").toString())));
+        if (MapGUI.getSelectedTiles().contains(this)) {
+            backGroundRectangle.setFill(Color.RED);
+        }
+        Rectangle rect = new Rectangle(1, 1, 168, 168);
+        rect.setFill(new ImagePattern(textureImages.get(this.texture)));
         mainPane.getChildren().add(backGroundRectangle);
         mainPane.getChildren().add(rect);
         if (building != null) {
@@ -198,10 +229,10 @@ public class Tile {
                 if (person instanceof Soldier) {
                     Soldier soldier = (Soldier) person;
                     ImageView soldierImage = new ImageView(new Image(soldier.getImageUrl()));
-                    soldierImage.setLayoutX(50);
-                    soldierImage.setLayoutY(50);
-                    soldierImage.setFitWidth(70);
-                    soldierImage.setFitHeight(70);
+                    soldierImage.setLayoutX(defPos.get(people.indexOf(person) % 9).first);
+                    soldierImage.setLayoutY(defPos.get(people.indexOf(person) % 9).second);
+                    soldierImage.setFitWidth(45);
+                    soldierImage.setFitHeight(45);
                     if (soldier.isSick()) {
                         SampleFilter sampleFilter = new SampleFilter(new Image(soldier.getImageUrl()));
                         soldierImage = new ImageView(sampleFilter.filter(0.3, 0.9, 0.3));
