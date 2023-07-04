@@ -38,7 +38,7 @@ public class GameListGUI extends Application {
         javafx.scene.control.Button createGame = new Button("Create Invite");
         createGame.setOnAction(actionEvent -> {
             new GameInvite(Controller.currentUser.getId());
-            InputOutput.output("game invite created, waiting for users.",'l');
+            InputOutput.output("game invite created, waiting for users.",'p');
             try {
                 Controller.client.sendGameInvites();
             } catch (IOException e) {
@@ -61,14 +61,14 @@ public class GameListGUI extends Application {
             join.setOnAction(actionEvent -> {
                 if (!gameInvite.getAdminId().equals(Controller.currentUser.getId())){
                     gameInvite.joinGame(Controller.currentUser.getId());
-                    InputOutput.output("You have joined this game!",'l');
+                    InputOutput.output("You have joined this game!",'p');
                     try {
                         Controller.client.sendGameInvites();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 } else {
-                    InputOutput.output("You have already joined this game!",'l');
+                    InputOutput.output("You have already joined this game!",'p');
                     try {
                         Controller.client.sendGameInvites();
                     } catch (IOException e) {
@@ -81,7 +81,7 @@ public class GameListGUI extends Application {
             if (gameInvite.getAdminId().equals(Controller.currentUser.getId())) {
                 Button start = new Button("start");
                 start.setOnAction(actionEvent -> {
-                    InputOutput.output("Game started!",'l');
+                    InputOutput.output("Game started!",'p');
                     StartGameGUI startGameGUI = new StartGameGUI();
                     try {
                         startGameGUI.start(new Stage());
@@ -110,14 +110,14 @@ public class GameListGUI extends Application {
             join.setOnAction(actionEvent -> {
                 if (!gameInvite.getAdminId().equals(Controller.currentUser.getId())){
                     gameInvite.joinGame(Controller.currentUser.getId());
-                    InputOutput.output("You have joined this game!",'l');
+                    InputOutput.output("You have joined this game!",'p');
                     try {
                         Controller.client.sendGameInvites();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 } else {
-                    InputOutput.output("You have already joined this game!",'l');
+                    InputOutput.output("You have already joined this game!",'p');
                     try {
                         Controller.client.sendGameInvites();
                     } catch (IOException e) {
@@ -130,7 +130,7 @@ public class GameListGUI extends Application {
                 Button start = new Button("start");
                 hBox.getChildren().add(start);
                 start.setOnAction(actionEvent -> {
-                    InputOutput.output("Game started!",'l');
+                    InputOutput.output("Game started!",'p');
                     StartGameGUI startGameGUI = new StartGameGUI();
                     try {
                         startGameGUI.start(new Stage());
